@@ -1,10 +1,11 @@
 'use client';
 
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { Input, Button, Select, Spacer, SelectItem } from "@nextui-org/react";
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { AuthContext } from '@/provider/AuthProvider';
 
 const roles = [
     { key: 'user', label: 'User' },
@@ -12,6 +13,7 @@ const roles = [
 ];
 
 const Register = () => {
+    const { register } = useContext(AuthContext);
     const [isVisible, setIsVisible] = useState(false);
     const [errors, setErrors] = useState({});
     const [password, setPassword] = useState('');
@@ -59,7 +61,7 @@ const Register = () => {
             userName: formData.get('userName'),
             email: formData.get('email'),
             password: formData.get('password'),
-            status: 'Inactive',
+            status: 'inactive',
             role: formData.get('role') || roles[0].key,
         };
 
@@ -69,18 +71,7 @@ const Register = () => {
         const isValid = Object.values(errors).every(error => !error);
 
         if (isValid) {
-            // console.log('Form Data:', data);
-            try {
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/register`, data);
-
-                if (response.status === 201 || response.statusText === "Created") {
-                    toast.success('Registration Successful')
-                }
-            }
-            catch (error) {
-                toast.error('Registration Error')
-                // console.log("Registration error: ", error);
-            }
+            await register(data);
         }
     };
 

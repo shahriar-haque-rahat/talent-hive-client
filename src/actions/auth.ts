@@ -38,6 +38,6 @@ export async function getServerSession() {
 }
 
 export async function clearCookies() {
-    cookies().delete("authToken");
+    cookies().delete("accessToken");
     cookies().delete("refreshToken");
 }

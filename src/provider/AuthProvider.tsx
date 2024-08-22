@@ -1,7 +1,8 @@
 'use client'
 
-import { setSession } from '@/actions/auth';
+import { clearCookies, setSession } from '@/actions/auth';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import React, { createContext, ReactNode } from 'react';
 import toast from 'react-hot-toast';
 
@@ -12,6 +13,7 @@ interface AuthProviderProps {
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
+    const router = useRouter();
 
     const register = async (userData) => {
         try {
@@ -19,9 +21,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
             if (response.status === 201 || response.statusText === "Created") {
                 toast.success('Registration successful');
-
                 await new Promise(resolve => setTimeout(resolve, 1000));
-
                 toast.success('Please check your email');
             }
         }
@@ -36,14 +36,13 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
             if (response.data.success) {
                 toast.success('Successfully logged in');
-
                 await setSession({
                     ...response.data,
                 });
             }
         }
         catch (error) {
-            toast.error(`${error.response.data.message}` || `Failed to login`);
+            toast.error(`Failed to login`);
         }
     }
 
@@ -61,22 +60,58 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
             }
         }
         catch (error) {
+            console.log(error);
             toast.error('Account activation failed')
         }
     }
 
-    const forgotPassword = async () => {
+    const forgotPassword = async (email) => {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/forgot-password`, {
+                email,
+            });
 
+            if (response.data.success) {
+                toast.success('A link has been sent to your email');
+            }
+        }
+        catch (error) {
+            console.log(error);
+            toast.error('Forgot password failed')
+        }
     }
 
-    const resetPassword = async () => {
+    const resetPassword = async (token, newPassword) => {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/reset-password`, {
+                token,
+                newPassword,
+            });
 
+            if (response.data.success) {
+                toast.success('Password successfully changed');
+            }
+        }
+        catch (error) {
+            console.log(error);
+            toast.error('Password reset failed')
+        }
     }
 
     const logout = async () => {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/logout`);
 
+            if (response.data.success) {
+                await clearCookies();
+                toast.success('User logged out');
+            }
+        }
+        catch (error) {
+            console.log(error);
+            toast.error('Failed to log out')
+        }
     }
-
 
     const values = {
         register,

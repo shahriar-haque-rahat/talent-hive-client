@@ -3,7 +3,7 @@
 import { clearCookies, setSession } from '@/actions/auth';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import React, { createContext, ReactNode } from 'react';
+import React, { createContext, ReactNode, useState } from 'react';
 import toast from 'react-hot-toast';
 
 interface AuthProviderProps {
@@ -13,6 +13,7 @@ interface AuthProviderProps {
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const register = async (userData) => {
@@ -39,6 +40,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
                 await setSession({
                     ...response.data,
                 });
+                router.push('/');
             }
         }
         catch (error) {
@@ -114,6 +116,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     const values = {
+        loading,
         register,
         login,
         activeAccount,

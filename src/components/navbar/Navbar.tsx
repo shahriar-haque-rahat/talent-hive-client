@@ -1,25 +1,35 @@
 'use client'
 
-import { AuthContext } from '@/provider/AuthProvider';
-import { Button } from '@nextui-org/react';
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
+import NavbarContent from './NavbarContent';
+import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
 
 const Navbar = () => {
-    const { logout } = useContext(AuthContext);
+    const [hidden, setHidden] = useState(false);
+    const { scrollY } = useScroll();
 
-    const handleLogout = async () => {
-        await logout();
-    }
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        const prevValue = scrollY.getPrevious() ?? 0;
+        if (latest > prevValue && latest > 30) {
+            setHidden(true);
+        } else {
+            setHidden(false);
+        }
+    });
 
     return (
-        <div>
-            Navbar
-            <Button
-                onClick={handleLogout}
-            >
-                Logout
-            </Button>
-        </div>
+        <>
+            <motion.div
+                variants={{
+                    visible: { y: 0 },
+                    hidden: { y: "-100%" },
+                }}
+                animate={hidden ? "hidden" : "visible"}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="fixed max-w-[2560px] shadow-sm m-auto px-6 py-2 top-0 left-0 right-0 z-50 bg-white">
+                    <NavbarContent />
+            </motion.div >
+        </>
     );
 };
 

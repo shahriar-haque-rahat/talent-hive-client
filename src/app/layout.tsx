@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Lato, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
 import AuthProvider from "@/provider/AuthProvider";
-import Navbar from "@/components/navbar/Navbar";
 import Authorization from "@/components/authentication/Authorization";
 import StoreProvider from "@/provider/StoreProvider";
+import Navbar from "@/components/navbar/Navbar";
 
-const inter = Inter({ subsets: ["latin"] });
+const font = Lato({
+  subsets: ["latin"],
+  weight: ['100', '300', '400', '700', '900'],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,12 +24,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} mx-auto max-w-[2560px] px-6`}>
+      <body className={`${font.className} mx-auto max-w-[2560px] px-6`}>
         <StoreProvider>
           <AuthProvider>
             <Authorization>
               <Navbar />
-              {children}
+              <div className=" mt-16">{children}</div>
             </Authorization>
           </AuthProvider>
           <Toaster />

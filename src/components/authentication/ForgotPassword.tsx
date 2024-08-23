@@ -1,10 +1,10 @@
 'use client'
 
-import { handleFormSubmit, handleInputChange, isFormValid, validateField } from '@/actions/validateField';
-import { AuthContext } from '@/provider/AuthProvider';
-import { AuthContextValues, ForgotPasswordData, FormEventHandler, InputChangeEventHandler } from '@/types/auth/auth.types';
-import { Button, Input } from '@nextui-org/react';
 import React, { useContext, useState } from 'react';
+import { handleFormSubmit, handleInputChange } from '@/actions/formSubmitAndValidation';
+import { AuthContext } from '@/provider/AuthProvider';
+import { AuthContextValues, FormEventHandler, InputChangeEventHandler } from '@/types/auth/auth.types';
+import { Button, Input } from '@nextui-org/react';
 
 const ForgotPassword = () => {
     const { forgotPassword } = useContext(AuthContext) as AuthContextValues;

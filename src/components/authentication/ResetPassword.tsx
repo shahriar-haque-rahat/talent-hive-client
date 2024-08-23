@@ -1,11 +1,11 @@
 'use client'
 
-import { handleFormSubmit, handleInputChange, isFormValid, validateField, validateForm } from '@/actions/validateField';
+import React, { useContext, useState } from 'react';
+import { handleFormSubmit, handleInputChange } from '@/actions/formSubmitAndValidation';
 import { AuthContext } from '@/provider/AuthProvider';
-import { AuthContextValues, FormEventHandler, InputChangeEventHandler, ResetPasswordData } from '@/types/auth/auth.types';
+import { AuthContextValues, FormEventHandler, InputChangeEventHandler } from '@/types/auth/auth.types';
 import { Button, Input } from '@nextui-org/react';
 import { useSearchParams } from 'next/navigation';
-import React, { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 
 const ResetPassword = () => {

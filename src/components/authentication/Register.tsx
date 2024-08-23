@@ -1,12 +1,12 @@
 'use client';
 
-import React, { ChangeEvent, FormEvent, useContext, useState } from 'react';
-import { Input, Button, Select, Spacer, SelectItem } from "@nextui-org/react";
+import React, { useContext, useState } from 'react';
+import { Input, Button, Select, SelectItem } from "@nextui-org/react";
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import { AuthContext } from '@/provider/AuthProvider';
 import { AuthContextValues, FormEventHandler, InputChangeEventHandler, RegisterData } from '@/types/auth/auth.types';
 import { generateRandomDigits } from '@/actions/uid';
-import { handleFormSubmit, handleInputChange, isFormValid, validateField, validateForm } from '@/actions/validateField';
+import { handleFormSubmit, handleInputChange } from '@/actions/formSubmitAndValidation';
 
 interface RegisterDataIncludeUID extends RegisterData {
     uid: string;

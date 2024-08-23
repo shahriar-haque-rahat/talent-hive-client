@@ -1,5 +1,6 @@
 'use client'
 
+import { handleFormSubmit, handleInputChange, isFormValid, validateField } from '@/actions/validateField';
 import { AuthContext } from '@/provider/AuthProvider';
 import { AuthContextValues, ForgotPasswordData, FormEventHandler, InputChangeEventHandler } from '@/types/auth/auth.types';
 import { Button, Input } from '@nextui-org/react';
@@ -9,45 +10,17 @@ const ForgotPassword = () => {
     const { forgotPassword } = useContext(AuthContext) as AuthContextValues;
     const [errors, setErrors] = useState<Record<string, boolean>>({});
 
-    const validateField = (name: string, value: string) => {
-        let error = false;
+    const handleSubmit: FormEventHandler = (event) =>
 
-        switch (name) {
-            case 'email':
-                error = !value || !/\S+@\S+\.\S+/.test(value);
-                break;
-            default:
-                break;
-        }
+        handleFormSubmit(
+            event,
+            async (data) => { await forgotPassword(data.email); },
+            { email: '' },
+            setErrors
+        );
 
-        setErrors(prevErrors => ({
-            ...prevErrors,
-            [name]: error
-        }));
-    };
-
-    const handleSubmit: FormEventHandler = async (event) => {
-        event.preventDefault();
-
-        const formData = new FormData(event.target as HTMLFormElement);
-
-        const data = {
-            email: formData.get('email') as string,
-        };
-
-        Object.keys(data).forEach(key => validateField(key, data[key as keyof ForgotPasswordData] as string));
-
-        const isValid = Object.values(errors).every(error => !error);
-
-        if (isValid) {
-            await forgotPassword(data.email);
-        }
-    }
-
-    const handleChange: InputChangeEventHandler = (event) => {
-        const { name, value } = event.target;
-        validateField(name, value);
-    };
+    const handleChange: InputChangeEventHandler = (event) =>
+        handleInputChange(event, setErrors, () => { }, '');
 
     return (
         <>

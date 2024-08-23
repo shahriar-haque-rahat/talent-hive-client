@@ -1,5 +1,6 @@
 'use client'
 
+import { handleFormSubmit, handleInputChange, isFormValid, validateField, validateForm } from '@/actions/validateField';
 import { AuthContext } from '@/provider/AuthProvider';
 import { AuthContextValues, FormEventHandler, InputChangeEventHandler, ResetPasswordData } from '@/types/auth/auth.types';
 import { Button, Input } from '@nextui-org/react';
@@ -17,50 +18,17 @@ const ResetPassword = () => {
 
     const toggleVisibility = () => setIsVisible(!isVisible);
 
-    const validateField = (name: string, value: string) => {
-        let error = false;
+    const handleSubmit: FormEventHandler = (event) =>
+        handleFormSubmit(
+            event,
+            async (data) => { await resetPassword(token, data.password); },
+            { password: '' },
+            setErrors
+        );
 
-        switch (name) {
-            case 'password':
-                const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-                error = !passwordRegex.test(value);
-                setPassword(value);
-                break;
-            case 'password-retype':
-                error = value !== password;
-                break;
-            default:
-                break;
-        }
+    const handleChange: InputChangeEventHandler = (event) =>
+        handleInputChange(event, setErrors, setPassword, password);
 
-        setErrors(prevErrors => ({
-            ...prevErrors,
-            [name]: error
-        }));
-    };
-
-    const handleSubmit: FormEventHandler = async (event) => {
-        event.preventDefault();
-
-        const formData = new FormData(event.target as HTMLFormElement);
-        const data = {
-            password: formData.get('password') as string,
-        };
-
-        Object.keys(data).forEach(key => validateField(key, data[key as keyof ResetPasswordData] as string));
-        validateField('password-retype', formData.get('password-retype') as string);
-
-        const isValid = Object.values(errors).every(error => !error);
-
-        if (isValid) {
-            await resetPassword(token, data.password);
-        }
-    };
-
-    const handleChange: InputChangeEventHandler = (event) => {
-        const { name, value } = event.target;
-        validateField(name, value);
-    };
     return (
         <>
             <div className=' flex flex-col justify-center items-center min-h-screen'>

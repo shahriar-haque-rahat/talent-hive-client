@@ -5,6 +5,12 @@ import { Input, Button, Select, Spacer, SelectItem } from "@nextui-org/react";
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import { AuthContext } from '@/provider/AuthProvider';
 import { AuthContextValues, FormEventHandler, InputChangeEventHandler, RegisterData } from '@/types/auth/auth.types';
+import { generateRandomDigits } from '@/actions/uid';
+import { handleFormSubmit, handleInputChange, isFormValid, validateField, validateForm } from '@/actions/validateField';
+
+interface RegisterDataIncludeUID extends RegisterData {
+    uid: string;
+}
 
 const roles = [
     { key: 'user', label: 'User' },
@@ -20,64 +26,16 @@ const Register = () => {
 
     const toggleVisibility = () => setIsVisible(!isVisible);
 
-    const validateField = (name: string, value: string) => {
-        let error = false;
+    const handleSubmit: FormEventHandler = (event) =>
+        handleFormSubmit<RegisterDataIncludeUID>(
+            event,
+            async (data) => { await register(data); },
+            { uid: `u${generateRandomDigits()}`, status: 'inactive', role },
+            setErrors
+        );
 
-        switch (name) {
-            case 'fullName':
-                error = !value;
-                break;
-            case 'userName':
-                error = !value;
-                break;
-            case 'email':
-                error = !value || !/\S+@\S+\.\S+/.test(value);
-                break;
-            case 'password':
-                const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
-                error = !passwordRegex.test(value);
-                setPassword(value);
-                break;
-            case 'password-retype':
-                error = value !== password;
-                break;
-            default:
-                break;
-        }
-
-        setErrors(prevErrors => ({
-            ...prevErrors,
-            [name]: error
-        }));
-    };
-
-    const handleSubmit: FormEventHandler = async (event) => {
-        event.preventDefault();
-
-        const formData = new FormData(event.target as HTMLFormElement);
-        const data = {
-            fullName: formData.get('fullName') as string,
-            userName: formData.get('userName') as string,
-            email: formData.get('email') as string,
-            password: formData.get('password') as string,
-            status: 'inactive',
-            role: formData.get('role')  as string || roles[0].key,
-        };
-
-        Object.keys(data).forEach(key => validateField(key, data[key as keyof RegisterData] as string));
-        validateField('password-retype', formData.get('password-retype') as string);
-
-        const isValid = Object.values(errors).every(error => !error);
-
-        if (isValid) {
-            await register(data);
-        }
-    };
-
-    const handleChange: InputChangeEventHandler = (event) => {
-        const { name, value } = event.target;
-        validateField(name, value);
-    };
+    const handleChange: InputChangeEventHandler = (event) =>
+        handleInputChange(event, setErrors, setPassword, password);
 
     return (
         <>

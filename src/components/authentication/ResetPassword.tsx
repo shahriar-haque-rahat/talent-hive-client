@@ -75,7 +75,7 @@ const ResetPassword = () => {
                             onChange={handleChange}
                         />
 
-                        <Button type="submit" className=' bg-blue-500 text-white rounded w-full mt-6'>Submit</Button>
+                        <Button type="submit" className=' bg-sky-500 text-white rounded w-full mt-6'>Submit</Button>
                     </form>
                 </div>
             </div>

@@ -129,7 +129,7 @@ const Register = () => {
                         ))}
                     </Select>
 
-                    <Button type="submit" className=' bg-blue-500 text-white rounded w-full mt-6'>Register</Button>
+                    <Button type="submit" className=' bg-sky-500 text-white rounded w-full mt-6'>Register</Button>
                 </form>
             </div>
         </>

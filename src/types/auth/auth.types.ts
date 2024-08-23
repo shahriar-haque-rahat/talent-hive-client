@@ -27,6 +27,7 @@ export interface TokenData {
 }
 
 export interface AuthContextValues {
+    user: any;
     loading: boolean;
     register: (registerData: RegisterData) => Promise<void>;
     login: (loginData: LoginData) => Promise<void>;

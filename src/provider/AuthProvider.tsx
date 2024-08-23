@@ -1,17 +1,20 @@
 'use client'
 
-import { clearCookies, setSession } from '@/actions/auth';
+import { clearCookies, getServerSession, setSession } from '@/actions/auth';
+import { addAuthorizedUser } from '@/redux/userSlice';
 import { AuthContextValues, AuthProviderProps, ForgotPasswordData, LoginData, RegisterData, ResetPasswordData, TokenData } from '@/types/auth/auth.types';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { createContext, ReactNode, useState } from 'react';
 import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const AuthContext = createContext<AuthContextValues | null>(null);
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const user = useSelector((state: any) => state.user.user);
 
     const register = async (userData: RegisterData) => {
         try {
@@ -113,6 +116,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     const values: AuthContextValues = {
+        user,
         loading,
         register,
         login,

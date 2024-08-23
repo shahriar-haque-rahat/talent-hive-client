@@ -76,9 +76,9 @@ const Login = () => {
                             isRequired
                         />
 
-                        <Button type="submit" className=' bg-blue-500 text-white rounded w-full mt-6'>Login</Button>
+                        <Button type="submit" className=' bg-sky-500 text-white rounded w-full mt-6'>Login</Button>
                     </form>
-                    <Link href='/forgot-password' className=' cursor-pointer mt-4 text-blue-500 font-semibold'>Forgot Password</Link>
+                    <Link href='/forgot-password' className=' cursor-pointer mt-4 text-sky-500 font-semibold'>Forgot Password</Link>
                 </div>
             </div>
         </>

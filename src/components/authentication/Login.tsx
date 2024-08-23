@@ -1,6 +1,7 @@
 'use client'
 
 import { AuthContext } from '@/provider/AuthProvider';
+import { AuthContextValues, FormEventHandler } from '@/types/auth/auth.types';
 import { Button, Input, Link } from '@nextui-org/react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
@@ -9,12 +10,11 @@ import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
     const router = useRouter();
-    const { login, activeAccount } = useContext(AuthContext);
+    const { login, activeAccount } = useContext(AuthContext) as AuthContextValues;
     const searchParams = useSearchParams();
     const token = searchParams.get('token');
 
     const [isVisible, setIsVisible] = useState(false);
-    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         if (token) {
@@ -30,14 +30,14 @@ const Login = () => {
 
     const toggleVisibility = () => setIsVisible(!isVisible);
 
-    const handleSubmit = async (event) => {
+    const handleSubmit: FormEventHandler = async (event) => {
         event.preventDefault();
 
-        const formData = new FormData(event.target);
+        const formData = new FormData(event.target as HTMLFormElement);
 
         const data = {
-            email: formData.get('email'),
-            password: formData.get('password'),
+            email: formData.get('email') as string,
+            password: formData.get('password') as string,
         };
 
         await login(data);
@@ -56,8 +56,6 @@ const Login = () => {
                             name="email"
                             label="Email"
                             variant='underlined'
-                            isInvalid={errors.email}
-                            errorMessage={errors.email ? "Please enter a valid email" : ""}
                             isRequired
                         />
 
@@ -75,8 +73,6 @@ const Login = () => {
                                 </button>
                             }
                             type={isVisible ? "text" : "password"}
-                            isInvalid={errors.password}
-                            errorMessage={errors.password ? "Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, a number, and a special character." : ""}
                             isRequired
                         />
 

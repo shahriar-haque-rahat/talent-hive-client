@@ -1,22 +1,19 @@
 'use client'
 
 import { clearCookies, setSession } from '@/actions/auth';
+import { AuthContextValues, AuthProviderProps, ForgotPasswordData, LoginData, RegisterData, ResetPasswordData, TokenData } from '@/types/auth/auth.types';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { createContext, ReactNode, useState } from 'react';
 import toast from 'react-hot-toast';
 
-interface AuthProviderProps {
-    children: ReactNode;
-}
-
-export const AuthContext = createContext(null);
+export const AuthContext = createContext<AuthContextValues | null>(null);
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
-    const register = async (userData) => {
+    const register = async (userData: RegisterData) => {
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/register`, userData);
 
@@ -26,12 +23,12 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
                 toast.success('Please check your email');
             }
         }
-        catch (error) {
+        catch (error: any) {
             toast.error(`${error.response.data.message}` || `Failed to register`)
         }
     }
 
-    const login = async (userData) => {
+    const login = async (userData: LoginData) => {
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/login`, userData);
 
@@ -48,7 +45,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     }
 
-    const activeAccount = async (token) => {
+    const activeAccount = async (token: string) => {
         try {
             const data = {
                 token: token,
@@ -67,7 +64,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     }
 
-    const forgotPassword = async (email) => {
+    const forgotPassword = async (email: string) => {
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/forgot-password`, {
                 email,
@@ -83,7 +80,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     }
 
-    const resetPassword = async (token, newPassword) => {
+    const resetPassword = async (token: string | null, newPassword: string) => {
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/reset-password`, {
                 token,
@@ -115,7 +112,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         }
     }
 
-    const values = {
+    const values: AuthContextValues = {
         loading,
         register,
         login,

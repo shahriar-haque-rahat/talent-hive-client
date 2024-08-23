@@ -3,9 +3,8 @@
 import React, { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { Input, Button, Select, Spacer, SelectItem } from "@nextui-org/react";
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
-import axios from 'axios';
-import toast from 'react-hot-toast';
 import { AuthContext } from '@/provider/AuthProvider';
+import { AuthContextValues, FormEventHandler, InputChangeEventHandler, RegisterData } from '@/types/auth/auth.types';
 
 const roles = [
     { key: 'user', label: 'User' },
@@ -13,9 +12,9 @@ const roles = [
 ];
 
 const Register = () => {
-    const { register } = useContext(AuthContext);
+    const { register } = useContext(AuthContext) as AuthContextValues;
     const [isVisible, setIsVisible] = useState(false);
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState<Record<string, boolean>>({});
     const [password, setPassword] = useState('');
     const [role, setRole] = useState(roles[0].key);
 
@@ -52,20 +51,20 @@ const Register = () => {
         }));
     };
 
-    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit: FormEventHandler = async (event) => {
         event.preventDefault();
 
         const formData = new FormData(event.target as HTMLFormElement);
         const data = {
-            fullName: formData.get('fullName'),
-            userName: formData.get('userName'),
-            email: formData.get('email'),
-            password: formData.get('password'),
+            fullName: formData.get('fullName') as string,
+            userName: formData.get('userName') as string,
+            email: formData.get('email') as string,
+            password: formData.get('password') as string,
             status: 'inactive',
-            role: formData.get('role') || roles[0].key,
+            role: formData.get('role')  as string || roles[0].key,
         };
 
-        Object.keys(data).forEach(key => validateField(key, data[key]));
+        Object.keys(data).forEach(key => validateField(key, data[key as keyof RegisterData] as string));
         validateField('password-retype', formData.get('password-retype') as string);
 
         const isValid = Object.values(errors).every(error => !error);
@@ -75,7 +74,7 @@ const Register = () => {
         }
     };
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const handleChange: InputChangeEventHandler = (event) => {
         const { name, value } = event.target;
         validateField(name, value);
     };

@@ -27,7 +27,7 @@ const Authorization = ({ children }: AuthorizeInterface) => {
     const pathname = usePathname();
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
-    const { user } = useSelector((state) => state.user);
+    const { user } = useSelector((state: any) => state.user);
 
     const handleSession = async () => {
         try {

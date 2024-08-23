@@ -1,23 +1,23 @@
 'use client'
 
 import { AuthContext } from '@/provider/AuthProvider';
+import { AuthContextValues, FormEventHandler, InputChangeEventHandler, ResetPasswordData } from '@/types/auth/auth.types';
 import { Button, Input } from '@nextui-org/react';
 import { useSearchParams } from 'next/navigation';
 import React, { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 
-// TODO: type gula alada interface banay rakhte hbe
 const ResetPassword = () => {
-    const { resetPassword } = useContext(AuthContext);
+    const { resetPassword } = useContext(AuthContext) as AuthContextValues;
     const searchParams = useSearchParams();
     const token = searchParams.get('token');
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState<Record<string, boolean>>({});
     const [password, setPassword] = useState('');
     const [isVisible, setIsVisible] = useState(false);
 
     const toggleVisibility = () => setIsVisible(!isVisible);
 
-    const validateField = (name, value) => {
+    const validateField = (name: string, value: string) => {
         let error = false;
 
         switch (name) {
@@ -39,16 +39,16 @@ const ResetPassword = () => {
         }));
     };
 
-    const handleSubmit = async (event) => {
+    const handleSubmit: FormEventHandler = async (event) => {
         event.preventDefault();
 
-        const formData = new FormData(event.target);
+        const formData = new FormData(event.target as HTMLFormElement);
         const data = {
-            password: formData.get('password'),
+            password: formData.get('password') as string,
         };
 
-        Object.keys(data).forEach(key => validateField(key, data[key]));
-        validateField('password-retype', formData.get('password-retype'));
+        Object.keys(data).forEach(key => validateField(key, data[key as keyof ResetPasswordData] as string));
+        validateField('password-retype', formData.get('password-retype') as string);
 
         const isValid = Object.values(errors).every(error => !error);
 
@@ -57,7 +57,7 @@ const ResetPassword = () => {
         }
     };
 
-    const handleChange = (event) => {
+    const handleChange: InputChangeEventHandler = (event) => {
         const { name, value } = event.target;
         validateField(name, value);
     };

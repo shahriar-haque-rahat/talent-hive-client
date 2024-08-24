@@ -1,10 +1,10 @@
-import Notification from '@/components/notification/Notification';
+import Messaging from '@/components/messaging/Messaging';
 import React from 'react';
 
 const page = () => {
     return (
         <div>
-            <Notification/>
+            <Messaging/>
         </div>
     );
 };

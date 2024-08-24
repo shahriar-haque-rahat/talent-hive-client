@@ -2,6 +2,7 @@ import React from 'react';
 import NavbarDrawer from './NavbarDrawer';
 import NavbarItems from './NavbarItems';
 import NavbarDropdown from './NavbarDropdown';
+import Link from 'next/link';
 
 const NavbarContent = () => {
     return (
@@ -11,9 +12,9 @@ const NavbarContent = () => {
                     <div className="lg:hidden">
                         <NavbarDrawer />
                     </div>
-                    <h1 className="text-xl font-bold text-sky-500">
+                    <Link href={'/'} className="text-xl font-bold text-sky-500">
                         Talent Hive
-                    </h1>
+                    </Link>
                 </div>
 
                 <NavbarItems />

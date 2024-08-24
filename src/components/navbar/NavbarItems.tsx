@@ -3,6 +3,7 @@
 import React from 'react';
 import { FaHome } from 'react-icons/fa';
 import { MdWork } from 'react-icons/md';
+import { MdMessage } from "react-icons/md";
 import { IoNotificationsSharp } from 'react-icons/io5';
 import { usePathname } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,8 +42,14 @@ const NavbarItems = () => {
                     </li>
 
                     <li className={`cursor-pointer`}>
-                        <Link className={`flex items-center gap-2 text-xs ${getLinkClass('/notification')}`} href='/notification' onClick={() => dispatch(toggleMenu())}>
-                            <IoNotificationsSharp size={22} />Notification
+                        <Link className={`flex items-center gap-2 text-xs ${getLinkClass('/messaging')}`} href='/messaging' onClick={() => dispatch(toggleMenu())}>
+                            <MdMessage size={22} />Messaging
+                        </Link>
+                    </li>
+
+                    <li className={`cursor-pointer`}>
+                        <Link className={`flex items-center gap-2 text-xs ${getLinkClass('/notifications')}`} href='/notifications' onClick={() => dispatch(toggleMenu())}>
+                            <IoNotificationsSharp size={22} />Notifications
                         </Link>
                     </li>
                 </ul>
@@ -62,8 +69,14 @@ const NavbarItems = () => {
                     </li>
 
                     <li className={`cursor-pointer`}>
-                        <Link className={`w-16 text-xs flex flex-col items-center ${getLinkClass('/notification')}`} href='/notification'>
-                            <IoNotificationsSharp size={22} />Notification
+                        <Link className={`w-16 text-xs flex flex-col items-center ${getLinkClass('/messaging')}`} href='/messaging'>
+                            <MdMessage size={22} />Messaging
+                        </Link>
+                    </li>
+
+                    <li className={`cursor-pointer`}>
+                        <Link className={`w-16 text-xs flex flex-col items-center ${getLinkClass('/notifications')}`} href='/notifications'>
+                            <IoNotificationsSharp size={22} />Notifications
                         </Link>
                     </li>
                 </ul>

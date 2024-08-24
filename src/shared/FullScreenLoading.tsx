@@ -6,7 +6,7 @@ const FullScreenLoading = () => {
     return (
         <>
             <Navbar />
-            <section className="flex w-screen h-[calc(100vh-64px)] bg-white z-10  justify-center items-center">
+            <section className="flex w-full h-[calc(100vh-64px)] bg-white z-10  justify-center items-center">
                 <Spinner size="md" />
             </section>
         </>

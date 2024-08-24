@@ -3,8 +3,10 @@ import { AuthContextValues } from '@/types/auth/auth.types';
 import { Image } from '@nextui-org/react';
 import React, { useContext, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const NavbarDropdown = () => {
+    const pathName = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const { user, logout } = useContext(AuthContext) as AuthContextValues;
     // console.log(user?.email);
@@ -21,12 +23,13 @@ const NavbarDropdown = () => {
         <div className="relative">
             {
                 user
-                    ? <div>
+                    ? <div className=' w-16'>
+                        {(pathName !== '/login') &&
                         <Link href='/login'>
                             <button className=" w-full text-sm px-3 py-1 text-sky-500 hover:text-white border border-sky-500 hover:bg-sky-500">
                                 Login
                             </button>
-                        </Link>
+                        </Link>}
                     </div>
                     : <div>
                         <div onClick={toggleDropdown} className="cursor-pointer rounded-full w-10 lg:w-12 h-10 lg:h-12 border border-gray-200">

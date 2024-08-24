@@ -46,40 +46,50 @@ const Login = () => {
 
     return (
         <>
-            <div className=' flex flex-col justify-center items-center min-h-screen'>
-                <div className='w-full max-w-xl p-6 bg-white shadow-md rounded'>
-                    <form onSubmit={handleSubmit}>
-                        <h1 className=' text-2xl font-semibold my-3'>Login</h1>
+            <div className='flex justify-center items-center px-[10%] xl:px-[20%] h-[calc(100vh-64px)]'>
+                <div className='flex flex-col-reverse md:flex-row w-full max-w-4xl mx-auto shadow-md'>
+                    <div className='w-full md:w-1/2 p-6 bg-white flex flex-col justify-center'>
+                        <form onSubmit={handleSubmit}>
+                            <h1 className=' text-2xl font-semibold my-3'>Login</h1>
 
-                        <Input
-                            className=' mb-4'
-                            type="email"
-                            name="email"
-                            label="Email"
-                            variant='underlined'
-                            isRequired
-                        />
+                            <Input
+                                className=' mb-4'
+                                type="email"
+                                name="email"
+                                label="Email"
+                                variant='underlined'
+                            />
 
-                        <Input
-                            name="password"
-                            label="Password"
-                            variant='underlined'
-                            endContent={
-                                <button className="focus:outline-none" type="button" onClick={toggleVisibility} aria-label="toggle password visibility">
-                                    {isVisible ? (
-                                        <FaRegEye className="text-2xl text-default-400 pointer-events-none" />
-                                    ) : (
-                                        <FaRegEyeSlash className="text-2xl text-default-400 pointer-events-none" />
-                                    )}
-                                </button>
-                            }
-                            type={isVisible ? "text" : "password"}
-                            isRequired
-                        />
+                            <Input
+                                name="password"
+                                label="Password"
+                                variant='underlined'
+                                endContent={
+                                    <button className="focus:outline-none" type="button" onClick={toggleVisibility} aria-label="toggle password visibility">
+                                        {isVisible ? (
+                                            <FaRegEye className="text-2xl text-default-400 pointer-events-none" />
+                                        ) : (
+                                            <FaRegEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+                                        )}
+                                    </button>
+                                }
+                                type={isVisible ? "text" : "password"}
+                            />
 
-                        <Button type="submit" className=' bg-sky-500 text-white rounded w-full mt-6'>Login</Button>
-                    </form>
-                    <Link href='/forgot-password' className=' cursor-pointer mt-4 text-sky-500 font-semibold'>Forgot Password</Link>
+                            <Button type="submit" className=' bg-sky-500 text-white rounded-none w-full mt-6'>Login</Button>
+                        </form>
+                        <Link href='/forgot-password' className=' cursor-pointer mt-4 text-sky-500 font-semibold'>Forgot Password</Link>
+                    </div>
+
+                    <div className="w-full md:w-1/2 bg-gradient-to-br from-sky-600 to-sky-400 text-white p-8 flex flex-col justify-center items-center">
+                        <h1 className=" text-2xl md:text-3xl font-semibold mb-4">Welcome Back</h1>
+                        <p className="mb-6">Don't have an account?</p>
+                        <Link href="/register">
+                            <Button className="bg-white text-sky-500 rounded-none px-4 py-2 font-semibold">
+                                Register
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </>

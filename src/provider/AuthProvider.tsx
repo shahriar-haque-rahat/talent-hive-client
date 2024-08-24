@@ -1,19 +1,20 @@
 'use client'
 
-import { clearCookies, getServerSession, setSession } from '@/actions/auth';
-import { addAuthorizedUser } from '@/redux/userSlice';
-import { AuthContextValues, AuthProviderProps, ForgotPasswordData, LoginData, RegisterData, ResetPasswordData, TokenData } from '@/types/auth/auth.types';
+import { clearCookies, setSession } from '@/actions/auth';
+import { publicRoutes } from '@/actions/routes';
+import { clearUser } from '@/redux/userSlice';
+import { AuthContextValues, AuthProviderProps, LoginData, RegisterData } from '@/types/auth/auth.types';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import React, { createContext, ReactNode, useState } from 'react';
+import React, { createContext } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const AuthContext = createContext<AuthContextValues | null>(null);
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-    const [loading, setLoading] = useState(false);
     const router = useRouter();
+    const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
 
     const register = async (userData: RegisterData) => {
@@ -40,7 +41,14 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
                 await setSession({
                     ...response.data,
                 });
-                router.push('/');
+
+                const redirectAfterLogin = sessionStorage.getItem('redirectAfterLogin');
+                if (redirectAfterLogin) {
+                    sessionStorage.removeItem('redirectAfterLogin');
+                    router.push(redirectAfterLogin);
+                } else {
+                    router.push('/');
+                }
             }
         }
         catch (error) {
@@ -92,6 +100,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
             if (response.data.success) {
                 toast.success('Password successfully changed');
+                router.push('/login');
             }
         }
         catch (error) {
@@ -102,22 +111,36 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const logout = async () => {
         try {
+            const currentRoute = window.location.pathname;
+            const isPublicRoute = publicRoutes.includes(currentRoute);
+
+            if (!isPublicRoute) {
+                sessionStorage.setItem('redirectAfterLogin', currentRoute);
+            } else {
+                sessionStorage.removeItem('redirectAfterLogin');
+            }
+
             const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/logout`);
 
             if (response.data.success) {
                 await clearCookies();
+                dispatch(clearUser());
                 toast.success('User logged out');
+
+                if (!isPublicRoute) {
+                    router.push('/login');
+                }
             }
         }
         catch (error) {
             console.log(error);
-            toast.error('Failed to log out')
+            toast.error('Failed to log out');
         }
     }
 
+
     const values: AuthContextValues = {
         user,
-        loading,
         register,
         login,
         activeAccount,

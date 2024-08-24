@@ -1,6 +1,7 @@
 'use client'
 
 import { clearCookies, getServerSession, getToken } from "@/actions/auth";
+import { publicRoutes, restrictedAfterLoginRoutes } from "@/actions/routes";
 import { startLoading, stopLoading } from "@/redux/loadingSlice";
 import { addAuthorizedUser } from "@/redux/userSlice";
 import FullScreenLoading from "@/shared/FullScreenLoading";
@@ -11,18 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 interface AuthorizeInterface {
     children: ReactNode;
 }
-
-export const restrictedAfterLoginRoutes = [
-    '/login',
-    '/register',
-    '/forgot-password',
-    '/reset-password',
-]
-
-export const publicRoutes = [
-    '/',
-    '/jobs',
-]
 
 const Authorization = ({ children }: AuthorizeInterface) => {
     const router = useRouter();
@@ -45,6 +34,7 @@ const Authorization = ({ children }: AuthorizeInterface) => {
 
             const isRestrictRoute = restrictedAfterLoginRoutes.includes(pathname);
             const isPublicRoute = publicRoutes.includes(pathname);
+            const isPrivateRoute = !isRestrictRoute && !isPublicRoute;
 
             if (isPublicRoute) {
                 if (token) {
@@ -55,10 +45,16 @@ const Authorization = ({ children }: AuthorizeInterface) => {
                 return;
             }
 
-            if (!token && !isRestrictRoute) {
+            if (!token && isPrivateRoute) {
+                sessionStorage.setItem('redirectAfterLogin', pathname);
                 router.push('/login');
                 return;
             }
+
+            // if (!token && !isRestrictRoute) {
+            //     router.push('/login');
+            //     return;
+            // }
 
             if (!token && isRestrictRoute) {
                 dispatch(stopLoading());
@@ -93,8 +89,11 @@ const Authorization = ({ children }: AuthorizeInterface) => {
     };
 
     useEffect(() => {
-        handleSession();
+        if (!Object.keys(user)?.length) {
+            handleSession();
+        }
     }, [pathname]);
+
 
     if (isLoading) {
         return <FullScreenLoading />;

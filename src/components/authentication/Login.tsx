@@ -2,11 +2,12 @@
 
 import { AuthContext } from '@/provider/AuthProvider';
 import { AuthContextValues, FormEventHandler } from '@/types/auth/auth.types';
-import { Button, Input, Link } from '@nextui-org/react';
+import { Button, Input } from '@nextui-org/react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
+import Link from 'next/link';
 
 const Login = () => {
     const router = useRouter();

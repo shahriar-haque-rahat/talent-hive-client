@@ -26,7 +26,7 @@ const Navbar = () => {
                 }}
                 animate={hidden ? "hidden" : "visible"}
                 transition={{ duration: 0.35, ease: "easeInOut" }}
-                className="fixed max-w-[2560px] shadow-sm m-auto h-16 px-6 py-2 top-0 left-0 right-0 z-50 bg-white">
+                className="fixed max-w-[1440px] shadow-sm m-auto h-16 px-6 py-2 top-0 left-0 right-0 z-50 bg-white">
                 <NavbarContent />
             </motion.div >
         </>

@@ -41,7 +41,7 @@ const ForgotPassword = () => {
                             onChange={handleChange}
                         />
 
-                        <Button type="submit" className=' bg-sky-500 text-white rounded-none w-full mt-6'>Submit</Button>
+                        <Button type="submit" className=' bg-sky-500 text-white rounded-none w-full mt-6 border border-sky-500 hover:bg-white hover:text-sky-500'>Submit</Button>
                     </form>
                 </div>
             </div>

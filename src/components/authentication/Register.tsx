@@ -132,7 +132,7 @@ const Register = () => {
                                 ))}
                             </Select>
 
-                            <Button type="submit" className=' bg-sky-500 text-white rounded-none w-full mt-6'>Register</Button>
+                            <Button type="submit" className=' bg-sky-500 text-white rounded-none w-full mt-6 border border-sky-500 hover:bg-white hover:text-sky-500'>Register</Button>
                         </form>
                     </div>
 
@@ -140,7 +140,7 @@ const Register = () => {
                         <h1 className=" text-2xl md:text-3xl font-semibold mb-4">Talent Hive</h1>
                         <p className="mb-6">Already have an account?</p>
                         <Link href="/login">
-                            <Button className="bg-white text-sky-500 rounded-none px-4 py-2 font-semibold">
+                            <Button className="bg-white text-sky-500 rounded-none px-4 py-2 font-semibold border border-white hover:bg-sky-500 hover:text-white">
                                 Login
                             </Button>
                         </Link>

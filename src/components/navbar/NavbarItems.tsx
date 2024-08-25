@@ -52,14 +52,14 @@ const NavbarItems = () => {
                     </li>
 
                     <li className={`cursor-pointer`}>
-                        <Link className={`flex items-center gap-2 text-xs ${getLinkClass('/my-connections')}`} href='/my-connections' onClick={() => dispatch(toggleMenu())}>
-                            <TiGroup size={22} />My Connections
+                        <Link className={`flex items-center gap-2 text-xs ${getLinkClass('/jobs')}`} href='/jobs' onClick={() => dispatch(toggleMenu())}>
+                            <MdWork size={22} />Jobs
                         </Link>
                     </li>
 
                     <li className={`cursor-pointer`}>
-                        <Link className={`flex items-center gap-2 text-xs ${getLinkClass('/jobs')}`} href='/jobs' onClick={() => dispatch(toggleMenu())}>
-                            <MdWork size={22} />Jobs
+                        <Link className={`flex items-center gap-2 text-xs ${getLinkClass('/my-connections')}`} href='/my-connections' onClick={() => dispatch(toggleMenu())}>
+                            <TiGroup size={22} />My Connections
                         </Link>
                     </li>
 
@@ -85,14 +85,14 @@ const NavbarItems = () => {
                     </li>
 
                     <li className={`cursor-pointer`}>
-                        <Link className={`w-24 text-xs flex flex-col items-center ${getLinkClass('/my-connections')}`} href='/my-connections'>
-                            <TiGroup size={22} />My Connections
+                        <Link className={`w-24 text-xs flex flex-col items-center ${getLinkClass('/jobs')}`} href='/jobs'>
+                            <MdWork size={22} />Jobs
                         </Link>
                     </li>
 
                     <li className={`cursor-pointer`}>
-                        <Link className={`w-24 text-xs flex flex-col items-center ${getLinkClass('/jobs')}`} href='/jobs'>
-                            <MdWork size={22} />Jobs
+                        <Link className={`w-24 text-xs flex flex-col items-center ${getLinkClass('/my-connections')}`} href='/my-connections'>
+                            <TiGroup size={22} />My Connections
                         </Link>
                     </li>
 

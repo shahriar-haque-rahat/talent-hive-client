@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${font.className} mx-auto max-w-[1440px] px-6`}>
+      <body className={`${font.className} mx-auto max-w-[1440px] px-1 md:px-6`}>
         <StoreProvider>
           <AuthProvider>
             <Authorization>

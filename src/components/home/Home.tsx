@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import LeftSidebar from './LeftSidebar';
 import CentralFeed from './CentralFeed';

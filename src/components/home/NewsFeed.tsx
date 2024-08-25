@@ -47,8 +47,8 @@ const NewsFeed = ({ posts }) => {
                                 src={post.profileImage}
                                 alt={post.username}
                                 className="rounded-full border-2 border-white w-14 h-14 object-cover object-center"
-                                width={1000}
-                                height={1000}
+                                width={48}
+                                height={48}
                             />
                             <div>
                                 <h1 className='font-semibold'>{post.username}</h1>
@@ -70,7 +70,7 @@ const NewsFeed = ({ posts }) => {
                             />
                         </div>
 
-                        {/* singular plural has to be defined */}
+                        {/* TODO: singular plural has to be defined */}
                         <div>
                             <div className=' text-xs flex items-center gap-4 text-gray-500 px-3 py-1'>
                                 <p className=' cursor-pointer hover:text-sky-500 hover:underline'>10 Likes</p>

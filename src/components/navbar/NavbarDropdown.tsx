@@ -43,8 +43,8 @@ const NavbarDropdown = () => {
                             src="/assets/user.png"
                             alt="Profile"
                             className="rounded-full cursor-pointer"
-                            width={1000}
-                            height={1000}
+                            width={48}
+                            height={48}
                         />
                     </div>
                     {isOpen && (

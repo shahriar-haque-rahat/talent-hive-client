@@ -15,8 +15,8 @@ const RightSidebar = () => {
                         src="/assets/user.png"
                         alt="Profile"
                         className="rounded-full border-2 border-white w-14 h-14 object-cover object-center"
-                        width={1000}
-                        height={1000}
+                        width={48}
+                        height={48}
                     />
 
                     <div className=' flex flex-col gap-1'>

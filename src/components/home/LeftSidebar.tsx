@@ -16,13 +16,13 @@ const LeftSidebar = () => {
                             height={1000}
                         />
                     </div>
-                    <div className=' w-full flex justify-center absolute z-10 transform -translate-y-1/2 '>
+                    <div className=' w-full flex justify-center absolute transform -translate-y-1/2 '>
                         <Image
                             src="/assets/user.png"
                             alt="Profile"
                             className="rounded-full border-2 border-white w-16 h-16 object-cover object-center"
-                            width={1000}
-                            height={1000}
+                            width={48}
+                            height={48}
                         />
                     </div>
                 </div>

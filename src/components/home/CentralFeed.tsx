@@ -1,9 +1,20 @@
 import Image from 'next/image';
-import React from 'react';
-import { MdPermMedia, MdArticle } from "react-icons/md";
+import React, { useState } from 'react';
 import NewsFeed from './NewsFeed';
+import PostModal from './posting/PostModal';
+import { MdArticle, MdPermMedia } from 'react-icons/md';
 
 const CentralFeed = () => {
+    const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+
+    const openPostModal = () => {
+        setIsPostModalOpen(true);
+    };
+
+    const closePostModal = () => {
+        setIsPostModalOpen(false);
+    };
+
     const posts = [
         {
             username: 'Tom Holland',
@@ -155,24 +166,33 @@ const CentralFeed = () => {
     return (
         <>
             <div className='bg-white p-3 border border-gray-300 rounded-lg'>
-                <div className=' flex items-center justify-center gap-2 '>
+                <div className='flex items-center justify-center gap-2'>
                     <Image
                         src="/assets/user.png"
                         alt="Profile"
                         className="rounded-full border-2 border-white w-12 h-12 object-cover object-center"
-                        width={1000}
-                        height={1000}
+                        width={48}
+                        height={48}
                     />
-                    <button className=' hover:bg-gray-100 text-sm text-left border border-gray-400 p-2 pl-4 rounded-full w-full'>Create a post</button>
+                    <button onClick={openPostModal} className='hover:bg-gray-100 text-sm text-left border border-gray-400 p-2 pl-4 rounded-full w-full'>
+                        Create a post
+                    </button>
                 </div>
-
-                <div className=' text-sm mt-4 flex justify-evenly'>
-                    <button className=' hover:bg-gray-100 p-2 flex gap-2 items-center'><MdPermMedia className=' text-blue-500' size={20} />Add Media</button>
-                    <button className=' hover:bg-gray-100 p-2 flex gap-2 items-center'><MdArticle className=' text-orange-500' size={20} />Job Post</button>
-                </div>
+                {/* <div className='text-sm mt-4 flex justify-evenly'>
+                    <button className='hover:bg-gray-100 p-2 flex gap-2 items-center text-blue-500'>
+                        <MdPermMedia size={20} />Add Media
+                    </button>
+                    <button className='hover:bg-gray-100 p-2 flex gap-2 items-center text-orange-500'>
+                        <MdArticle size={20} />Job Post
+                    </button>
+                </div> */}
             </div>
-            <div className=' my-6 border-t border-gray-500'></div>
+            <div className='my-6 border-t border-gray-500'></div>
             <NewsFeed posts={posts} />
+            <PostModal
+                isOpen={isPostModalOpen}
+                onClose={closePostModal}
+            />
         </>
     );
 };

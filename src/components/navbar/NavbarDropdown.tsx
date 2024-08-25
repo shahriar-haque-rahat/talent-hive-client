@@ -66,7 +66,7 @@ const NavbarDropdown = () => {
                     {pathName !== '/login' && (
                         <Link href="/login">
                             <button
-                                className="w-full text-sm px-3 py-1 text-sky-500 hover:text-white border border-sky-500 hover:bg-sky-500"
+                                className="w-full rounded-lg text-sm px-3 py-1 text-sky-500 hover:text-white border border-sky-500 hover:bg-sky-500"
                                 onClick={() => sessionStorage.removeItem('redirectAfterLogin')}
                             >
                                 Login

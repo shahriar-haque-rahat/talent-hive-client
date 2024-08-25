@@ -22,7 +22,7 @@ const RightSidebar = () => {
                     <div className=' flex flex-col gap-1'>
                         <h1 className=' font-semibold'>John wick</h1>
                         <p className=' text-xs text-gray-500'>Designation</p>
-                        <button className=' w-20 mt-1 text-sm py-1 px-3 rounded-full border border-gray-600 hover:border-black hover:bg-gray-200 flex gap-1 justify-center items-center font-bold'><FiPlus size={16} />Add</button>
+                        <button className=' w-20 mt-1 text-sm py-1 px-3 rounded-lg border border-gray-600 hover:border-black hover:bg-gray-200 flex gap-1 justify-center items-center font-bold'><FiPlus size={16} />Add</button>
                     </div>
                 </div>
 

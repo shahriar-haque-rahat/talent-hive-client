@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { FaHome } from 'react-icons/fa';
 import { MdWork } from 'react-icons/md';
+import { TiGroup } from "react-icons/ti";
 import { MdMessage } from "react-icons/md";
 import { IoNotificationsSharp } from 'react-icons/io5';
 import { usePathname } from 'next/navigation';
@@ -51,6 +52,12 @@ const NavbarItems = () => {
                     </li>
 
                     <li className={`cursor-pointer`}>
+                        <Link className={`flex items-center gap-2 text-xs ${getLinkClass('/my-connections')}`} href='/my-connections' onClick={() => dispatch(toggleMenu())}>
+                            <TiGroup size={22} />My Connections
+                        </Link>
+                    </li>
+
+                    <li className={`cursor-pointer`}>
                         <Link className={`flex items-center gap-2 text-xs ${getLinkClass('/jobs')}`} href='/jobs' onClick={() => dispatch(toggleMenu())}>
                             <MdWork size={22} />Jobs
                         </Link>
@@ -72,25 +79,31 @@ const NavbarItems = () => {
                 {/* large device */}
                 <ul className="hidden lg:flex gap-4 font-semibold relative">
                     <li className={`cursor-pointer`}>
-                        <Link className={`w-16 text-xs flex flex-col items-center ${getLinkClass('/')}`} href='/'>
+                        <Link className={`w-24 text-xs flex flex-col items-center ${getLinkClass('/')}`} href='/'>
                             <FaHome size={22} />Home
                         </Link>
                     </li>
 
                     <li className={`cursor-pointer`}>
-                        <Link className={`w-16 text-xs flex flex-col items-center ${getLinkClass('/jobs')}`} href='/jobs'>
+                        <Link className={`w-24 text-xs flex flex-col items-center ${getLinkClass('/my-connections')}`} href='/my-connections'>
+                            <TiGroup size={22} />My Connections
+                        </Link>
+                    </li>
+
+                    <li className={`cursor-pointer`}>
+                        <Link className={`w-24 text-xs flex flex-col items-center ${getLinkClass('/jobs')}`} href='/jobs'>
                             <MdWork size={22} />Jobs
                         </Link>
                     </li>
 
                     <li className={`cursor-pointer`}>
-                        <Link className={`w-16 text-xs flex flex-col items-center ${getLinkClass('/messaging')}`} href='/messaging'>
+                        <Link className={`w-24 text-xs flex flex-col items-center ${getLinkClass('/messaging')}`} href='/messaging'>
                             <MdMessage size={22} />Messaging
                         </Link>
                     </li>
 
                     <li className={`cursor-pointer`}>
-                        <Link className={`w-16 text-xs flex flex-col items-center ${getLinkClass('/notifications')}`} href='/notifications'>
+                        <Link className={`w-24 text-xs flex flex-col items-center ${getLinkClass('/notifications')}`} href='/notifications'>
                             <IoNotificationsSharp size={22} />Notifications
                         </Link>
                     </li>

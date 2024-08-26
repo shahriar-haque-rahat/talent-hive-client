@@ -12,7 +12,7 @@ const NavbarContent = () => {
                     <div className="lg:hidden">
                         <NavbarDrawer />
                     </div>
-                    <Link href={'/'} className="text-xl font-bold text-sky-500">
+                    <Link href={'/'} className="text-xl font-bold text-sky-500 h-16 flex items-center">
                         Talent Hive
                     </Link>
                 </div>

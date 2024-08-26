@@ -4,7 +4,6 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { AiOutlineLike } from "react-icons/ai";
 import { FaRegCommentDots } from "react-icons/fa6";
-import { RiShareForwardLine } from "react-icons/ri";
 import { MdBookmarkBorder } from "react-icons/md";
 
 const NewsFeed = ({ posts }) => {
@@ -75,12 +74,10 @@ const NewsFeed = ({ posts }) => {
                             <div className=' text-xs flex items-center gap-4 text-gray-500 px-3 py-1'>
                                 <p className=' cursor-pointer hover:text-sky-500 hover:underline'>10 Likes</p>
                                 <p className=' cursor-pointer hover:text-sky-500 hover:underline'>5 Comments</p>
-                                <p className=' cursor-pointer hover:text-sky-500 hover:underline'>2 Shares</p>
                             </div>
                             <div className=' flex justify-evenly'>
                                 <button className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'><AiOutlineLike size={22} />Like</button>
                                 <button className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'><FaRegCommentDots size={20} />Comment</button>
-                                <button className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'><RiShareForwardLine size={22} />Share</button>
                                 <button className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'><MdBookmarkBorder size={22} />Save</button>
                             </div>
                         </div>

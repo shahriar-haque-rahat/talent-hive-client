@@ -27,7 +27,7 @@ const AddMediaModal = ({ isOpen, onClose, onUpload }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-60">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-80">
             <div className="bg-white w-11/12 max-w-xl h-1/2 p-6 rounded-lg relative flex flex-col">
                 <button
                     onClick={onClose}

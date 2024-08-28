@@ -5,6 +5,7 @@ import { publicRoutes, restrictedAfterLoginRoutes } from "@/actions/routes";
 import { startLoading, stopLoading } from "@/redux/loadingSlice";
 import { addAuthorizedUser } from "@/redux/userSlice";
 import FullScreenLoading from "@/shared/FullScreenLoading";
+import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import React, { ReactNode, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +20,7 @@ const Authorization = ({ children }: AuthorizeInterface) => {
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
     const isLoading = useSelector((state: any) => state.loading.isLoading);
+    // console.log('user:', user);
 
     const handleSession = async () => {
         dispatch(startLoading());
@@ -39,7 +41,10 @@ const Authorization = ({ children }: AuthorizeInterface) => {
             if (isPublicRoute) {
                 if (token) {
                     const session = await getServerSession();
-                    dispatch(addAuthorizedUser(session));
+                    if (session) {
+                        const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/${session.id}`);
+                        dispatch(addAuthorizedUser(response.data));
+                    }
                 }
                 dispatch(stopLoading());
                 return;
@@ -79,7 +84,11 @@ const Authorization = ({ children }: AuthorizeInterface) => {
                 window.open("/login", "_self");
             }
 
-            dispatch(addAuthorizedUser(session));
+            if (session) {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/${session.id}`);
+                dispatch(addAuthorizedUser(response.data));
+            }
+
             dispatch(stopLoading());
         }
         catch (error) {

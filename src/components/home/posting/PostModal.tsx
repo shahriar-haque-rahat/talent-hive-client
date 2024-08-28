@@ -1,9 +1,13 @@
-import React, { useState, FormEventHandler } from 'react';
+import React, { useState, FormEventHandler, useContext } from 'react';
 import { MdPermMedia, MdArticle, MdClose } from 'react-icons/md';
 import AddMediaModal from './AddMediaModal';
 import DiscardModal from './DiscardModal';
+import { generateRandomDigits } from '@/actions/uid';
+import { AuthContext } from '@/provider/AuthProvider';
+import axios from 'axios';
 
 const PostModal = ({ isOpen, onClose }) => {
+    const { user } = useContext(AuthContext);
     const [caption, setCaption] = useState('');
     const [media, setMedia] = useState([]);
     const [isAddMediaModalOpen, setIsAddMediaModalOpen] = useState(false);
@@ -36,10 +40,23 @@ const PostModal = ({ isOpen, onClose }) => {
         media.forEach((file, index) => formData.append(`media[${index}]`, file));
 
         // TODO: API call
-        console.log({
-            caption: formData.get('caption'),
+        const postData = {
+            uid: `p${generateRandomDigits()}`,
+            userUid: user?.uid,
+            content: formData.get('caption'),
             media: media.map((file) => file.name),
-        });
+        }
+        // console.log('post data:', postData);
+        if (postData) {
+            try {
+                const response = axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post`, postData);
+                console.log(response.data);
+            }
+            catch (error) {
+                console.log(error);
+
+            }
+        }
 
         handleDiscard();
     };

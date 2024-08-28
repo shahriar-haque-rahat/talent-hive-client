@@ -2,9 +2,7 @@
 
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { AiOutlineLike } from "react-icons/ai";
-import { FaRegCommentDots } from "react-icons/fa6";
-import { MdBookmarkBorder } from "react-icons/md";
+import { BiBookmarkAlt, BiCommentDetail, BiLike, BiShare } from 'react-icons/bi';
 
 const NewsFeed = ({ posts }) => {
     const [expandedPosts, setExpandedPosts] = useState({});
@@ -71,14 +69,16 @@ const NewsFeed = ({ posts }) => {
 
                         {/* TODO: singular plural has to be defined */}
                         <div>
-                            <div className=' text-xs flex items-center gap-4 text-gray-500 px-3 py-1'>
-                                <p className=' cursor-pointer hover:text-sky-500 hover:underline'>10 Likes</p>
-                                <p className=' cursor-pointer hover:text-sky-500 hover:underline'>5 Comments</p>
+                            <div className=' text-xs flex items-center justify-end gap-2 text-gray-500 px-3 py-1'>
+                                <p className=' cursor-pointer hover:text-sky-500 hover:underline'>10 Likes</p><p className=' font-bold'>.</p>
+                                <p className=' cursor-pointer hover:text-sky-500 hover:underline'>5 Comments</p><p className=' font-bold'>.</p>
+                                <p className=' cursor-pointer hover:text-sky-500 hover:underline'>5 Shares</p>
                             </div>
                             <div className=' flex justify-evenly'>
-                                <button className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'><AiOutlineLike size={22} />Like</button>
-                                <button className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'><FaRegCommentDots size={20} />Comment</button>
-                                <button className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'><MdBookmarkBorder size={22} />Save</button>
+                                <button className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'><BiLike size={20} />Like</button>
+                                <button className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'><BiCommentDetail size={20} />Comment</button>
+                                <button className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'><BiShare style={{ transform: "scaleX(-1)" }} size={20} />Share</button>
+                                <button className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'><BiBookmarkAlt size={20} />Save</button>
                             </div>
                         </div>
                     </div>

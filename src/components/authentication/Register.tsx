@@ -5,7 +5,6 @@ import { Input, Button, Select, SelectItem } from "@nextui-org/react";
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import { AuthContext } from '@/provider/AuthProvider';
 import { AuthContextValues, FormEventHandler, InputChangeEventHandler, RegisterData } from '@/types/auth/auth.types';
-import { generateRandomDigits } from '@/actions/uid';
 import { handleFormSubmit, handleInputChange } from '@/actions/formSubmitAndValidation';
 import Link from 'next/link';
 
@@ -31,7 +30,7 @@ const Register = () => {
         handleFormSubmit<RegisterDataIncludeUID>(
             event,
             async (data) => { await register(data); },
-            { uid: `u${generateRandomDigits()}`, status: 'inactive', role },
+            { status: 'inactive', role },
             setErrors
         );
 

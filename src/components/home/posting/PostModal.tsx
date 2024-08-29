@@ -2,9 +2,9 @@ import React, { useState, FormEventHandler, useContext } from 'react';
 import { MdPermMedia, MdArticle, MdClose } from 'react-icons/md';
 import AddMediaModal from './AddMediaModal';
 import DiscardModal from './DiscardModal';
-import { generateRandomDigits } from '@/actions/uid';
 import { AuthContext } from '@/provider/AuthProvider';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const PostModal = ({ isOpen, onClose }) => {
     const { user } = useContext(AuthContext);
@@ -39,27 +39,31 @@ const PostModal = ({ isOpen, onClose }) => {
         formData.append('caption', caption);
         media.forEach((file, index) => formData.append(`media[${index}]`, file));
 
-        // TODO: API call
         const postData = {
-            uid: `p${generateRandomDigits()}`,
             userUid: user?.uid,
             content: formData.get('caption'),
             media: media.map((file) => file.name),
         }
         // console.log('post data:', postData);
         if (postData) {
-            try {
-                const response = axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post`, postData);
-                console.log(response.data);
-            }
-            catch (error) {
-                console.log(error);
-
-            }
+            uploadData(postData);
         }
 
         handleDiscard();
     };
+
+    const uploadData = async (postData: object) => {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post`, postData);
+            if (response.data) {
+                toast.success('Successfully Posted');
+            }
+        }
+        catch (error) {
+            console.log(error);
+            toast.error('Post Failed');
+        }
+    }
 
     if (!isOpen) return null;
 

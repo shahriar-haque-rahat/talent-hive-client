@@ -20,7 +20,7 @@ const Authorization = ({ children }: AuthorizeInterface) => {
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
     const isLoading = useSelector((state: any) => state.loading.isLoading);
-    // console.log('user:', user);
+    console.log('user:', user);
 
     const handleSession = async () => {
         dispatch(startLoading());

@@ -5,7 +5,7 @@ const DiscardModal = ({ isOpen, onClose, onDiscard }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-80">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[60]">
             <div className="bg-white w-11/12 max-w-md p-6 rounded-lg relative">
                 <button
                     onClick={onClose}

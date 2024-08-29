@@ -5,10 +5,14 @@ import PostModal from './posting/PostModal';
 import { MdArticle, MdPermMedia } from 'react-icons/md';
 import { AuthContext } from '@/provider/AuthProvider';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
+import { getPosts } from '@/actions/postData';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPost } from '@/redux/postSlice';
 
 const CentralFeed = () => {
+    const dispatch = useDispatch();
     const { user } = useContext(AuthContext);
+    const posts = useSelector((state: any) => state.post.post);
     const router = useRouter();
     const [isPostModalOpen, setIsPostModalOpen] = useState(false);
 
@@ -29,14 +33,13 @@ const CentralFeed = () => {
 
     useEffect(() => {
         const fetchPosts = async () => {
-            try {
-                const response = await axios.get(``)
-            }
-            catch (error) {
+            const fetchedPosts = await getPosts();
 
-            }
+            dispatch(setPost(fetchedPosts));
         }
-    }, [])
+        fetchPosts();
+    }, [dispatch])
+
 
     return (
         <>

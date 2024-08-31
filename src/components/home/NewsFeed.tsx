@@ -41,14 +41,14 @@ const NewsFeed = ({ posts }) => {
                     <div key={index} className='bg-white border border-gray-300 rounded-lg'>
                         <div className='flex gap-2 p-3'>
                             <Image
-                                src={post.profileImage}
+                                src={post.userId.profileImage}
                                 alt={post.fullName}
                                 className="rounded-full border-2 border-white w-14 h-14 object-cover object-center"
                                 width={48}
                                 height={48}
                             />
                             <div>
-                                <h1 className='font-semibold'>{post.fullName}</h1>
+                                <h1 className='font-semibold'>{post.userId.fullName}</h1>
                                 <p className='text-xs mt-2'>{post.timestamp.slice(0, 10)}</p>
                             </div>
                         </div>

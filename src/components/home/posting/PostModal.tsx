@@ -40,7 +40,7 @@ const PostModal = ({ isOpen, onClose }) => {
         media.forEach((file, index) => formData.append(`media[${index}]`, file));
 
         const postData = {
-            userUid: user?.uid,
+            userId: user?._id,
             content: formData.get('caption'),
             media: media.map((file) => file.name),
         }

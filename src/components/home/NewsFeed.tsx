@@ -1,11 +1,24 @@
 'use client'
 
+import { commentPost, likePost, savePost, sharePost } from '@/actions/postInteraction';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { BiBookmarkAlt, BiCommentDetail, BiLike, BiShare } from 'react-icons/bi';
+import { useSelector } from 'react-redux';
+import CommentSection from './post-interaction/CommentSection';
+import toast from 'react-hot-toast';
 
 const NewsFeed = ({ posts }) => {
+    const user = useSelector((state: any) => state.user.user);
     const [expandedPosts, setExpandedPosts] = useState({});
+    const [openComment, setOpenComment] = useState({});
+
+    const toggleOpenComment = (postUid) => {
+        setOpenComment((prevState) => ({
+            ...prevState,
+            [postUid]: !prevState[postUid],
+        }));
+    };
 
     const toggleReadMore = (index) => {
         setExpandedPosts((prevState) => ({
@@ -33,6 +46,27 @@ const NewsFeed = ({ posts }) => {
         }
         return content;
     };
+
+    const handleLikePost = (postUid) => {
+        if (user._id) {
+            likePost(postUid, user._id);
+        }
+    }
+
+    const handleSharePost = (postUid) => {
+        if (user._id) {
+            sharePost(postUid, user._id)
+                .then(() => {
+                    toast.success('Post shared');
+                })
+        }
+    }
+
+    const handleSavePost = (postUid) => {
+        if (user._id) {
+            savePost(postUid, user._id);
+        }
+    }
 
     return (
         <div className='space-y-4'>
@@ -67,6 +101,7 @@ const NewsFeed = ({ posts }) => {
                             />
                         </div>
 
+                        {/* interaction section */}
                         {/* TODO: singular plural has to be defined */}
                         <div>
                             <div className=' text-xs flex items-center justify-end gap-2 text-gray-500 px-3 py-1'>
@@ -75,12 +110,26 @@ const NewsFeed = ({ posts }) => {
                                 <p className=' cursor-pointer hover:text-sky-500 hover:underline'>5 Shares</p>
                             </div>
                             <div className=' flex justify-evenly'>
-                                <button className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'><BiLike size={20} />Like</button>
-                                <button className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'><BiCommentDetail size={20} />Comment</button>
-                                <button className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'><BiShare className=' z-0' style={{ transform: "scaleX(-1)" }} size={20} />Share</button>
-                                <button className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'><BiBookmarkAlt size={20} />Save</button>
+                                <button onClick={() => handleLikePost(post.uid)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                    <BiLike size={20} />Like
+                                </button>
+                                <button onClick={() => toggleOpenComment(post.uid)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                    <BiCommentDetail size={20} />Comment
+                                </button>
+                                <button onClick={() => handleSharePost(post.uid)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                    <BiShare style={{ transform: "scaleX(-1)" }} size={20} />Share
+                                </button>
+                                <button onClick={() => handleSavePost(post.uid)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                    <BiBookmarkAlt size={20} />Save
+                                </button>
                             </div>
                         </div>
+
+                        {/* comment section */}
+                        {
+                            openComment[post.uid] &&
+                            <CommentSection user={user} postUid={post.uid} />
+                        }
                     </div>
                 ))
             }

@@ -6,6 +6,5 @@ export const restrictedAfterLoginRoutes = [
 ]
 
 export const publicRoutes = [
-    '/',
-    '/jobs',
+    
 ]

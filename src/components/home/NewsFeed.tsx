@@ -7,6 +7,7 @@ import { BiBookmarkAlt, BiCommentDetail, BiLike, BiShare } from 'react-icons/bi'
 import { useSelector } from 'react-redux';
 import CommentSection from './post-interaction/CommentSection';
 import toast from 'react-hot-toast';
+import AllComments from './post-interaction/AllComments';
 
 const NewsFeed = ({ posts }) => {
     const user = useSelector((state: any) => state.user.user);
@@ -14,7 +15,7 @@ const NewsFeed = ({ posts }) => {
     const [openComment, setOpenComment] = useState({});
 
     const toggleOpenComment = (postUid) => {
-        setOpenComment((prevState) => ({
+        setOpenComment((prevState) => ({ 
             ...prevState,
             [postUid]: !prevState[postUid],
         }));
@@ -128,7 +129,10 @@ const NewsFeed = ({ posts }) => {
                         {/* comment section */}
                         {
                             openComment[post.uid] &&
-                            <CommentSection user={user} postUid={post.uid} />
+                            <div>
+                                <CommentSection user={user} postUid={post.uid} />
+                                <AllComments postUid={post.uid} />
+                            </div>
                         }
                     </div>
                 ))

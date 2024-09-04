@@ -1,17 +1,17 @@
 import React, { useState, FormEventHandler, useContext } from 'react';
 import { MdPermMedia, MdArticle, MdClose } from 'react-icons/md';
 import AddMediaModal from './AddMediaModal';
-import DiscardModal from './DiscardModal';
 import { AuthContext } from '@/provider/AuthProvider';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import ConfirmationModal from '@/shared/ConfirmationModal';
 
 const PostModal = ({ isOpen, onClose }) => {
     const { user } = useContext(AuthContext);
     const [caption, setCaption] = useState('');
     const [media, setMedia] = useState([]);
     const [isAddMediaModalOpen, setIsAddMediaModalOpen] = useState(false);
-    const [isDiscardModalOpen, setIsDiscardModalOpen] = useState(false);
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
     const handleAddMedia = (uploadedMedia) => {
         setMedia(uploadedMedia);
@@ -21,12 +21,12 @@ const PostModal = ({ isOpen, onClose }) => {
         setCaption('');
         setMedia([]);
         onClose();
-        setIsDiscardModalOpen(false);
+        setIsConfirmationModalOpen(false);
     };
 
     const handleClose = () => {
         if (caption || media.length > 0) {
-            setIsDiscardModalOpen(true);
+            setIsConfirmationModalOpen(true);
         } else {
             onClose();
         }
@@ -134,11 +134,15 @@ const PostModal = ({ isOpen, onClose }) => {
                 onUpload={handleAddMedia}
             />
 
-            {/* DiscardModal */}
-            <DiscardModal
-                isOpen={isDiscardModalOpen}
-                onClose={() => setIsDiscardModalOpen(false)}
-                onDiscard={handleDiscard}
+            {/* ConfirmationModal */}
+            <ConfirmationModal
+                isOpen={isConfirmationModalOpen}
+                onClose={() => setIsConfirmationModalOpen(false)}
+                onConfirm={handleDiscard}
+                title="Discard Post?"
+                message="You have unsaved changes. Are you sure you want to discard this post?"
+                confirmLabel="Discard"
+                cancelLabel="Cancel"
             />
         </>
     );

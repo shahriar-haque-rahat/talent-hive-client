@@ -18,6 +18,14 @@ const commentSlice = createSlice({
                 state.commentsByPost[postUid] = [comment];
             }
         },
+        editComment: (state, action) => {
+            const { postUid, comment } = action.payload;
+            if (state.commentsByPost[postUid]) {
+                state.commentsByPost[postUid] = state.commentsByPost[postUid].map(
+                    c => c.uid === comment.uid ? comment : c
+                );
+            }
+        },
         removeComment: (state, action) => {
             const { postUid, commentUid } = action.payload;
             if (state.commentsByPost[postUid]) {
@@ -29,6 +37,6 @@ const commentSlice = createSlice({
     },
 });
 
-export const { setComments, addComment, removeComment } = commentSlice.actions;
+export const { setComments, addComment, removeComment, editComment } = commentSlice.actions;
 
 export default commentSlice.reducer;

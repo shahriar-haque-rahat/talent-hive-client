@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { deleteComment, getComments } from '@/actions/postInteraction';
+import { deleteComment, getComments, updateComment } from '@/actions/postInteraction';
 import { Image } from '@nextui-org/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setComments, removeComment } from '@/redux/commentSlice';
+import { setComments, removeComment, editComment } from '@/redux/commentSlice';
 import ConfirmationModal from '@/shared/ConfirmationModal';
 
 const AllComments = ({ user, postUid, openComment }) => {
@@ -14,39 +14,82 @@ const AllComments = ({ user, postUid, openComment }) => {
     const [hasMore, setHasMore] = useState(true);
     const isFetching = useRef(false);
 
+    const [editingCommentUid, setEditingCommentUid] = useState(null);
+    const [editingCommentContent, setEditingCommentContent] = useState('');
+
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [commentToDelete, setCommentToDelete] = useState(null);
 
-    const toggleExpandComment = (commentId) => {
+    const toggleExpandComment = (commentUid) => {
         setExpandedComments(prevState => ({
             ...prevState,
-            [commentId]: !prevState[commentId],
+            [commentUid]: !prevState[commentUid],
         }));
     };
 
-    const renderCommentContent = (content, commentId) => {
-        const words = content.split(' ');
-        const isExpanded = expandedComments[commentId];
+    const renderCommentContent = (comment: any) => {
+        const isExpanded = expandedComments[comment.uid];
+        const isEditing = editingCommentUid === comment.uid;
 
-        if (words.length > 20) {
+        if (isEditing) {
             return (
-                <>
-                    {isExpanded ? content : words.slice(0, 20).join(' ') + '...'}
-                    <span
-                        onClick={() => toggleExpandComment(commentId)}
-                        className="text-blue-500 cursor-pointer ml-1"
-                    >
-                        {isExpanded ? 'Show less' : 'Read more'}
-                    </span>
-                </>
+                <input
+                    type="text"
+                    value={editingCommentContent}
+                    onChange={(e) => setEditingCommentContent(e.target.value)}
+                    className="w-full outline-none bg-white rounded-full pl-2"
+                />
             );
         }
-        return content;
+        else {
+            const words = comment.comment.split(' ');
+
+            if (words.length > 20) {
+                return (
+                    <>
+                        {isExpanded ? comment.comment : words.slice(0, 20).join(' ') + '...'}
+                        <span
+                            onClick={() => toggleExpandComment(comment.uid)}
+                            className="text-blue-500 cursor-pointer ml-1"
+                        >
+                            {isExpanded ? 'Show less' : 'Read more'}
+                        </span>
+                    </>
+                );
+            }
+            return comment.comment;
+        }
+    };
+
+    const handleEditComment = (comment) => {
+        setEditingCommentUid(comment.uid);
+        setEditingCommentContent(comment.comment);
+    }
+
+    const handleSaveEditComment = async (comment) => {
+        try {
+            const updatedComment = await updateComment(postUid, comment.uid, editingCommentContent);
+            dispatch(editComment({ postUid, comment: updatedComment }));
+            setEditingCommentUid(null);
+        }
+        catch (error) {
+            console.error('Error updating comment:', error);
+        }
+    }
+
+    const handleCancelEdit = () => {
+        setEditingCommentUid(null);
+        setEditingCommentContent('');
+    };
+
+    const confirmDeleteComment = (commentUid) => {
+        setCommentToDelete(commentUid);
+        setShowDeleteModal(true);
     };
 
     const handleDeleteComment = async () => {
         if (commentToDelete) {
-        
+
             try {
                 await deleteComment(postUid, commentToDelete);
                 dispatch(removeComment({ postUid, commentUid: commentToDelete }));
@@ -57,11 +100,6 @@ const AllComments = ({ user, postUid, openComment }) => {
                 setCommentToDelete(null);
             }
         }
-    };
-
-    const confirmDeleteComment = (commentUid) => {
-        setCommentToDelete(commentUid);
-        setShowDeleteModal(true);
     };
 
     const fetchComments = async () => {
@@ -108,7 +146,7 @@ const AllComments = ({ user, postUid, openComment }) => {
                         <div className='w-full'>
                             <div className='w-full rounded-lg bg-slate-100 p-2'>
                                 <h1 className='font-bold'>{comment.userId?.fullName}</h1>
-                                {renderCommentContent(comment.comment, comment._id)}
+                                {renderCommentContent(comment)}
                             </div>
                             <div className='px-2 flex justify-between items-center'>
                                 <div className='flex gap-2 items-center'>
@@ -118,9 +156,19 @@ const AllComments = ({ user, postUid, openComment }) => {
                                 </div>
                                 {comment.userId?._id === user._id && (
                                     <div className='flex gap-2 items-center'>
-                                        <button className='text-xs text-sky-500 hover:text-gray-700'>Edit</button>
-                                        <p>|</p>
-                                        <button onClick={() => confirmDeleteComment(comment.uid)} className='text-xs text-red-500 hover:text-gray-700'>Delete</button>
+                                        {editingCommentUid === comment.uid ? (
+                                            <>
+                                                <button onClick={() => handleSaveEditComment(comment)} className='text-xs text-green-500 hover:text-green-700'>Save</button>
+                                                <p>|</p>
+                                                <button onClick={handleCancelEdit} className='text-xs text-red-500 hover:text-red-700'>Cancel</button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <button onClick={() => handleEditComment(comment)} className='text-xs text-sky-500 hover:text-gray-700'>Edit</button>
+                                                <p>|</p>
+                                                <button onClick={() => confirmDeleteComment(comment.uid)} className='text-xs text-red-500 hover:text-gray-700'>Delete</button>
+                                            </>
+                                        )}
                                     </div>
                                 )}
                             </div>

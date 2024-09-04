@@ -57,6 +57,19 @@ export const postComment = async (postUid: string, userId: string, comment: stri
     }
 }
 
+export const updateComment = async (postUid: string, commentUid: string, comment: string) => {
+    try {
+        const response = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postUid}/comment/${commentUid}`, {
+            comment
+        });
+        return response.data.comment;
+    }
+    catch (error) {
+        console.error("Error updating comment:", error);
+        return error;
+    }
+}
+
 export const deleteComment = async (postUid: string, uid: string) => {
     try {
         const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postUid}/comment/${uid}`);

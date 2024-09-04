@@ -1,31 +1,41 @@
-import React, { useState, FormEventHandler, useContext } from 'react';
+import React, { useState, FormEventHandler, useContext, useEffect } from 'react';
 import { MdPermMedia, MdArticle, MdClose } from 'react-icons/md';
 import AddMediaModal from './AddMediaModal';
 import { AuthContext } from '@/provider/AuthProvider';
-import axios from 'axios';
 import toast from 'react-hot-toast';
 import ConfirmationModal from '@/shared/ConfirmationModal';
+import { createPost, updatePost } from '@/actions/postData';
+import { useDispatch } from 'react-redux';
+import { addPost, editPost } from '@/redux/postSlice';
 
-const PostModal = ({ isOpen, onClose }) => {
+const PostModal = ({ isOpen, onClose, post }) => {
+    const dispatch = useDispatch();
     const { user } = useContext(AuthContext);
-    const [caption, setCaption] = useState('');
+    const [content, setContent] = useState('');
     const [media, setMedia] = useState([]);
     const [isAddMediaModalOpen, setIsAddMediaModalOpen] = useState(false);
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+
+    useEffect(() => {
+        if (post) {
+            setContent(post.content || '');
+            setMedia(post.media || []);
+        }
+    }, [post]);
 
     const handleAddMedia = (uploadedMedia) => {
         setMedia(uploadedMedia);
     };
 
     const handleDiscard = () => {
-        setCaption('');
+        setContent('');
         setMedia([]);
         onClose();
         setIsConfirmationModalOpen(false);
     };
 
     const handleClose = () => {
-        if (caption || media.length > 0) {
+        if (content || media.length > 0) {
             setIsConfirmationModalOpen(true);
         } else {
             onClose();
@@ -36,34 +46,44 @@ const PostModal = ({ isOpen, onClose }) => {
         event.preventDefault();
 
         const formData = new FormData();
-        formData.append('caption', caption);
+        formData.append('content', content);
         media.forEach((file, index) => formData.append(`media[${index}]`, file));
 
         const postData = {
             userId: user?._id,
-            content: formData.get('caption'),
-            media: media.map((file) => file.name),
-        }
-        // console.log('post data:', postData);
-        if (postData) {
-            uploadData(postData);
+            content: formData.get('content'),
+            media: media.map((file) => (file.name ? file.name : file)),
+        };
+
+        if (post) {
+            updatePost(post.uid, postData)
+                .then((response) => {
+                    if (response) {
+                        dispatch(editPost({ postUid: post.uid, editedData: response }));
+                        toast.success('Post updated successfully');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error updating post:', error);
+                    toast.error('Failed to update post');
+                });
+        } else {
+            createPost(postData)
+                .then((response) => {
+                    if (response) {
+                        const { uid } = response;
+                        dispatch(addPost({ postData: response }));
+                        toast.success('Successfully Posted');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error posting:', error);
+                    toast.error('Failed to post');
+                });
         }
 
         handleDiscard();
     };
-
-    const uploadData = async (postData: object) => {
-        try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post`, postData);
-            if (response.data) {
-                toast.success('Successfully Posted');
-            }
-        }
-        catch (error) {
-            console.log(error);
-            toast.error('Post Failed');
-        }
-    }
 
     if (!isOpen) return null;
 
@@ -78,21 +98,21 @@ const PostModal = ({ isOpen, onClose }) => {
                         <MdClose size={24} />
                     </button>
 
-                    <h2 className="text-xl font-semibold mb-4">Create a Post</h2>
+                    <h2 className="text-xl font-semibold mb-4">{post ? 'Edit Post' : 'Create a Post'}</h2>
 
                     <form onSubmit={handleSubmit} className="flex-grow flex flex-col">
                         <textarea
                             className="flex-grow w-full p-2 border border-gray-300 rounded-md focus:outline-none resize-none overflow-auto mb-4"
-                            placeholder="Add a caption..."
-                            value={caption}
-                            onChange={(e) => setCaption(e.target.value)}
+                            placeholder="Add a content..."
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
                         ></textarea>
 
                         <div className="grid grid-cols-3 gap-4 mb-4">
                             {media.map((file, index) => (
                                 <img
                                     key={index}
-                                    src={URL.createObjectURL(file)}
+                                    src={typeof file === 'string' ? file : URL.createObjectURL(file)}
                                     alt="uploaded preview"
                                     className="w-full h-32 object-cover rounded-md"
                                 />
@@ -119,7 +139,7 @@ const PostModal = ({ isOpen, onClose }) => {
                                     type="submit"
                                     className="px-3 py-1 border border-sky-500 bg-sky-500 text-white rounded-lg hover:bg-white hover:text-sky-500"
                                 >
-                                    Post
+                                    {post ? 'Update' : 'Post'}
                                 </button>
                             </div>
                         </div>
@@ -127,20 +147,18 @@ const PostModal = ({ isOpen, onClose }) => {
                 </div>
             </div>
 
-            {/* AddMediaModal */}
             <AddMediaModal
                 isOpen={isAddMediaModalOpen}
                 onClose={() => setIsAddMediaModalOpen(false)}
                 onUpload={handleAddMedia}
             />
 
-            {/* ConfirmationModal */}
             <ConfirmationModal
                 isOpen={isConfirmationModalOpen}
                 onClose={() => setIsConfirmationModalOpen(false)}
                 onConfirm={handleDiscard}
-                title="Discard Post?"
-                message="You have unsaved changes. Are you sure you want to discard this post?"
+                title={post ? "Discard Changes?" : "Discard Post?"}
+                message={post ? "You have unsaved changes. Are you sure you want to discard them?" : "You have unsaved changes. Are you sure you want to discard this post?"}
                 confirmLabel="Discard"
                 cancelLabel="Cancel"
             />

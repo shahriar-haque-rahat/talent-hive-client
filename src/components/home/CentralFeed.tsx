@@ -7,12 +7,13 @@ import { AuthContext } from '@/provider/AuthProvider';
 import { useRouter } from 'next/navigation';
 import { getPosts } from '@/actions/postData';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPost } from '@/redux/postSlice';
+import { setPosts } from '@/redux/postSlice';
 
 const CentralFeed = () => {
     const dispatch = useDispatch();
     const { user } = useContext(AuthContext);
-    const posts = useSelector((state: any) => state.post.post);
+    const posts = useSelector((state: any) => state.post.posts);
+
     const router = useRouter();
     const [isPostModalOpen, setIsPostModalOpen] = useState(false);
 
@@ -35,7 +36,7 @@ const CentralFeed = () => {
         const fetchPosts = async () => {
             const fetchedPosts = await getPosts();
 
-            dispatch(setPost(fetchedPosts));
+            dispatch(setPosts(fetchedPosts));
         }
         fetchPosts();
     }, [dispatch])
@@ -70,6 +71,7 @@ const CentralFeed = () => {
             <PostModal
                 isOpen={isPostModalOpen}
                 onClose={closePostModal}
+                post={null}
             />
         </>
     );

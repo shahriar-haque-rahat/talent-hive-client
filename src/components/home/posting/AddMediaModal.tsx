@@ -1,10 +1,16 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { MdClose, MdFileUpload } from 'react-icons/md';
 
-const AddMediaModal = ({ isOpen, onClose, onUpload }) => {
+const AddMediaModal = ({ isOpen, onClose, onUpload, initialMedia = [] }) => {
     const [mediaFiles, setMediaFiles] = useState([]);
     const fileInputRef = useRef(null);
+
+    useEffect(() => {
+        if (initialMedia.length > 0) {
+            setMediaFiles(initialMedia);
+        }
+    }, [initialMedia]);
 
     const handleMediaChange = (e) => {
         const files = Array.from(e.target.files);
@@ -66,13 +72,14 @@ const AddMediaModal = ({ isOpen, onClose, onUpload }) => {
                     {mediaFiles.map((file, index) => (
                         <div key={index} className="relative">
                             <img
-                                src={URL.createObjectURL(file)}
-                                alt="preview"
-                                className="w-full h-24 object-cover rounded-md"
+                                src={typeof file === 'string' ? file : URL.createObjectURL(file)}
+                                alt="uploaded preview"
+                                className="w-full h-32 object-cover rounded-md"
                             />
                             <button
+                                type="button"
                                 onClick={() => handleRemoveMedia(index)}
-                                className="absolute top-1 right-1 text-white bg-red-500 rounded-full p-1"
+                                className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
                             >
                                 <MdClose size={16} />
                             </button>
@@ -82,8 +89,9 @@ const AddMediaModal = ({ isOpen, onClose, onUpload }) => {
 
                 <div className="flex justify-end">
                     <button
+                        type="button"
                         onClick={handleUpload}
-                        className="w-full px-3 py-1 border border-sky-500 bg-sky-500 text-white rounded-lg hover:bg-white hover:text-sky-500"
+                        className="px-3 py-1 border border-sky-500 bg-sky-500 text-white rounded-lg hover:bg-white hover:text-sky-500"
                     >
                         Upload
                     </button>

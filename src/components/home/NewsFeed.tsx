@@ -1,24 +1,32 @@
 'use client'
 
-import { commentPost, likePost, savePost, sharePost } from '@/actions/postInteraction';
+import { postComment, postLike, postSave, postShare } from '@/actions/postInteraction';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { BiBookmarkAlt, BiCommentDetail, BiLike, BiShare } from 'react-icons/bi';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CommentSection from './post-interaction/CommentSection';
 import toast from 'react-hot-toast';
 import AllComments from './post-interaction/AllComments';
+import { setComments } from '@/redux/commentSlice';
 
 const NewsFeed = ({ posts }) => {
+    const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
     const [expandedPosts, setExpandedPosts] = useState({});
     const [openComment, setOpenComment] = useState({});
 
     const toggleOpenComment = (postUid) => {
-        setOpenComment((prevState) => ({ 
-            ...prevState,
-            [postUid]: !prevState[postUid],
-        }));
+        setOpenComment((prevState) => {
+            const isClosing = prevState[postUid];
+            if (isClosing) {
+                dispatch(setComments({ postUid, comments: [] }));
+            }
+            return {
+                ...prevState,
+                [postUid]: !prevState[postUid],
+            };
+        });
     };
 
     const toggleReadMore = (index) => {
@@ -48,24 +56,24 @@ const NewsFeed = ({ posts }) => {
         return content;
     };
 
-    const handleLikePost = (postUid) => {
+    const handlepostLike = (postUid) => {
         if (user._id) {
-            likePost(postUid, user._id);
+            postLike(postUid, user._id);
         }
     }
 
-    const handleSharePost = (postUid) => {
+    const handlepostShare = (postUid) => {
         if (user._id) {
-            sharePost(postUid, user._id)
+            postShare(postUid, user._id)
                 .then(() => {
                     toast.success('Post shared');
                 })
         }
     }
 
-    const handleSavePost = (postUid) => {
+    const handlepostSave = (postUid) => {
         if (user._id) {
-            savePost(postUid, user._id);
+            postSave(postUid, user._id);
         }
     }
 
@@ -111,16 +119,16 @@ const NewsFeed = ({ posts }) => {
                                 <p className=' cursor-pointer hover:text-sky-500 hover:underline'>5 Shares</p>
                             </div>
                             <div className=' flex justify-evenly'>
-                                <button onClick={() => handleLikePost(post.uid)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                <button onClick={() => handlepostLike(post.uid)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
                                     <BiLike size={20} />Like
                                 </button>
                                 <button onClick={() => toggleOpenComment(post.uid)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
                                     <BiCommentDetail size={20} />Comment
                                 </button>
-                                <button onClick={() => handleSharePost(post.uid)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                <button onClick={() => handlepostShare(post.uid)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
                                     <BiShare style={{ transform: "scaleX(-1)" }} size={20} />Share
                                 </button>
-                                <button onClick={() => handleSavePost(post.uid)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                <button onClick={() => handlepostSave(post.uid)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
                                     <BiBookmarkAlt size={20} />Save
                                 </button>
                             </div>
@@ -131,7 +139,7 @@ const NewsFeed = ({ posts }) => {
                             openComment[post.uid] &&
                             <div>
                                 <CommentSection user={user} postUid={post.uid} />
-                                <AllComments postUid={post.uid} />
+                                <AllComments user={user} postUid={post.uid} openComment={openComment}/>
                             </div>
                         }
                     </div>

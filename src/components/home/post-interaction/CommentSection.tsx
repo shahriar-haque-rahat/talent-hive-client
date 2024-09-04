@@ -1,25 +1,32 @@
-import { commentPost } from '@/actions/postInteraction';
+import { postComment } from '@/actions/postInteraction';
+import { addComment } from '@/redux/commentSlice';
 import { Image } from '@nextui-org/react';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { LuSendHorizonal } from "react-icons/lu";
+import { useDispatch } from 'react-redux';
 
 const CommentSection = ({ user, postUid }) => {
     const [comment, setComment] = useState('');
+    const dispatch = useDispatch();
 
-    const handleCommentPost = (postUid) => {
+    const handlePostComment = (postUid) => {
         if (user._id && comment.trim()) {
-            commentPost(postUid, user._id, comment)
-                .then(() => {
+            postComment(postUid, user._id, comment)
+                .then((response) => {
                     toast.success('Comment posted');
                     setComment('');
+                    dispatch(addComment({ postUid, comment: response }));
                 })
+                .catch(error => {
+                    toast.error('Failed to post comment');
+                });
         }
-    }
+    };
 
     return (
         <>
-            <div className=" p-4 flex items-center gap-1">
+            <div className=" p-4 border-b border-gray-300 flex items-center gap-1">
                 <Image
                     src={user.profileImage}
                     alt={user.fullName}
@@ -37,7 +44,7 @@ const CommentSection = ({ user, postUid }) => {
                         onChange={(e) => setComment(e.target.value)}
                     />
                     <LuSendHorizonal
-                        onClick={() => comment.trim() && handleCommentPost(postUid)}
+                        onClick={() => comment.trim() && handlePostComment(postUid)}
                         size={20}
                         className={` cursor-pointer ${comment.trim() ? 'text-black' : 'text-gray-400'}`}
                         style={{ pointerEvents: comment.trim() ? 'auto' : 'none' }}

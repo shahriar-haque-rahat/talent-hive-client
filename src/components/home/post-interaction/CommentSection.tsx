@@ -1,5 +1,6 @@
 import { postComment } from '@/actions/postInteraction';
 import { addComment } from '@/redux/commentSlice';
+import { updatePostOnInteraction } from '@/redux/postSlice';
 import { Image } from '@nextui-org/react';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -16,7 +17,8 @@ const CommentSection = ({ user, postId }) => {
                 .then((response) => {
                     toast.success('Comment posted');
                     setComment('');
-                    dispatch(addComment({ postId, comment: response }));
+                    dispatch(addComment({ postId, comment: response.comment }));
+                    dispatch(updatePostOnInteraction(response.post));
                 })
                 .catch(error => {
                     toast.error('Failed to post comment');

@@ -12,8 +12,8 @@ const EditAndDeletePost = ({ onEditDeleteClose, post }) => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [postToDelete, setPostToDelete] = useState(null);
 
-    const confirmDeletePost = (postUid) => {
-        setPostToDelete(postUid);
+    const confirmDeletePost = (postId) => {
+        setPostToDelete(postId);
         setShowDeleteModal(true);
     };
 
@@ -21,8 +21,8 @@ const EditAndDeletePost = ({ onEditDeleteClose, post }) => {
         if (postToDelete) {
 
             try {
-                await deletePost(post.uid);
-                dispatch(removePost(post.uid));
+                await deletePost(post._id);
+                dispatch(removePost(post._id));
             }
             catch (error) {
                 console.error('Error deleting post:', error);

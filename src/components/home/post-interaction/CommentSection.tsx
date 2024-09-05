@@ -6,17 +6,17 @@ import toast from 'react-hot-toast';
 import { LuSendHorizonal } from "react-icons/lu";
 import { useDispatch } from 'react-redux';
 
-const CommentSection = ({ user, postUid }) => {
+const CommentSection = ({ user, postId }) => {
     const [comment, setComment] = useState('');
     const dispatch = useDispatch();
 
-    const handlePostComment = (postUid) => {
+    const handlePostComment = (postId) => {
         if (user._id && comment.trim()) {
-            postComment(postUid, user._id, comment)
+            postComment(postId, user._id, comment)
                 .then((response) => {
                     toast.success('Comment posted');
                     setComment('');
-                    dispatch(addComment({ postUid, comment: response }));
+                    dispatch(addComment({ postId, comment: response }));
                 })
                 .catch(error => {
                     toast.error('Failed to post comment');
@@ -44,7 +44,7 @@ const CommentSection = ({ user, postUid }) => {
                         onChange={(e) => setComment(e.target.value)}
                     />
                     <LuSendHorizonal
-                        onClick={() => comment.trim() && handlePostComment(postUid)}
+                        onClick={() => comment.trim() && handlePostComment(postId)}
                         size={20}
                         className={` cursor-pointer ${comment.trim() ? 'text-black' : 'text-gray-400'}`}
                         style={{ pointerEvents: comment.trim() ? 'auto' : 'none' }}

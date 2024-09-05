@@ -5,31 +5,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setComments, removeComment, editComment } from '@/redux/commentSlice';
 import ConfirmationModal from '@/shared/ConfirmationModal';
 
-const AllComments = ({ user, postUid, openComment }) => {
+const AllComments = ({ user, postId, openComment }) => {
     const dispatch = useDispatch();
-    const isOpen = openComment[postUid];
-    const comments = useSelector(state => state.comment.commentsByPost[postUid] || []);
+    const isOpen = openComment[postId];
+    const comments = useSelector(state => state.comment.commentsByPost[postId] || []);
     const [expandedComments, setExpandedComments] = useState({});
     const [skip, setSkip] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const isFetching = useRef(false);
 
-    const [editingCommentUid, setEditingCommentUid] = useState(null);
+    const [editingCommentId, setEditingCommentId] = useState(null);
     const [editingCommentContent, setEditingCommentContent] = useState('');
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [commentToDelete, setCommentToDelete] = useState(null);
 
-    const toggleExpandComment = (commentUid) => {
+    const toggleExpandComment = (commentId) => {
         setExpandedComments(prevState => ({
             ...prevState,
-            [commentUid]: !prevState[commentUid],
+            [commentId]: !prevState[commentId],
         }));
     };
 
     const renderCommentContent = (comment: any) => {
-        const isExpanded = expandedComments[comment.uid];
-        const isEditing = editingCommentUid === comment.uid;
+        const isExpanded = expandedComments[comment._id];
+        const isEditing = editingCommentId === comment._id;
 
         if (isEditing) {
             return (
@@ -49,7 +49,7 @@ const AllComments = ({ user, postUid, openComment }) => {
                     <>
                         {isExpanded ? comment.comment : words.slice(0, 20).join(' ') + '...'}
                         <span
-                            onClick={() => toggleExpandComment(comment.uid)}
+                            onClick={() => toggleExpandComment(comment._id)}
                             className="text-blue-500 cursor-pointer ml-1"
                         >
                             {isExpanded ? 'Show less' : 'Read more'}
@@ -62,15 +62,15 @@ const AllComments = ({ user, postUid, openComment }) => {
     };
 
     const handleEditComment = (comment) => {
-        setEditingCommentUid(comment.uid);
+        setEditingCommentId(comment._id);
         setEditingCommentContent(comment.comment);
     }
 
     const handleSaveEditComment = async (comment) => {
         try {
-            const updatedComment = await updateComment(postUid, comment.uid, editingCommentContent);
-            dispatch(editComment({ postUid, comment: updatedComment }));
-            setEditingCommentUid(null);
+            const updatedComment = await updateComment(postId, comment._id, editingCommentContent);
+            dispatch(editComment({ postId, comment: updatedComment }));
+            setEditingCommentId(null);
         }
         catch (error) {
             console.error('Error updating comment:', error);
@@ -78,12 +78,12 @@ const AllComments = ({ user, postUid, openComment }) => {
     }
 
     const handleCancelEdit = () => {
-        setEditingCommentUid(null);
+        setEditingCommentId(null);
         setEditingCommentContent('');
     };
 
-    const confirmDeleteComment = (commentUid) => {
-        setCommentToDelete(commentUid);
+    const confirmDeleteComment = (commentId) => {
+        setCommentToDelete(commentId);
         setShowDeleteModal(true);
     };
 
@@ -91,8 +91,8 @@ const AllComments = ({ user, postUid, openComment }) => {
         if (commentToDelete) {
 
             try {
-                await deleteComment(postUid, commentToDelete);
-                dispatch(removeComment({ postUid, commentUid: commentToDelete }));
+                await deleteComment(postId, commentToDelete);
+                dispatch(removeComment({ postId, commentId: commentToDelete }));
             } catch (error) {
                 console.error('Error deleting comment:', error);
             } finally {
@@ -108,8 +108,8 @@ const AllComments = ({ user, postUid, openComment }) => {
         isFetching.current = true;
 
         try {
-            const newComments = await getComments(postUid, skip);
-            dispatch(setComments({ postUid, comments: [...comments, ...newComments] }));
+            const newComments = await getComments(postId, skip);
+            dispatch(setComments({ postId, comments: [...comments, ...newComments] }));
             setSkip(prevSkip => prevSkip + newComments.length);
 
             if (newComments.length < 5) {
@@ -125,11 +125,11 @@ const AllComments = ({ user, postUid, openComment }) => {
     useEffect(() => {
         if (comments.length === 0 && isOpen) {
             setSkip(0);
-            dispatch(setComments({ postUid, comments: [] }));
+            dispatch(setComments({ postId, comments: [] }));
             setHasMore(true);
             fetchComments();
         }
-    }, [postUid, isOpen]);
+    }, [postId, isOpen]);
 
     return (
         <>
@@ -156,7 +156,7 @@ const AllComments = ({ user, postUid, openComment }) => {
                                 </div>
                                 {comment.userId?._id === user._id && (
                                     <div className='flex gap-2 items-center'>
-                                        {editingCommentUid === comment.uid ? (
+                                        {editingCommentId === comment._id ? (
                                             <>
                                                 <button onClick={() => handleSaveEditComment(comment)} className='text-xs text-green-500 hover:text-green-700'>Save</button>
                                                 <p>|</p>
@@ -166,7 +166,7 @@ const AllComments = ({ user, postUid, openComment }) => {
                                             <>
                                                 <button onClick={() => handleEditComment(comment)} className='text-xs text-sky-500 hover:text-gray-700'>Edit</button>
                                                 <p>|</p>
-                                                <button onClick={() => confirmDeleteComment(comment.uid)} className='text-xs text-red-500 hover:text-gray-700'>Delete</button>
+                                                <button onClick={() => confirmDeleteComment(comment._id)} className='text-xs text-red-500 hover:text-gray-700'>Delete</button>
                                             </>
                                         )}
                                     </div>

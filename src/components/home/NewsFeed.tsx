@@ -19,22 +19,22 @@ const NewsFeed = ({ posts }) => {
     const [openComment, setOpenComment] = useState({});
     const [openEditDeleteModal, setOpenEditDeleteModal] = useState({});
 
-    const toggleEditDeleteModal = (postUid) => {
+    const toggleEditDeleteModal = (postId) => {
         setOpenEditDeleteModal((prevState) => ({
             ...prevState,
-            [postUid]: !prevState[postUid],
+            [postId]: !prevState[postId],
         }));
     };
 
-    const toggleOpenComment = (postUid) => {
+    const toggleOpenComment = (postId) => {
         setOpenComment((prevState) => {
-            const isClosing = prevState[postUid];
+            const isClosing = prevState[postId];
             if (isClosing) {
-                dispatch(setComments({ postUid, comments: [] }));
+                dispatch(setComments({ postId, comments: [] }));
             }
             return {
                 ...prevState,
-                [postUid]: !prevState[postUid],
+                [postId]: !prevState[postId],
             };
         });
     };
@@ -66,24 +66,24 @@ const NewsFeed = ({ posts }) => {
         return content;
     };
 
-    const handlePostLike = (postUid) => {
+    const handlePostLike = (postId) => {
         if (user._id) {
-            postLike(postUid, user._id)
+            postLike(postId, user._id)
         }
     }
 
-    const handlePostShare = (postUid) => {
+    const handlePostShare = (postId) => {
         if (user._id) {
-            postShare(postUid, user._id)
+            postShare(postId, user._id)
                 .then(() => {
                     toast.success('Post shared');
                 })
         }
     }
 
-    const handlePostSave = (postUid) => {
+    const handlePostSave = (postId) => {
         if (user._id) {
-            postSave(postUid, user._id);
+            postSave(postId, user._id);
         }
     }
 
@@ -111,12 +111,12 @@ const NewsFeed = ({ posts }) => {
                                     <>
                                         <button
                                             className='hover:bg-gray-200 py-1'
-                                            onClick={() => toggleEditDeleteModal(post.uid)}
+                                            onClick={() => toggleEditDeleteModal(post._id)}
                                         >
                                             <CiMenuKebab />
                                         </button>
-                                        {openEditDeleteModal[post.uid] && (
-                                            <EditAndDeletePost onEditDeleteClose={() => toggleEditDeleteModal(post.uid)} post={post} />
+                                        {openEditDeleteModal[post._id] && (
+                                            <EditAndDeletePost onEditDeleteClose={() => toggleEditDeleteModal(post._id)} post={post} />
                                         )}
                                     </>
                                 )}
@@ -142,20 +142,20 @@ const NewsFeed = ({ posts }) => {
                         <div>
                             <div className=' text-xs flex items-center justify-end gap-2 text-gray-500 px-3 py-1'>
                                 <p className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.likesCount} {post.likesCount > 1 ? 'Likes' : 'Like'}</p><p className=' font-bold'>.</p>
-                                <p onClick={() => toggleOpenComment(post.uid)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.commentsCount} {post.likesCount > 1 ? 'Comments' : 'Comment'}</p><p className=' font-bold'>.</p>
+                                <p onClick={() => toggleOpenComment(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.commentsCount} {post.likesCount > 1 ? 'Comments' : 'Comment'}</p><p className=' font-bold'>.</p>
                                 <p className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.sharesCount} {post.likesCount > 1 ? 'Shares' : 'Share'}</p>
                             </div>
                             <div className=' flex justify-evenly'>
-                                <button onClick={() => handlePostLike(post.uid)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                <button onClick={() => handlePostLike(post._id)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
                                     <BiLike size={20} />Like
                                 </button>
-                                <button onClick={() => toggleOpenComment(post.uid)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                <button onClick={() => toggleOpenComment(post._id)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
                                     <BiCommentDetail size={20} />Comment
                                 </button>
-                                <button onClick={() => handlePostShare(post.uid)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                <button onClick={() => handlePostShare(post._id)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
                                     <BiShare style={{ transform: "scaleX(-1)" }} size={20} />Share
                                 </button>
-                                <button onClick={() => handlePostSave(post.uid)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                <button onClick={() => handlePostSave(post._id)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
                                     <BiBookmarkAlt size={20} />Save
                                 </button>
                             </div>
@@ -163,10 +163,10 @@ const NewsFeed = ({ posts }) => {
 
                         {/* comment section */}
                         {
-                            openComment[post.uid] &&
+                            openComment[post._id] &&
                             <div>
-                                <CommentSection user={user} postUid={post.uid} />
-                                <AllComments user={user} postUid={post.uid} openComment={openComment} />
+                                <CommentSection user={user} postId={post._id} />
+                                <AllComments user={user} postId={post._id} openComment={openComment} />
                             </div>
                         }
                     </div>

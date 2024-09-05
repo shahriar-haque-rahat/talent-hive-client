@@ -11,8 +11,8 @@ const postSlice = createSlice({
             state.posts.unshift(postData);
         },
         editPost: (state, action) => {
-            const { postUid, editedData } = action.payload;
-            const index = state.posts.findIndex(post => post.uid === postUid);
+            const { postId, editedData } = action.payload;
+            const index = state.posts.findIndex(post => post._id === postId);
             if (index !== -1) {
                 state.posts[index] = {
                     ...state.posts[index],
@@ -21,8 +21,8 @@ const postSlice = createSlice({
             }
         },
         removePost: (state, action) => {
-            const postUid = action.payload;
-            state.posts = state.posts.filter(post => post.uid !== postUid);
+            const postId = action.payload;
+            state.posts = state.posts.filter(post => post._id !== postId);
         },
         setPosts: (state, action) => {
             state.posts = action.payload;

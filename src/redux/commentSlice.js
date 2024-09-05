@@ -7,30 +7,30 @@ const commentSlice = createSlice({
     },
     reducers: {
         setComments: (state, action) => {
-            const { postUid, comments } = action.payload;
-            state.commentsByPost[postUid] = comments;
+            const { postId, comments } = action.payload;
+            state.commentsByPost[postId] = comments;
         },
         addComment: (state, action) => {
-            const { postUid, comment } = action.payload;
-            if (state.commentsByPost[postUid]) {
-                state.commentsByPost[postUid].unshift(comment);
+            const { postId, comment } = action.payload;
+            if (state.commentsByPost[postId]) {
+                state.commentsByPost[postId].unshift(comment);
             } else {
-                state.commentsByPost[postUid] = [comment];
+                state.commentsByPost[postId] = [comment];
             }
         },
         editComment: (state, action) => {
-            const { postUid, comment } = action.payload;
-            if (state.commentsByPost[postUid]) {
-                state.commentsByPost[postUid] = state.commentsByPost[postUid].map(
-                    c => c.uid === comment.uid ? comment : c
+            const { postId, comment } = action.payload;
+            if (state.commentsByPost[postId]) {
+                state.commentsByPost[postId] = state.commentsByPost[postId].map(
+                    c => c._id === comment._id ? comment : c
                 );
             }
         },
         removeComment: (state, action) => {
-            const { postUid, commentUid } = action.payload;
-            if (state.commentsByPost[postUid]) {
-                state.commentsByPost[postUid] = state.commentsByPost[postUid].filter(
-                    comment => comment.uid !== commentUid
+            const { postId, commentId } = action.payload;
+            if (state.commentsByPost[postId]) {
+                state.commentsByPost[postId] = state.commentsByPost[postId].filter(
+                    comment => comment._id !== commentId
                 );
             }
         },

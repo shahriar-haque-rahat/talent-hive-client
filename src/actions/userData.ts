@@ -1,8 +1,8 @@
 import axios from "axios"
 
-export const getUser = async (userUid) => {
+export const getUser = async (userId) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/uid/${userUid}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/id/${userId}`);
         return response.data;
     }
     catch (error) {

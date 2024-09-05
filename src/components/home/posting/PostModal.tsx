@@ -56,10 +56,10 @@ const PostModal = ({ isOpen, onClose, post }) => {
         };
 
         if (post) {
-            updatePost(post.uid, postData)
+            updatePost(post._id, postData)
                 .then((response) => {
                     if (response) {
-                        dispatch(editPost({ postUid: post.uid, editedData: response }));
+                        dispatch(editPost({ postId: post._id, editedData: response }));
                         toast.success('Post updated successfully');
                     }
                 })
@@ -71,7 +71,7 @@ const PostModal = ({ isOpen, onClose, post }) => {
             createPost(postData)
                 .then((response) => {
                     if (response) {
-                        const { uid } = response;
+                        const { _id } = response;
                         dispatch(addPost({ postData: response }));
                         toast.success('Successfully Posted');
                     }

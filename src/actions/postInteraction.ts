@@ -1,9 +1,9 @@
 import axios from "axios"
 
 // Like
-export const getLikes = async (postUid: string) => {
+export const getLikes = async (postId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postUid}/like`)
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/like`)
 
         return response;
     }
@@ -13,10 +13,10 @@ export const getLikes = async (postUid: string) => {
     }
 }
 
-export const postLike = async (postUid: string, userId: string) => {
+export const postLike = async (postId: string, userId: string) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postUid}/like`, {
-            postUid,
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/like`, {
+            postId,
             userId
         });
         return response;
@@ -28,9 +28,9 @@ export const postLike = async (postUid: string, userId: string) => {
 }
 
 // Comment
-export const getComments = async (postUid: string, skip: number = 0, limit: number = 5) => {
+export const getComments = async (postId: string, skip: number = 0, limit: number = 5) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postUid}/comment`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/comment`, {
             params: { skip, limit }
         });
 
@@ -42,10 +42,10 @@ export const getComments = async (postUid: string, skip: number = 0, limit: numb
     }
 }
 
-export const postComment = async (postUid: string, userId: string, comment: string) => {
+export const postComment = async (postId: string, userId: string, comment: string) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postUid}/comment`, {
-            postUid,
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/comment`, {
+            postId,
             userId,
             comment
         });
@@ -57,9 +57,9 @@ export const postComment = async (postUid: string, userId: string, comment: stri
     }
 }
 
-export const updateComment = async (postUid: string, commentUid: string, comment: string) => {
+export const updateComment = async (postId: string, commentId: string, comment: string) => {
     try {
-        const response = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postUid}/comment/${commentUid}`, {
+        const response = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/comment/${commentId}`, {
             comment
         });
         return response.data.comment;
@@ -70,9 +70,9 @@ export const updateComment = async (postUid: string, commentUid: string, comment
     }
 }
 
-export const deleteComment = async (postUid: string, uid: string) => {
+export const deleteComment = async (postId: string, id: string) => {
     try {
-        const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postUid}/comment/${uid}`);
+        const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/comment/${id}`);
         return response.data.comment;
     }
     catch (error) {
@@ -82,9 +82,9 @@ export const deleteComment = async (postUid: string, uid: string) => {
 }
 
 // Share
-export const getShares = async (postUid: string) => {
+export const getShares = async (postId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postUid}/share`)
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/share`)
 
         return response;
     }
@@ -94,10 +94,10 @@ export const getShares = async (postUid: string) => {
     }
 }
 
-export const postShare = async (postUid: string, userId: string) => {
+export const postShare = async (postId: string, userId: string) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postUid}/share`, {
-            postUid,
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/share`, {
+            postId,
             userId
         });
         return response;
@@ -109,9 +109,9 @@ export const postShare = async (postUid: string, userId: string) => {
 }
 
 // Save
-export const getSaves = async (postUid: string) => {
+export const getSaves = async (postId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postUid}/save`)
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/save`)
 
         return response;
     }
@@ -121,10 +121,10 @@ export const getSaves = async (postUid: string) => {
     }
 }
 
-export const postSave = async (postUid: string, userId: string) => {
+export const postSave = async (postId: string, userId: string) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postUid}/save`, {
-            postUid,
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/save`, {
+            postId,
             userId
         });
         return response;

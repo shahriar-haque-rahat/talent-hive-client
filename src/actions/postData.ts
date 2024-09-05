@@ -13,9 +13,9 @@ export const getPosts = async () => {
     }
 };
 
-export const getOnePost = async (postUid: string) => {
+export const getOnePost = async (postId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postUid}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}`);
         const post = response.data;
 
         return post;
@@ -39,9 +39,9 @@ export const createPost = async (postData: any) => {
     }
 };
 
-export const updatePost = async (postUid: string, updateData: any) => {
+export const updatePost = async (postId: string, updateData: any) => {
     try {
-        const response = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postUid}`, updateData);
+        const response = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}`, updateData);
         const updatedPost = response.data;
 
         return updatedPost;
@@ -52,9 +52,9 @@ export const updatePost = async (postUid: string, updateData: any) => {
     }
 };
 
-export const deletePost = async (postUid: string) => {
+export const deletePost = async (postId: string) => {
     try {
-        const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postUid}`);
+        const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}`);
         return response.data;
     }
     catch (error) {

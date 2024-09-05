@@ -8,8 +8,8 @@ import { AuthContextValues, FormEventHandler, InputChangeEventHandler, RegisterD
 import { handleFormSubmit, handleInputChange } from '@/actions/formSubmitAndValidation';
 import Link from 'next/link';
 
-interface RegisterDataIncludeUID extends RegisterData {
-    uid: string;
+interface RegisterDataIncludeID extends RegisterData {
+    id: string;
 }
 
 const roles = [
@@ -27,7 +27,7 @@ const Register = () => {
     const toggleVisibility = () => setIsVisible(!isVisible);
 
     const handleSubmit: FormEventHandler = (event) =>
-        handleFormSubmit<RegisterDataIncludeUID>(
+        handleFormSubmit<RegisterDataIncludeID>(
             event,
             async (data) => { await register(data); },
             { status: 'inactive', role },

@@ -5,7 +5,8 @@ export const getLikes = async (postId: string) => {
     try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/like`)
 
-        return response;
+        // console.log(response.data);
+        return response.data;
     }
     catch (error) {
         console.error("Error getting likes:", error);
@@ -19,7 +20,9 @@ export const postLike = async (postId: string, userId: string) => {
             postId,
             userId
         });
-        return response;
+
+        // console.log(response.data);
+        return response.data;
     }
     catch (error) {
         console.error("Error liking post:", error);
@@ -34,7 +37,8 @@ export const getComments = async (postId: string, skip: number = 0, limit: numbe
             params: { skip, limit }
         });
 
-        return response.data.comments;
+        // console.log(response.data);
+        return response.data;
     }
     catch (error) {
         console.error("Error getting comments:", error);
@@ -49,7 +53,9 @@ export const postComment = async (postId: string, userId: string, comment: strin
             userId,
             comment
         });
-        return response.data.comment;
+
+        // console.log(response.data);
+        return response.data;
     }
     catch (error) {
         console.error("Error commenting post:", error);
@@ -62,7 +68,9 @@ export const updateComment = async (postId: string, commentId: string, comment: 
         const response = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/comment/${commentId}`, {
             comment
         });
-        return response.data.comment;
+
+        // console.log(response.data);
+        return response.data;
     }
     catch (error) {
         console.error("Error updating comment:", error);
@@ -73,7 +81,9 @@ export const updateComment = async (postId: string, commentId: string, comment: 
 export const deleteComment = async (postId: string, id: string) => {
     try {
         const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/comment/${id}`);
-        return response.data.comment;
+
+        // console.log(response.data);
+        return response.data;
     }
     catch (error) {
         console.log("Error deleting comment:", error);
@@ -86,7 +96,8 @@ export const getShares = async (postId: string) => {
     try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/share`)
 
-        return response;
+        // console.log(response.data);
+        return response.data;
     }
     catch (error) {
         console.error("Error getting shares:", error);
@@ -100,7 +111,9 @@ export const postShare = async (postId: string, userId: string) => {
             postId,
             userId
         });
-        return response;
+
+        // console.log(response.data);
+        return response.data;
     }
     catch (error) {
         console.error("Error sharing post:", error);
@@ -113,7 +126,8 @@ export const getSaves = async (postId: string) => {
     try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/save`)
 
-        return response;
+        // console.log(response.data);
+        return response.data;
     }
     catch (error) {
         console.error("Error getting saves:", error);
@@ -127,7 +141,9 @@ export const postSave = async (postId: string, userId: string) => {
             postId,
             userId
         });
-        return response;
+
+        // console.log(response.data);
+        return response.data;
     }
     catch (error) {
         console.error("Error saving post:", error);

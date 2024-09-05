@@ -11,33 +11,16 @@ import AllComments from './post-interaction/AllComments';
 import { setComments } from '@/redux/commentSlice';
 import { CiMenuKebab } from 'react-icons/ci';
 import EditAndDeletePost from './posting/EditAndDeletePost';
+import { updatePostOnInteraction } from '@/redux/postSlice';
+import AllLikes from './post-interaction/AllLikes';
 
 const NewsFeed = ({ posts }) => {
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
     const [expandedPosts, setExpandedPosts] = useState({});
-    const [openComment, setOpenComment] = useState({});
     const [openEditDeleteModal, setOpenEditDeleteModal] = useState({});
-
-    const toggleEditDeleteModal = (postId) => {
-        setOpenEditDeleteModal((prevState) => ({
-            ...prevState,
-            [postId]: !prevState[postId],
-        }));
-    };
-
-    const toggleOpenComment = (postId) => {
-        setOpenComment((prevState) => {
-            const isClosing = prevState[postId];
-            if (isClosing) {
-                dispatch(setComments({ postId, comments: [] }));
-            }
-            return {
-                ...prevState,
-                [postId]: !prevState[postId],
-            };
-        });
-    };
+    const [openComment, setOpenComment] = useState({});
+    const [openLike, setOpenLike] = useState({ isOpen: false, postId: null });
 
     const toggleReadMore = (index) => {
         setExpandedPosts((prevState) => ({
@@ -66,16 +49,44 @@ const NewsFeed = ({ posts }) => {
         return content;
     };
 
+    const toggleEditDeleteModal = (postId) => {
+        setOpenEditDeleteModal((prevState) => ({
+            ...prevState,
+            [postId]: !prevState[postId],
+        }));
+    };
+
+    const toggleOpenComment = (postId) => {
+        setOpenComment((prevState) => {
+            const isClosing = prevState[postId];
+            if (isClosing) {
+                dispatch(setComments({ postId, comments: [] }));
+            }
+            return {
+                ...prevState,
+                [postId]: !prevState[postId],
+            };
+        });
+    };
+
+    const toggleOpenLike = (postId) => {
+        setOpenLike({ isOpen: !openLike.isOpen, postId });
+    }
+
     const handlePostLike = (postId) => {
         if (user._id) {
             postLike(postId, user._id)
+                .then((response) => {
+                    dispatch(updatePostOnInteraction(response.post));
+                })
         }
     }
 
     const handlePostShare = (postId) => {
         if (user._id) {
             postShare(postId, user._id)
-                .then(() => {
+                .then((response) => {
+                    dispatch(updatePostOnInteraction(response.post));
                     toast.success('Post shared');
                 })
         }
@@ -83,7 +94,10 @@ const NewsFeed = ({ posts }) => {
 
     const handlePostSave = (postId) => {
         if (user._id) {
-            postSave(postId, user._id);
+            postSave(postId, user._id)
+                .then((response) => {
+                    dispatch(updatePostOnInteraction(response.post));
+                })
         }
     }
 
@@ -141,7 +155,7 @@ const NewsFeed = ({ posts }) => {
                         {/* TODO: singular plural has to be defined */}
                         <div>
                             <div className=' text-xs flex items-center justify-end gap-2 text-gray-500 px-3 py-1'>
-                                <p className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.likesCount} {post.likesCount > 1 ? 'Likes' : 'Like'}</p><p className=' font-bold'>.</p>
+                                <p onClick={() => toggleOpenLike(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.likesCount} {post.likesCount > 1 ? 'Likes' : 'Like'}</p><p className=' font-bold'>.</p>
                                 <p onClick={() => toggleOpenComment(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.commentsCount} {post.likesCount > 1 ? 'Comments' : 'Comment'}</p><p className=' font-bold'>.</p>
                                 <p className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.sharesCount} {post.likesCount > 1 ? 'Shares' : 'Share'}</p>
                             </div>
@@ -172,6 +186,8 @@ const NewsFeed = ({ posts }) => {
                     </div>
                 ))
             }
+
+            <AllLikes openLike={openLike.isOpen} toggleOpenLike={toggleOpenLike} postId={openLike.postId} />
         </div>
     );
 };

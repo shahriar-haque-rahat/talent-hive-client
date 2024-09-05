@@ -4,6 +4,7 @@ import { Image } from '@nextui-org/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setComments, removeComment, editComment } from '@/redux/commentSlice';
 import ConfirmationModal from '@/shared/ConfirmationModal';
+import { updatePostOnInteraction } from '@/redux/postSlice';
 
 const AllComments = ({ user, postId, openComment }) => {
     const dispatch = useDispatch();
@@ -69,7 +70,7 @@ const AllComments = ({ user, postId, openComment }) => {
     const handleSaveEditComment = async (comment) => {
         try {
             const updatedComment = await updateComment(postId, comment._id, editingCommentContent);
-            dispatch(editComment({ postId, comment: updatedComment }));
+            dispatch(editComment({ postId, comment: updatedComment.comment }));
             setEditingCommentId(null);
         }
         catch (error) {
@@ -91,11 +92,16 @@ const AllComments = ({ user, postId, openComment }) => {
         if (commentToDelete) {
 
             try {
-                await deleteComment(postId, commentToDelete);
+                await deleteComment(postId, commentToDelete)
+                    .then((response) => {
+                        dispatch(updatePostOnInteraction(response.post));
+                    })
                 dispatch(removeComment({ postId, commentId: commentToDelete }));
-            } catch (error) {
+            }
+            catch (error) {
                 console.error('Error deleting comment:', error);
-            } finally {
+            }
+            finally {
                 setShowDeleteModal(false);
                 setCommentToDelete(null);
             }
@@ -109,10 +115,18 @@ const AllComments = ({ user, postId, openComment }) => {
 
         try {
             const newComments = await getComments(postId, skip);
-            dispatch(setComments({ postId, comments: [...comments, ...newComments] }));
-            setSkip(prevSkip => prevSkip + newComments.length);
+            if (newComments.comments.length > 0) {
+                dispatch(setComments({
+                    postId,
+                    comments: [...comments, ...newComments.comments]
+                }));
 
-            if (newComments.length < 5) {
+                setSkip(prevSkip => prevSkip + newComments.comments.length);
+
+                if (newComments.comments.length < 5) {
+                    setHasMore(false);
+                }
+            } else {
                 setHasMore(false);
             }
         } catch (error) {
@@ -125,11 +139,11 @@ const AllComments = ({ user, postId, openComment }) => {
     useEffect(() => {
         if (comments.length === 0 && isOpen) {
             setSkip(0);
-            dispatch(setComments({ postId, comments: [] }));
             setHasMore(true);
             fetchComments();
         }
     }, [postId, isOpen]);
+
 
     return (
         <>

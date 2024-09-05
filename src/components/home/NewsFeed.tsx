@@ -3,7 +3,7 @@
 import { postComment, postLike, postSave, postShare } from '@/actions/postInteraction';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { BiBookmarkAlt, BiCommentDetail, BiLike, BiShare } from 'react-icons/bi';
+import { BiBookmarkAlt, BiCommentDetail, BiLike, BiShare, BiSolidLike } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
 import CommentSection from './post-interaction/CommentSection';
 import toast from 'react-hot-toast';
@@ -73,14 +73,20 @@ const NewsFeed = ({ posts }) => {
         setOpenLike({ isOpen: !openLike.isOpen, postId });
     }
 
-    const handlePostLike = (postId) => {
+    const handlePostLike = async (postId) => {
         if (user._id) {
-            postLike(postId, user._id)
-                .then((response) => {
-                    dispatch(updatePostOnInteraction(response.post));
-                })
+            try {
+                const response = await postLike(postId, user._id);
+                const isLiked = true;
+                const updatedPost = { ...response.post, isLiked };
+
+                dispatch(updatePostOnInteraction(updatedPost));
+            }
+            catch (error) {
+                console.error("Error liking post:", error);
+            }
         }
-    }
+    };
 
     const handlePostShare = (postId) => {
         if (user._id) {
@@ -159,17 +165,22 @@ const NewsFeed = ({ posts }) => {
                                 <p onClick={() => toggleOpenComment(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.commentsCount} {post.likesCount > 1 ? 'Comments' : 'Comment'}</p><p className=' font-bold'>.</p>
                                 <p className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.sharesCount} {post.likesCount > 1 ? 'Shares' : 'Share'}</p>
                             </div>
-                            <div className=' flex justify-evenly'>
-                                <button onClick={() => handlePostLike(post._id)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
-                                    <BiLike size={20} />Like
-                                </button>
-                                <button onClick={() => toggleOpenComment(post._id)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                            <div className='flex justify-evenly'>
+                                {post.isLiked
+                                    ? <button onClick={() => handlePostLike(post._id)} className='hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                        <BiSolidLike size={20} />Liked
+                                    </button>
+                                    : <button onClick={() => handlePostLike(post._id)} className='hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                        <BiLike size={20} />Like
+                                    </button>
+                                }
+                                <button onClick={() => toggleOpenComment(post._id)} className='hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
                                     <BiCommentDetail size={20} />Comment
                                 </button>
-                                <button onClick={() => handlePostShare(post._id)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                <button onClick={() => handlePostShare(post._id)} className='hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
                                     <BiShare style={{ transform: "scaleX(-1)" }} size={20} />Share
                                 </button>
-                                <button onClick={() => handlePostSave(post._id)} className=' hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                <button onClick={() => handlePostSave(post._id)} className='hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
                                     <BiBookmarkAlt size={20} />Save
                                 </button>
                             </div>

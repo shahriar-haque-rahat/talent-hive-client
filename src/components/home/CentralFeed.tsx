@@ -34,13 +34,13 @@ const CentralFeed = () => {
 
     useEffect(() => {
         const fetchPosts = async () => {
-            const fetchedPosts = await getPosts();
-
-            dispatch(setPosts(fetchedPosts));
-        }
+            if (user && user._id) {
+                const fetchedPosts = await getPosts(user._id);
+                dispatch(setPosts(fetchedPosts));
+            }
+        };
         fetchPosts();
-    }, [dispatch])
-
+    }, [dispatch, user]);
 
     return (
         <>

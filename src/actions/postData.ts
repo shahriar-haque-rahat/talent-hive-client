@@ -1,13 +1,14 @@
 import axios from "axios";
 
-export const getPosts = async () => {
+export const getPosts = async (userId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post`, {
+            params: { userId }
+        });
         const posts = response.data;
 
         return posts;
-    }
-    catch (error) {
+    } catch (error) {
         console.error("Error fetching posts:", error);
         return [];
     }

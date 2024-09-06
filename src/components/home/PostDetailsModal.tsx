@@ -88,7 +88,7 @@ const PostDetailsModal = ({ isOpen, onClose, user, post, initialIndex, handleLik
                 </div>
 
                 {/* Right Section: Post Details */}
-                <div className="flex-[1] bg-gray-100 p-4 pt-0 overflow-y-auto">
+                <div className="flex-[1] bg-gray-100 p-4 pt-0 overflow-y-scroll">
                     <div className="sticky top-0 bg-gray-100 z-10 pb-2 pt-4">
                         <div className="h-12 flex justify-between items-start">
                             {/* User Info */}

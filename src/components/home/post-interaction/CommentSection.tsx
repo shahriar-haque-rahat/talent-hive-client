@@ -39,7 +39,7 @@ const CommentSection = ({ user, postId }) => {
 
                 <div className=' w-full flex items-center border border-gray-400 p-2 pl-4 rounded-full '>
                     <input
-                        className=' w-full bg-white outline-none'
+                        className=' w-full bg-transparent outline-none'
                         type="email"
                         placeholder="Add a comment..."
                         value={comment}

@@ -6,22 +6,35 @@ import React, { useState } from 'react';
 import { BiBookmarkAlt, BiCommentDetail, BiLike, BiShare, BiSolidBookmarkAlt, BiSolidLike } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
 import CommentSection from './post-interaction/CommentSection';
-import toast from 'react-hot-toast';
 import AllComments from './post-interaction/AllComments';
 import { setComments } from '@/redux/commentSlice';
 import { CiMenuKebab } from 'react-icons/ci';
 import EditAndDeletePost from './posting/EditAndDeletePost';
 import { updatePostOnInteraction } from '@/redux/postSlice';
 import AllLikes from './post-interaction/AllLikes';
+import ShareModal from './posting/ShareModal';
+import PostDetailsModal from './PostDetailsModal';
 
 const NewsFeed = ({ posts }) => {
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
     const [expandedPosts, setExpandedPosts] = useState({});
     const [openEditDeleteModal, setOpenEditDeleteModal] = useState({});
-    const [openComment, setOpenComment] = useState({});
     const [openLike, setOpenLike] = useState({ isOpen: false, postId: null });
+    const [openComment, setOpenComment] = useState({});
+    const [openShare, setOpenShare] = useState({ isOpen: false, post: null });
+    const [openPostDetails, setOpenPostDetails] = useState({ isOpen: false, user: null, post: null, currentImageIndex: 0 });
 
+    // Post Details
+    const openPostDetailsModal = (post, index) => {
+        setOpenPostDetails({ isOpen: true, user, post, currentImageIndex: index });
+    };
+
+    const closePostDetailsModal = () => {
+        setOpenPostDetails({ isOpen: false, user: null, post: null, currentImageIndex: 0 });
+    }
+
+    // Content
     const toggleReadMore = (index) => {
         setExpandedPosts((prevState) => ({
             ...prevState,
@@ -56,6 +69,44 @@ const NewsFeed = ({ posts }) => {
         }));
     };
 
+    // like
+    const toggleOpenLike = (postId) => {
+        setOpenLike({ isOpen: !openLike.isOpen, postId });
+    }
+
+    const handleLikeToggle = async (post) => {
+        if (!user._id) return;
+
+        try {
+            let updatedPost;
+            if (post.isLiked) {
+                // Unlike the post
+                const response = await deleteLike(post._id, post.likeId);
+                updatedPost = { ...response.post, isLiked: false, likeId: null };
+            } else {
+                // Like the post
+                const response = await postLike(post._id, user._id);
+                updatedPost = { ...response.post, isLiked: true, likeId: response.like._id };
+            }
+
+            dispatch(updatePostOnInteraction(updatedPost));
+
+            if (openPostDetails.isOpen && openPostDetails.post._id === post._id) {
+                setOpenPostDetails((prevState) => ({
+                    ...prevState,
+                    post: {
+                        ...updatedPost,
+                        isSaved: prevState.post.isSaved,
+                        saveId: prevState.post.saveId,
+                    },
+                }));
+            }
+        } catch (error) {
+            console.error("Error toggling like:", error);
+        }
+    };
+
+    // comment
     const toggleOpenComment = (postId) => {
         setOpenComment((prevState) => {
             const isClosing = prevState[postId];
@@ -69,63 +120,44 @@ const NewsFeed = ({ posts }) => {
         });
     };
 
-    const toggleOpenLike = (postId) => {
-        setOpenLike({ isOpen: !openLike.isOpen, postId });
+    // share
+    const toggleOpenShare = (post) => {
+        setOpenShare({ isOpen: !openShare.isOpen, post });
     }
 
-    const handleLikeToggle = async (post) => {
-        if (!user._id) return;
-
-        try {
-            if (post.isLiked) {
-                // Unlike the post
-                const response = await deleteLike(post._id, post.likeId);
-                const updatedPost = { ...response.post, isLiked: false, likeId: null };
-                dispatch(updatePostOnInteraction(updatedPost));
-            }
-            else {
-                // Like the post
-                const response = await postLike(post._id, user._id);
-                const updatedPost = { ...response.post, isLiked: true, likeId: response.like._id };
-                dispatch(updatePostOnInteraction(updatedPost));
-            }
-        }
-        catch (error) {
-            console.error("Error toggling like:", error);
-        }
-    };
-
-    const handlePostShare = (postId) => {
-        if (user._id) {
-            postShare(postId, user._id)
-                .then((response) => {
-                    dispatch(updatePostOnInteraction(response.post));
-                    toast.success('Post shared');
-                })
-        }
-    }
-
+    // save
     const handleSaveToggle = async (post) => {
         if (!user._id) return;
 
         try {
+            let updatedPost;
             if (post.isSaved) {
                 // Unsave the post
                 const response = await deleteSave(post._id, post.saveId);
-                const updatedPost = { ...response.post, isSaved: false, saveId: null };
-                dispatch(updatePostOnInteraction(updatedPost));
-            }
-            else {
+                updatedPost = { ...response.post, isSaved: false, saveId: null };
+            } else {
                 // Save the post
                 const response = await postSave(post._id, user._id);
-                const updatedPost = { ...response.post, isSaved: true, saveId: response.save._id };
-                dispatch(updatePostOnInteraction(updatedPost));
+                updatedPost = { ...response.post, isSaved: true, saveId: response.save._id };
             }
-        }
-        catch (error) {
+
+            dispatch(updatePostOnInteraction(updatedPost));
+
+            if (openPostDetails.isOpen && openPostDetails.post._id === post._id) {
+                setOpenPostDetails((prevState) => ({
+                    ...prevState,
+                    post: {
+                        ...updatedPost,
+                        isLiked: prevState.post.isLiked,
+                        likeId: prevState.post.likeId,
+                        likesCount: prevState.post.likesCount
+                    },
+                }));
+            }
+        } catch (error) {
             console.error("Error toggling save:", error);
         }
-    }
+    };
 
     return (
         <div className='space-y-4'>
@@ -167,18 +199,30 @@ const NewsFeed = ({ posts }) => {
                             <p>{renderContent(post.content, index)}</p>
                         </div>
 
-                        <div>
-                            <Image
-                                src='/assets/bg.jpg'
-                                alt='image loading...'
-                                className="border-2 border-white w-full h-96 object-cover object-center"
-                                width={1000}
-                                height={1000}
-                            />
-                        </div>
+                        {/* Display media files */}
+                        {post.media && post.media.length > 0 && (
+                            <div className="grid grid-cols-2 p-3 w-full">
+                                {post.media.slice(0, 4).map((mediaUrl, mediaIndex) => (
+                                    <div key={mediaIndex} className="relative w-full cursor-pointer" onClick={() => openPostDetailsModal(post, mediaIndex)}>
+                                        <Image
+                                            src={mediaUrl}
+                                            alt={`Media ${mediaIndex}`}
+                                            className="border-2 border-white object-cover object-center"
+                                            width={1000}
+                                            height={1000}
+                                            style={{ aspectRatio: '1 / 1' }}
+                                        />
+                                        {mediaIndex === 3 && post.media.length > 4 && (
+                                            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-xl">
+                                                +{post.media.length - 4}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
 
                         {/* interaction section */}
-                        {/* TODO: singular plural has to be defined */}
                         <div>
                             <div className=' text-xs flex items-center justify-end gap-2 text-gray-500 px-3 py-1'>
                                 <p onClick={() => toggleOpenLike(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.likesCount} {post.likesCount > 1 ? 'Likes' : 'Like'}</p><p className=' font-bold'>.</p>
@@ -187,29 +231,23 @@ const NewsFeed = ({ posts }) => {
                             </div>
                             <div className='flex justify-evenly'>
                                 {/* Like */}
-                                <button onClick={() => handleLikeToggle(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 w-28 text-sm'>
-                                    {post.isLiked ? <BiSolidLike size={20} className="text-black" /> : <BiLike size={20} />}
-                                    <span className={post.isLiked ? 'text-black' : ''}>
-                                        {post.isLiked ? 'Liked' : 'Like'}
-                                    </span>
+                                <button onClick={() => handleLikeToggle(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'>
+                                    {post.isLiked ? <BiSolidLike size={22} className="text-black" /> : <BiLike size={22} />}
                                 </button>
 
                                 {/* Comment */}
-                                <button onClick={() => toggleOpenComment(post._id)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 w-28 text-sm'>
-                                    <BiCommentDetail size={20} />Comment
+                                <button onClick={() => toggleOpenComment(post._id)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'>
+                                    <BiCommentDetail size={22} />
                                 </button>
 
                                 {/* Share */}
-                                <button onClick={() => handlePostShare(post._id)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 w-28 text-sm'>
-                                    <BiShare style={{ transform: "scaleX(-1)" }} size={20} />Share
+                                <button onClick={() => toggleOpenShare(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'>
+                                    <BiShare style={{ transform: "scaleX(-1)" }} size={22} />
                                 </button>
 
                                 {/* Save */}
-                                <button onClick={() => handleSaveToggle(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 w-28 text-sm'>
-                                    {post.isSaved ? <BiSolidBookmarkAlt size={20} className=' text-black' /> : <BiBookmarkAlt size={20} />}
-                                    <span className={post.isLiked ? 'text-black' : ''}>
-                                        {post.isSaved ? 'Saved' : 'Save'}
-                                    </span>
+                                <button onClick={() => handleSaveToggle(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'>
+                                    {post.isSaved ? <BiSolidBookmarkAlt size={22} className=' text-black' /> : <BiBookmarkAlt size={22} />}
                                 </button>
                             </div>
                         </div>
@@ -226,7 +264,25 @@ const NewsFeed = ({ posts }) => {
                 ))
             }
 
-            <AllLikes openLike={openLike.isOpen} toggleOpenLike={toggleOpenLike} postId={openLike.postId} />
+
+            {openPostDetails.isOpen &&
+                <PostDetailsModal
+                    isOpen={openPostDetails.isOpen}
+                    onClose={closePostDetailsModal}
+                    user={user}
+                    post={openPostDetails.post}
+                    initialIndex={openPostDetails.currentImageIndex}
+                    handleLikeToggle={handleLikeToggle}
+                    toggleOpenShare={toggleOpenShare}
+                    handleSaveToggle={handleSaveToggle}
+                />
+            }
+            {openLike.isOpen &&
+                <AllLikes openLike={openLike.isOpen} toggleOpenLike={toggleOpenLike} postId={openLike.postId} />
+            }
+            {openShare.isOpen &&
+                <ShareModal openShare={openShare.isOpen} toggleOpenShare={toggleOpenShare} post={openShare.post} userId={user._id} />
+            }
         </div>
     );
 };

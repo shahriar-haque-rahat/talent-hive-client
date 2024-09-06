@@ -68,11 +68,7 @@ const CentralFeed = () => {
             </div>
             <div className='my-6 border-t border-gray-500'></div>
             <NewsFeed posts={posts} />
-            <PostModal
-                isOpen={isPostModalOpen}
-                onClose={closePostModal}
-                post={null}
-            />
+            <PostModal isOpen={isPostModalOpen} onClose={closePostModal} post={null} />
         </>
     );
 };

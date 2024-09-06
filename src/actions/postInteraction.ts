@@ -118,11 +118,12 @@ export const getShares = async (postId: string) => {
     }
 }
 
-export const postShare = async (postId: string, userId: string) => {
+export const postShare = async (postId: string, userId: string, content: string) => {
     try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/share`, {
             postId,
-            userId
+            userId,
+            content
         });
 
         // console.log(response.data);

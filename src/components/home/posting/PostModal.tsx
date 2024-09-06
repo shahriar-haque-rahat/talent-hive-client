@@ -106,7 +106,7 @@ const PostModal = ({ isOpen, onClose, post }) => {
                             placeholder="Add a content..."
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
-                        ></textarea>
+                        />
 
                         <div className="grid grid-cols-3 gap-4 mb-4">
                             {media.map((file, index) => (

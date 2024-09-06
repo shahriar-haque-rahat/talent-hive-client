@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 
 const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
     const dispatch = useDispatch();
-    const [caption, setCaption] = useState("");
+    const [content, setContent] = useState("");
     const [expandedPosts, setExpandedPosts] = useState(false);
 
     // Content
@@ -38,7 +38,7 @@ const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
 
     const handleShare = () => {
         if (userId && post) {
-            postShare(post._id, userId, caption)
+            postShare(post._id, userId, content)
                 .then((response) => {
                     dispatch(updatePostOnInteraction(response.post));
                     toast.success('Post shared');
@@ -66,13 +66,13 @@ const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
 
                         <h2 className="text-xl font-semibold mb-4">Share Post</h2>
 
-                        {/* Caption input */}
+                        {/* content input */}
                         <textarea
-                            value={caption}
-                            onChange={(e) => setCaption(e.target.value)}
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
                             className="w-full max-h-44 min-h-44 p-2 outline-none"
                             rows={4}
-                            placeholder="Add a caption..."
+                            placeholder="Add a content..."
                         />
 
                         {/* Display the post being shared */}
@@ -115,7 +115,7 @@ const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
                         {/* Share button */}
                         <button
                             onClick={handleShare}
-                            className="bg-sky-500 text-white rounded-lg py-2 px-4 hover:bg-sky-600 self-end"
+                            className="bg-sky-500 text-white rounded-lg mt-4 py-2 px-4 hover:bg-sky-600 self-end"
                         >
                             Share
                         </button>

@@ -1,6 +1,6 @@
 'use client'
 
-import { postComment, postLike, postSave, postShare } from '@/actions/postInteraction';
+import { deleteLike, postComment, postLike, postSave, postShare } from '@/actions/postInteraction';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { BiBookmarkAlt, BiCommentDetail, BiLike, BiShare, BiSolidLike } from 'react-icons/bi';
@@ -73,18 +73,25 @@ const NewsFeed = ({ posts }) => {
         setOpenLike({ isOpen: !openLike.isOpen, postId });
     }
 
-    const handlePostLike = async (postId) => {
-        if (user._id) {
-            try {
-                const response = await postLike(postId, user._id);
-                const isLiked = true;
-                const updatedPost = { ...response.post, isLiked };
+    const handleLikeToggle = async (post) => {
+        if (!user._id) return;
 
+        try {
+            if (post.isLiked) {
+                // Unlike the post
+                const response = await deleteLike(post._id, post.likeId);
+                const updatedPost = { ...response.post, isLiked: false, likeId: null };
                 dispatch(updatePostOnInteraction(updatedPost));
             }
-            catch (error) {
-                console.error("Error liking post:", error);
+            else {
+                // Like the post
+                const response = await postLike(post._id, user._id);
+                const updatedPost = { ...response.post, isLiked: true, likeId: response.like._id };
+                dispatch(updatePostOnInteraction(updatedPost));
             }
+        }
+        catch (error) {
+            console.error("Error toggling like:", error);
         }
     };
 
@@ -166,21 +173,26 @@ const NewsFeed = ({ posts }) => {
                                 <p className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.sharesCount} {post.likesCount > 1 ? 'Shares' : 'Share'}</p>
                             </div>
                             <div className='flex justify-evenly'>
-                                {post.isLiked
-                                    ? <button onClick={() => handlePostLike(post._id)} className='hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
-                                        <BiSolidLike size={20} />Liked
-                                    </button>
-                                    : <button onClick={() => handlePostLike(post._id)} className='hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
-                                        <BiLike size={20} />Like
-                                    </button>
-                                }
-                                <button onClick={() => toggleOpenComment(post._id)} className='hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+                                {/* Like */}
+                                <button onClick={() => handleLikeToggle(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 w-28 text-sm'>
+                                    {post.isLiked ? <BiSolidLike size={20} className="text-blue-500" /> : <BiLike size={20} />}
+                                    <span className={post.isLiked ? 'text-blue-500' : ''}>
+                                        {post.isLiked ? 'Liked' : 'Like'}
+                                    </span>
+                                </button>
+
+                                {/* Comment */}
+                                <button onClick={() => toggleOpenComment(post._id)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 w-28 text-sm'>
                                     <BiCommentDetail size={20} />Comment
                                 </button>
-                                <button onClick={() => handlePostShare(post._id)} className='hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+
+                                {/* Share */}
+                                <button onClick={() => handlePostShare(post._id)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 w-28 text-sm'>
                                     <BiShare style={{ transform: "scaleX(-1)" }} size={20} />Share
                                 </button>
-                                <button onClick={() => handlePostSave(post._id)} className='hover:bg-gray-200 p-2 flex items-center gap-1 text-sm'>
+
+                                {/* Save */}
+                                <button onClick={() => handlePostSave(post._id)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 w-28 text-sm'>
                                     <BiBookmarkAlt size={20} />Save
                                 </button>
                             </div>

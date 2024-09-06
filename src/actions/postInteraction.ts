@@ -29,6 +29,19 @@ export const postLike = async (postId: string, userId: string) => {
         return error;
     }
 }
+// :id/like/:likeId
+export const deleteLike = async (postId: string, likeId: string) => {
+    try {
+        const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/like/${likeId}`);
+        
+        // console.log(response.data);
+        return response.data;
+    }
+    catch (error) {
+        console.error("Error liking post:", error);
+        return error;
+    }
+}
 
 // Comment
 export const getComments = async (postId: string, skip: number = 0, limit: number = 5) => {

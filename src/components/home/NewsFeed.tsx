@@ -1,9 +1,9 @@
 'use client'
 
-import { deleteLike, postComment, postLike, postSave, postShare } from '@/actions/postInteraction';
+import { deleteLike, deleteSave, postComment, postLike, postSave, postShare } from '@/actions/postInteraction';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { BiBookmarkAlt, BiCommentDetail, BiLike, BiShare, BiSolidLike } from 'react-icons/bi';
+import { BiBookmarkAlt, BiCommentDetail, BiLike, BiShare, BiSolidBookmarkAlt, BiSolidLike } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
 import CommentSection from './post-interaction/CommentSection';
 import toast from 'react-hot-toast';
@@ -105,12 +105,25 @@ const NewsFeed = ({ posts }) => {
         }
     }
 
-    const handlePostSave = (postId) => {
-        if (user._id) {
-            postSave(postId, user._id)
-                .then((response) => {
-                    dispatch(updatePostOnInteraction(response.post));
-                })
+    const handleSaveToggle = async (post) => {
+        if (!user._id) return;
+
+        try {
+            if (post.isSaved) {
+                // Unsave the post
+                const response = await deleteSave(post._id, post.saveId);
+                const updatedPost = { ...response.post, isSaved: false, saveId: null };
+                dispatch(updatePostOnInteraction(updatedPost));
+            }
+            else {
+                // Save the post
+                const response = await postSave(post._id, user._id);
+                const updatedPost = { ...response.post, isSaved: true, saveId: response.save._id };
+                dispatch(updatePostOnInteraction(updatedPost));
+            }
+        }
+        catch (error) {
+            console.error("Error toggling save:", error);
         }
     }
 
@@ -175,8 +188,8 @@ const NewsFeed = ({ posts }) => {
                             <div className='flex justify-evenly'>
                                 {/* Like */}
                                 <button onClick={() => handleLikeToggle(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 w-28 text-sm'>
-                                    {post.isLiked ? <BiSolidLike size={20} className="text-blue-500" /> : <BiLike size={20} />}
-                                    <span className={post.isLiked ? 'text-blue-500' : ''}>
+                                    {post.isLiked ? <BiSolidLike size={20} className="text-black" /> : <BiLike size={20} />}
+                                    <span className={post.isLiked ? 'text-black' : ''}>
                                         {post.isLiked ? 'Liked' : 'Like'}
                                     </span>
                                 </button>
@@ -192,8 +205,11 @@ const NewsFeed = ({ posts }) => {
                                 </button>
 
                                 {/* Save */}
-                                <button onClick={() => handlePostSave(post._id)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 w-28 text-sm'>
-                                    <BiBookmarkAlt size={20} />Save
+                                <button onClick={() => handleSaveToggle(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 w-28 text-sm'>
+                                    {post.isSaved ? <BiSolidBookmarkAlt size={20} className=' text-black' /> : <BiBookmarkAlt size={20} />}
+                                    <span className={post.isLiked ? 'text-black' : ''}>
+                                        {post.isSaved ? 'Saved' : 'Save'}
+                                    </span>
                                 </button>
                             </div>
                         </div>

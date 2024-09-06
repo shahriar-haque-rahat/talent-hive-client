@@ -33,7 +33,7 @@ export const postLike = async (postId: string, userId: string) => {
 export const deleteLike = async (postId: string, likeId: string) => {
     try {
         const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/like/${likeId}`);
-        
+
         // console.log(response.data);
         return response.data;
     }
@@ -160,6 +160,19 @@ export const postSave = async (postId: string, userId: string) => {
     }
     catch (error) {
         console.error("Error saving post:", error);
+        return error;
+    }
+}
+
+export const deleteSave = async (postId: string, saveId: string) => {
+    try {
+        const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/save/${saveId}`);
+
+        // console.log(response.data);
+        return response.data;
+    }
+    catch (error) {
+        console.error("Error liking post:", error);
         return error;
     }
 }

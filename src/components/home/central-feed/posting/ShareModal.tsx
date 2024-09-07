@@ -1,6 +1,6 @@
 import { createPost } from '@/actions/postData';
 import { addPost, updatePostOnInteraction } from '@/redux/postSlice';
-import Image from 'next/image';
+import { Image } from '@nextui-org/react';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { MdClose } from 'react-icons/md';
@@ -90,8 +90,6 @@ const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
                                     src={post.userId.profileImage}
                                     alt={post.userId.fullName}
                                     className="rounded-full w-10 h-10 object-cover object-center"
-                                    width={100}
-                                    height={100}
                                 />
                                 <div>
                                     <h1 className="font-semibold">{post.userId.fullName}</h1>
@@ -109,9 +107,7 @@ const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
                                             <Image
                                                 src={mediaUrl}
                                                 alt={`Media ${mediaIndex}`}
-                                                className="border-2 border-white object-cover object-center"
-                                                width={1000}
-                                                height={1000}
+                                                className=" rounded-none border-2 border-white object-cover object-center"
                                                 style={{ aspectRatio: '1 / 1' }}
                                             />
                                         </div>

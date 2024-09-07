@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { Image } from '@nextui-org/react';
 import React, { useContext, useEffect, useState } from 'react';
 import NewsFeed from './NewsFeed';
 import PostModal from './posting/PostModal';
@@ -46,13 +46,13 @@ const CentralFeed = () => {
         <>
             <div className='bg-white p-3 border border-gray-300 rounded-lg'>
                 <div className='flex items-center justify-center gap-2'>
-                    <Image
-                        src="/assets/user.png"
-                        alt="Profile"
-                        className="rounded-full border-2 border-white w-12 h-12 object-cover object-center"
-                        width={48}
-                        height={48}
-                    />
+                    <div className='w-12 h-12'>
+                        <Image
+                            src="/assets/user.png"
+                            alt="Profile"
+                            className="rounded-full border-2 border-white object-cover object-center"
+                        />
+                    </div>
                     <button onClick={openPostModal} className='hover:bg-gray-100 text-sm text-left border border-gray-400 p-2 pl-4 rounded-full w-full'>
                         Create a post
                     </button>

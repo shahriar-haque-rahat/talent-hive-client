@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState, memo } from 'react';
 import { AuthContext } from '@/provider/AuthProvider';
 import { AuthContextValues } from '@/types/auth/auth.types';
-import Image from 'next/image';
+import { Image } from '@nextui-org/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -43,8 +43,6 @@ const NavbarDropdown = () => {
                             src="/assets/user.png"
                             alt="Profile"
                             className="rounded-full cursor-pointer"
-                            width={48}
-                            height={48}
                         />
                     </div>
                     {isOpen && (

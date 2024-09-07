@@ -9,6 +9,12 @@ const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
     const post = useSelector((state) => selectPostById(state, postId));
     const [currentIndex, setCurrentIndex] = useState(initialIndex);
     const [expandedPosts, setExpandedPosts] = useState(false);
+    const [isPortrait, setIsPortrait] = useState(false);
+
+    const handleImageLoad = (e) => {
+        const { naturalWidth, naturalHeight } = e.target;
+        setIsPortrait(naturalHeight > naturalWidth);
+    };
 
     // Content
     const toggleReadMore = () => {
@@ -72,10 +78,11 @@ const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
                     </button>
 
                     <div className="flex-grow flex justify-center">
-                        <Image
+                        <img
                             src={post.media[currentIndex]}
                             alt={`Media ${currentIndex + 1}`}
-                            className="rounded-lg object-cover"
+                            onLoad={handleImageLoad}
+                            className={`rounded-lg object-cover ${isPortrait ? 'h-[80vh]' : 'w-[80vw]'}`}
                         />
                     </div>
 

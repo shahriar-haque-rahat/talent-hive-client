@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { Image } from '@nextui-org/react';
 import React, { useState } from 'react';
 import PostDetailsModal from './post-details/PostDetailsModal';
 
@@ -44,8 +44,6 @@ const SharedPostContent = ({ user, sharedPostContent: post }) => {
                             src={post.userId.profileImage}
                             alt={post.fullName}
                             className="rounded-full border-2 border-white w-14 h-14 object-cover object-center"
-                            width={48}
-                            height={48}
                         />
                         <div>
                             <h1 className='font-semibold'>{post.userId.fullName}</h1>
@@ -67,9 +65,7 @@ const SharedPostContent = ({ user, sharedPostContent: post }) => {
                                 <Image
                                     src={mediaUrl}
                                     alt={`Media ${mediaIndex}`}
-                                    className="border-2 border-white object-cover object-center"
-                                    width={1000}
-                                    height={1000}
+                                    className=" rounded-none border-2 border-white object-cover object-center"
                                     style={{ aspectRatio: '1 / 1' }}
                                 />
                                 {mediaIndex === 3 && post.media.length > 4 && (

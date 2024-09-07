@@ -97,7 +97,7 @@ const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
 
                 {/* Right Section: Post Details */}
                 <div className="flex-[1] bg-gray-100 rounded-r-lg p-4 pt-0 overflow-y-scroll">
-                    <div className="sticky top-0 bg-gray-100 z-10 pb-2 pt-4">
+                    <div className="sticky top-0 bg-gray-100 z-[60] pb-4 pt-4">
                         <div className="h-12 flex justify-between items-start">
                             {/* User Info */}
                             <div className="flex items-center gap-2">
@@ -105,8 +105,6 @@ const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
                                     src={post.userId.profileImage}
                                     alt={post.userId.fullName}
                                     className="rounded-full border-2 border-white w-14 h-14 object-cover object-center"
-                                    width={48}
-                                    height={48}
                                 />
                                 <div>
                                     <h1 className="font-semibold">{post.userId.fullName}</h1>
@@ -125,7 +123,7 @@ const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
                         <p className=' mb-4'>{renderContent(post.content)}</p>
 
                         {/* Interaction Buttons */}
-                        <PostInteractionSection user={user} post={post} />
+                        <PostInteractionSection user={user} post={post} isModalView={true} />
                     </div>
                 </div>
 

@@ -9,12 +9,11 @@ import CommentSection from './CommentSection';
 import AllComments from './AllComments';
 import ShareModal from '../posting/ShareModal';
 
-const PostInteractionSection = ({ user, post }) => {
+const PostInteractionSection = ({ user, post, isModalView = false }) => {
     const dispatch = useDispatch();
     const [openLike, setOpenLike] = useState({ isOpen: false, postId: null });
-    const [openComment, setOpenComment] = useState({});
+    const [openComment, setOpenComment] = useState(isModalView ? { [post._id]: true } : {});
     const [openShare, setOpenShare] = useState({ isOpen: false, post: null });
-    const [openPostDetails, setOpenPostDetails] = useState({ isOpen: false, user: null, post: null, currentImageIndex: 0 });
 
     // like
     const toggleOpenLike = (postId) => {

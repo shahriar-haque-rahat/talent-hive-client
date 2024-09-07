@@ -10,8 +10,10 @@ const AllComments = ({ user, postId, openComment }) => {
     const dispatch = useDispatch();
     const isOpen = openComment[postId];
     const comments = useSelector(state => state.comment.commentsByPost[postId] || []);
+
     const [expandedComments, setExpandedComments] = useState({});
     const [skip, setSkip] = useState(0);
+
     const [hasMore, setHasMore] = useState(true);
     const isFetching = useRef(false);
 
@@ -120,23 +122,24 @@ const AllComments = ({ user, postId, openComment }) => {
                     postId,
                     comments: [...comments, ...newComments.comments]
                 }));
-
-                setSkip(prevSkip => prevSkip + newComments.comments.length);
-
+                console.log(newComments.comments.length);
                 if (newComments.comments.length < 5) {
                     setHasMore(false);
                 }
             } else {
                 setHasMore(false);
             }
-        } catch (error) {
+        }
+        catch (error) {
             console.error('Error fetching comments:', error);
-        } finally {
+        }
+        finally {
             isFetching.current = false;
         }
     };
 
     useEffect(() => {
+        setHasMore(false);
         if (comments.length === 0 && isOpen) {
             setSkip(0);
             setHasMore(true);
@@ -144,6 +147,9 @@ const AllComments = ({ user, postId, openComment }) => {
         }
     }, [postId, isOpen]);
 
+    useEffect(() => {
+        setSkip(comments.length);
+    }, [comments.length])
 
     return (
         <>

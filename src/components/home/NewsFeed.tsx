@@ -13,7 +13,8 @@ import EditAndDeletePost from './posting/EditAndDeletePost';
 import { updatePostOnInteraction } from '@/redux/postSlice';
 import AllLikes from './post-interaction/AllLikes';
 import ShareModal from './posting/ShareModal';
-import PostDetailsModal from './PostDetailsModal';
+import PostDetailsModal from './post-details/PostDetailsModal';
+import SharedPostContent from './SharedPostContent';
 
 const NewsFeed = ({ posts }) => {
     const dispatch = useDispatch();
@@ -165,6 +166,7 @@ const NewsFeed = ({ posts }) => {
                 posts?.map((post, index) => (
                     <div key={index} className='bg-white border border-gray-300 rounded-lg '>
                         <div className=' flex items-start justify-between p-3'>
+                            {/* User details */}
                             <div className='flex gap-2'>
                                 <Image
                                     src={post.userId.profileImage}
@@ -178,6 +180,8 @@ const NewsFeed = ({ posts }) => {
                                     <p className='text-xs mt-2'>{post.timestamp.slice(0, 10)}</p>
                                 </div>
                             </div>
+
+                            {/* Edit and delete modal */}
                             <div className='relative'>
                                 {post.userId._id === user._id && (
                                     <>
@@ -195,13 +199,14 @@ const NewsFeed = ({ posts }) => {
                             </div>
                         </div>
 
+                        {/* Post content */}
                         <div className='mt-2 p-3'>
                             <p>{renderContent(post.content, index)}</p>
                         </div>
 
                         {/* Display media files */}
                         {post.media && post.media.length > 0 && (
-                            <div className="grid grid-cols-2 p-3 w-full">
+                            <div className="grid grid-cols-2 w-full">
                                 {post.media.slice(0, 4).map((mediaUrl, mediaIndex) => (
                                     <div key={mediaIndex} className="relative w-full cursor-pointer" onClick={() => openPostDetailsModal(post, mediaIndex)}>
                                         <Image
@@ -222,12 +227,17 @@ const NewsFeed = ({ posts }) => {
                             </div>
                         )}
 
+                        {/* Shared post content */}
+                        {post.sharedPostId &&
+                            <SharedPostContent sharedPostContent={post.sharedPostId} />
+                        }
+
                         {/* interaction section */}
-                        <div>
+                        <div className=' mt-3'>
                             <div className=' text-xs flex items-center justify-end gap-2 text-gray-500 px-3 py-1'>
                                 <p onClick={() => toggleOpenLike(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.likesCount} {post.likesCount > 1 ? 'Likes' : 'Like'}</p><p className=' font-bold'>.</p>
-                                <p onClick={() => toggleOpenComment(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.commentsCount} {post.likesCount > 1 ? 'Comments' : 'Comment'}</p><p className=' font-bold'>.</p>
-                                <p className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.sharesCount} {post.likesCount > 1 ? 'Shares' : 'Share'}</p>
+                                <p onClick={() => toggleOpenComment(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.commentsCount} {post.commentsCount > 1 ? 'Comments' : 'Comment'}</p><p className=' font-bold'>.</p>
+                                <p className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.sharesCount} {post.sharesCount > 1 ? 'Shares' : 'Share'}</p>
                             </div>
                             <div className='flex justify-evenly'>
                                 {/* Like */}
@@ -264,7 +274,6 @@ const NewsFeed = ({ posts }) => {
                 ))
             }
 
-
             {openPostDetails.isOpen &&
                 <PostDetailsModal
                     isOpen={openPostDetails.isOpen}
@@ -277,9 +286,11 @@ const NewsFeed = ({ posts }) => {
                     handleSaveToggle={handleSaveToggle}
                 />
             }
+
             {openLike.isOpen &&
                 <AllLikes openLike={openLike.isOpen} toggleOpenLike={toggleOpenLike} postId={openLike.postId} />
             }
+
             {openShare.isOpen &&
                 <ShareModal openShare={openShare.isOpen} toggleOpenShare={toggleOpenShare} post={openShare.post} userId={user._id} />
             }

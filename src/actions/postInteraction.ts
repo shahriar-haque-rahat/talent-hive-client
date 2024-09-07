@@ -104,37 +104,6 @@ export const deleteComment = async (postId: string, id: string) => {
     }
 }
 
-// Share
-export const getShares = async (postId: string) => {
-    try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/share`)
-
-        // console.log(response.data);
-        return response.data;
-    }
-    catch (error) {
-        console.error("Error getting shares:", error);
-        return error;
-    }
-}
-
-export const postShare = async (postId: string, userId: string, content: string) => {
-    try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/share`, {
-            postId,
-            userId,
-            content
-        });
-
-        // console.log(response.data);
-        return response.data;
-    }
-    catch (error) {
-        console.error("Error sharing post:", error);
-        return error;
-    }
-}
-
 // Save
 export const getSaves = async (postId: string) => {
     try {

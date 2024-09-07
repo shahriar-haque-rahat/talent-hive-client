@@ -1,5 +1,5 @@
-import { postShare } from '@/actions/postInteraction';
-import { updatePostOnInteraction } from '@/redux/postSlice';
+import { createPost } from '@/actions/postData';
+import { addPost, updatePostOnInteraction } from '@/redux/postSlice';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -38,11 +38,20 @@ const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
 
     const handleShare = () => {
         if (userId && post) {
-            postShare(post._id, userId, content)
+            const sharePostData = {
+                userId,
+                sharedPostId: post._id,
+                content
+            }
+            createPost(sharePostData)
                 .then((response) => {
-                    dispatch(updatePostOnInteraction(response.post));
-                    toast.success('Post shared');
-                    toggleOpenShare();
+                    if (response) {
+                        const { _id } = response;
+                        dispatch(addPost({ postData: response }));
+                        dispatch(updatePostOnInteraction(response.sharedPostId));
+                        toast.success('Successfully Post Shared');
+                        toggleOpenShare();
+                    }
                 })
                 .catch(() => {
                     toast.error('Failed to share post');

@@ -128,7 +128,7 @@ const NewsFeed = ({ posts }) => {
 
                         {/* Shared post content */}
                         {post.sharedPostId && post.sharedPostId !== '' &&
-                            <SharedPostContent sharedPostContent={post.sharedPostId} />
+                            <SharedPostContent user={user} sharedPostContent={post.sharedPostId} />
                         }
 
                         {/* interaction section */}

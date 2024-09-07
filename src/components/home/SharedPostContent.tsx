@@ -1,27 +1,32 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
+import PostDetailsModal from './post-details/PostDetailsModal';
 
-const SharedPostContent = ({ sharedPostContent: post }) => {
-    const [expandedPosts, setExpandedPosts] = useState(false);
+const SharedPostContent = ({ user, sharedPostContent: post }) => {
+    const [openPostDetails, setOpenPostDetails] = useState({ isOpen: false, user: null, postId: null, currentImageIndex: 0 });
 
-    // Content
-    const toggleReadMore = () => {
-        setExpandedPosts((prevExpanded) => !prevExpanded);
+    // Post Details
+    const openPostDetailsModal = (postId, index) => {
+        setOpenPostDetails({ isOpen: true, user, postId, currentImageIndex: index });
     };
 
+    const closePostDetailsModal = () => {
+        setOpenPostDetails({ isOpen: false, user: null, postId: null, currentImageIndex: 0 });
+    }
+
+    // Content
     const renderContent = (content) => {
         const words = content.split(' ');
-        const isExpanded = expandedPosts;
 
         if (words.length > 20) {
             return (
                 <>
-                    {isExpanded ? content : words.slice(0, 20).join(' ') + '...'}
+                    {words.slice(0, 20).join(' ') + '...'}
                     <span
-                        onClick={() => toggleReadMore()}
+                        onClick={() => openPostDetailsModal(post._id, 0)}
                         className="text-blue-500 cursor-pointer ml-1"
                     >
-                        {isExpanded ? 'Show less' : 'Read more'}
+                        {'Read more'}
                     </span>
                 </>
             );
@@ -58,7 +63,7 @@ const SharedPostContent = ({ sharedPostContent: post }) => {
                 {post.media && post.media.length > 0 && (
                     <div className="grid grid-cols-2 w-full">
                         {post.media.slice(0, 4).map((mediaUrl, mediaIndex) => (
-                            <div key={mediaIndex} className="relative w-full cursor-pointer" onClick={() => openPostDetailsModal(post, mediaIndex)}>
+                            <div key={mediaIndex} className="relative w-full cursor-pointer" onClick={() => openPostDetailsModal(post._id, mediaIndex)}>
                                 <Image
                                     src={mediaUrl}
                                     alt={`Media ${mediaIndex}`}
@@ -76,6 +81,16 @@ const SharedPostContent = ({ sharedPostContent: post }) => {
                         ))}
                     </div>
                 )}
+
+                {openPostDetails.isOpen &&
+                    <PostDetailsModal
+                        isOpen={openPostDetails.isOpen}
+                        onClose={closePostDetailsModal}
+                        user={user}
+                        postId={openPostDetails.postId}
+                        initialIndex={openPostDetails.currentImageIndex}
+                    />
+                }
             </div>
         </>
     );

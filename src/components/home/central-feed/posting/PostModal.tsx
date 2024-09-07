@@ -102,7 +102,7 @@ const PostModal = ({ isOpen, onClose, post }) => {
 
                     <form onSubmit={handleSubmit} className="flex-grow flex flex-col">
                         <textarea
-                            className="flex-grow w-full p-2 border border-gray-300 rounded-md focus:outline-none resize-none overflow-auto mb-4"
+                            className="flex-grow w-full p-2 border border-gray-300 rounded-md focus:outline-none resize-none overflow-scroll mb-4"
                             placeholder="Add a content..."
                             value={content}
                             onChange={(e) => setContent(e.target.value)}

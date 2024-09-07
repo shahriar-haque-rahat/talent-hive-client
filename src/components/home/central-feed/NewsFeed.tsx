@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { CiMenuKebab } from 'react-icons/ci';
@@ -8,6 +7,7 @@ import EditAndDeletePost from './posting/EditAndDeletePost';
 import PostDetailsModal from './post-details/PostDetailsModal';
 import SharedPostContent from './SharedPostContent';
 import PostInteractionSection from './post-interaction/PostInteractionSection';
+import { Image } from '@nextui-org/react';
 
 const NewsFeed = ({ posts }) => {
     const user = useSelector((state: any) => state.user.user);
@@ -71,8 +71,6 @@ const NewsFeed = ({ posts }) => {
                                     src={post.userId.profileImage}
                                     alt={post.fullName}
                                     className="rounded-full border-2 border-white w-14 h-14 object-cover object-center"
-                                    width={48}
-                                    height={48}
                                 />
                                 <div>
                                     <h1 className='font-semibold'>{post.userId.fullName}</h1>
@@ -105,15 +103,13 @@ const NewsFeed = ({ posts }) => {
 
                         {/* Display media files */}
                         {post.media && post.media.length > 0 && (
-                            <div className="grid grid-cols-2 w-full">
+                            <div className={post.media.length === 1 ? "grid grid-cols-1 w-full" : "grid grid-cols-2 w-full"}>
                                 {post.media.slice(0, 4).map((mediaUrl, mediaIndex) => (
                                     <div key={mediaIndex} className="relative w-full cursor-pointer" onClick={() => openPostDetailsModal(post._id, mediaIndex)}>
                                         <Image
                                             src={mediaUrl}
                                             alt={`Media ${mediaIndex}`}
-                                            className="border-2 border-white object-cover object-center"
-                                            width={1000}
-                                            height={1000}
+                                            className="border-2 border-white object-cover object-center rounded-none"
                                             style={{ aspectRatio: '1 / 1' }}
                                         />
                                         {mediaIndex === 3 && post.media.length > 4 && (

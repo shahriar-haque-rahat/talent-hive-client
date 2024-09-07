@@ -68,7 +68,7 @@ const AddMediaModal = ({ isOpen, onClose, onUpload, initialMedia = [] }) => {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 mb-4 overflow-auto">
+                <div className="grid grid-cols-3 gap-4 mb-4 overflow-scroll">
                     {mediaFiles.map((file, index) => (
                         <div key={index} className="relative">
                             <img

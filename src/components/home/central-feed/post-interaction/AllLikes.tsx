@@ -44,7 +44,7 @@ const AllLikes = ({ openLike, toggleOpenLike, postId }) => {
                     <MdClose size={24} />
                 </button>
                 <h2 className="text-xl font-bold mb-4">All Likes</h2>
-                <div className="overflow-y-auto flex-1">
+                <div className="overflow-y-scroll flex-1">
                     <ul>
                         {likes.map((like) => (
                             <div key={like._id} className=' flex gap-2 items-center py-2 border-b border-gray-200 hover:underline cursor-pointer'>

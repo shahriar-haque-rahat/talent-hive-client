@@ -46,7 +46,6 @@ const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
             createPost(sharePostData)
                 .then((response) => {
                     if (response) {
-                        const { _id } = response;
                         dispatch(addPost({ postData: response }));
                         dispatch(updatePostOnInteraction(response.sharedPostId));
                         toast.success('Successfully Post Shared');

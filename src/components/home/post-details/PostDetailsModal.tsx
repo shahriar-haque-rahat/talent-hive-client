@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { MdClose, MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md';
-import { BiBookmarkAlt, BiCommentDetail, BiLike, BiShare, BiSolidBookmarkAlt, BiSolidLike } from 'react-icons/bi';
 import { Image } from '@nextui-org/react';
-import CommentSection from './post-interaction/CommentSection';
-import AllComments from './post-interaction/AllComments';
+import PostInteractionSection from '../post-interaction/PostInteractionSection';
+import { selectPostById } from '@/redux/postSlice';
+import { useSelector } from 'react-redux';
 
-const PostDetailsModal = ({ isOpen, onClose, user, post, initialIndex, handleLikeToggle, toggleOpenShare, handleSaveToggle }) => {
+const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
+    const post = useSelector((state) => selectPostById(state, postId));
     const [currentIndex, setCurrentIndex] = useState(initialIndex);
     const [expandedPosts, setExpandedPosts] = useState(false);
 
@@ -57,7 +58,7 @@ const PostDetailsModal = ({ isOpen, onClose, user, post, initialIndex, handleLik
             <div className="bg-white w-full min-h-[90vh] max-h-[90vh] md:max-h-[80vh] md:p-2 rounded-lg relative flex flex-col md:flex-row overflow-hidden">
 
                 {/* Left Section: Media Slideshow */}
-                <div className="flex-[2] flex items-center justify-between bg-black bg-opacity-90 p-2 relative">
+                <div className="flex-[2] flex items-center justify-between bg-black bg-opacity-90 rounded-l-lg p-2 relative">
                     <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 md:hidden">
                         <MdClose size={24} />
                     </button>
@@ -88,7 +89,7 @@ const PostDetailsModal = ({ isOpen, onClose, user, post, initialIndex, handleLik
                 </div>
 
                 {/* Right Section: Post Details */}
-                <div className="flex-[1] bg-gray-100 p-4 pt-0 overflow-y-scroll">
+                <div className="flex-[1] bg-gray-100 rounded-r-lg p-4 pt-0 overflow-y-scroll">
                     <div className="sticky top-0 bg-gray-100 z-10 pb-2 pt-4">
                         <div className="h-12 flex justify-between items-start">
                             {/* User Info */}
@@ -114,41 +115,10 @@ const PostDetailsModal = ({ isOpen, onClose, user, post, initialIndex, handleLik
                     {/* Scrollable content */}
                     <div className="my-4">
                         {/* Post Content */}
-                        <p>{renderContent(post.content)}</p>
-
-                        {/* Interaction Counts */}
-                        <div className=' text-xs flex items-center justify-end gap-2 text-gray-500 px-3 py-1'>
-                            <p className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.likesCount} {post.likesCount > 1 ? 'Likes' : 'Like'}</p><p className=' font-bold'>.</p>
-                            <p className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.commentsCount} {post.likesCount > 1 ? 'Comments' : 'Comment'}</p><p className=' font-bold'>.</p>
-                            <p className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.sharesCount} {post.likesCount > 1 ? 'Shares' : 'Share'}</p>
-                        </div>
+                        <p className=' mb-4'>{renderContent(post.content)}</p>
 
                         {/* Interaction Buttons */}
-                        <div className='flex justify-evenly'>
-                            {/* Like */}
-                            <button onClick={() => handleLikeToggle(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'>
-                                {post.isLiked ? <BiSolidLike size={22} className="text-black" /> : <BiLike size={22} />}
-                            </button>
-
-                            {/* Comment */}
-                            <button className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'>
-                                <BiCommentDetail size={22} />
-                            </button>
-
-                            {/* Share */}
-                            <button onClick={() => toggleOpenShare(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'>
-                                <BiShare style={{ transform: "scaleX(-1)" }} size={22} />
-                            </button>
-
-                            {/* Save */}
-                            <button onClick={() => handleSaveToggle(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'>
-                                {post.isSaved ? <BiSolidBookmarkAlt size={22} className=' text-black' /> : <BiBookmarkAlt size={22} />}
-                            </button>
-                        </div>
-
-                        {/* Comment Section */}
-                        <CommentSection user={user} postId={post._id} />
-                        <AllComments user={user} postId={post._id} openComment={isOpen} />
+                        <PostInteractionSection user={user} post={post} />
                     </div>
                 </div>
 

@@ -1,38 +1,27 @@
 'use client'
 
-import { deleteLike, deleteSave, postComment, postLike, postSave, postShare } from '@/actions/postInteraction';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { BiBookmarkAlt, BiCommentDetail, BiLike, BiShare, BiSolidBookmarkAlt, BiSolidLike } from 'react-icons/bi';
-import { useDispatch, useSelector } from 'react-redux';
-import CommentSection from './post-interaction/CommentSection';
-import AllComments from './post-interaction/AllComments';
-import { setComments } from '@/redux/commentSlice';
+import { useSelector } from 'react-redux';
 import { CiMenuKebab } from 'react-icons/ci';
 import EditAndDeletePost from './posting/EditAndDeletePost';
-import { updatePostOnInteraction } from '@/redux/postSlice';
-import AllLikes from './post-interaction/AllLikes';
-import ShareModal from './posting/ShareModal';
 import PostDetailsModal from './post-details/PostDetailsModal';
 import SharedPostContent from './SharedPostContent';
+import PostInteractionSection from './post-interaction/PostInteractionSection';
 
 const NewsFeed = ({ posts }) => {
-    const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
     const [expandedPosts, setExpandedPosts] = useState({});
     const [openEditDeleteModal, setOpenEditDeleteModal] = useState({});
-    const [openLike, setOpenLike] = useState({ isOpen: false, postId: null });
-    const [openComment, setOpenComment] = useState({});
-    const [openShare, setOpenShare] = useState({ isOpen: false, post: null });
-    const [openPostDetails, setOpenPostDetails] = useState({ isOpen: false, user: null, post: null, currentImageIndex: 0 });
+    const [openPostDetails, setOpenPostDetails] = useState({ isOpen: false, user: null, postId: null, currentImageIndex: 0 });
 
     // Post Details
-    const openPostDetailsModal = (post, index) => {
-        setOpenPostDetails({ isOpen: true, user, post, currentImageIndex: index });
+    const openPostDetailsModal = (postId, index) => {
+        setOpenPostDetails({ isOpen: true, user, postId, currentImageIndex: index });
     };
 
     const closePostDetailsModal = () => {
-        setOpenPostDetails({ isOpen: false, user: null, post: null, currentImageIndex: 0 });
+        setOpenPostDetails({ isOpen: false, user: null, postId: null, currentImageIndex: 0 });
     }
 
     // Content
@@ -68,96 +57,6 @@ const NewsFeed = ({ posts }) => {
             ...prevState,
             [postId]: !prevState[postId],
         }));
-    };
-
-    // like
-    const toggleOpenLike = (postId) => {
-        setOpenLike({ isOpen: !openLike.isOpen, postId });
-    }
-
-    const handleLikeToggle = async (post) => {
-        if (!user._id) return;
-
-        try {
-            let updatedPost;
-            if (post.isLiked) {
-                // Unlike the post
-                const response = await deleteLike(post._id, post.likeId);
-                updatedPost = { ...response.post, isLiked: false, likeId: null };
-            } else {
-                // Like the post
-                const response = await postLike(post._id, user._id);
-                updatedPost = { ...response.post, isLiked: true, likeId: response.like._id };
-            }
-
-            dispatch(updatePostOnInteraction(updatedPost));
-
-            if (openPostDetails.isOpen && openPostDetails.post._id === post._id) {
-                setOpenPostDetails((prevState) => ({
-                    ...prevState,
-                    post: {
-                        ...updatedPost,
-                        isSaved: prevState.post.isSaved,
-                        saveId: prevState.post.saveId,
-                    },
-                }));
-            }
-        } catch (error) {
-            console.error("Error toggling like:", error);
-        }
-    };
-
-    // comment
-    const toggleOpenComment = (postId) => {
-        setOpenComment((prevState) => {
-            const isClosing = prevState[postId];
-            if (isClosing) {
-                dispatch(setComments({ postId, comments: [] }));
-            }
-            return {
-                ...prevState,
-                [postId]: !prevState[postId],
-            };
-        });
-    };
-
-    // share
-    const toggleOpenShare = (post) => {
-        setOpenShare({ isOpen: !openShare.isOpen, post });
-    }
-
-    // save
-    const handleSaveToggle = async (post) => {
-        if (!user._id) return;
-
-        try {
-            let updatedPost;
-            if (post.isSaved) {
-                // Unsave the post
-                const response = await deleteSave(post._id, post.saveId);
-                updatedPost = { ...response.post, isSaved: false, saveId: null };
-            } else {
-                // Save the post
-                const response = await postSave(post._id, user._id);
-                updatedPost = { ...response.post, isSaved: true, saveId: response.save._id };
-            }
-
-            dispatch(updatePostOnInteraction(updatedPost));
-
-            if (openPostDetails.isOpen && openPostDetails.post._id === post._id) {
-                setOpenPostDetails((prevState) => ({
-                    ...prevState,
-                    post: {
-                        ...updatedPost,
-                        isLiked: prevState.post.isLiked,
-                        likeId: prevState.post.likeId,
-                        likesCount: prevState.post.likesCount
-                    },
-                }));
-            }
-        } catch (error) {
-            console.error("Error toggling save:", error);
-        }
     };
 
     return (
@@ -208,7 +107,7 @@ const NewsFeed = ({ posts }) => {
                         {post.media && post.media.length > 0 && (
                             <div className="grid grid-cols-2 w-full">
                                 {post.media.slice(0, 4).map((mediaUrl, mediaIndex) => (
-                                    <div key={mediaIndex} className="relative w-full cursor-pointer" onClick={() => openPostDetailsModal(post, mediaIndex)}>
+                                    <div key={mediaIndex} className="relative w-full cursor-pointer" onClick={() => openPostDetailsModal(post._id, mediaIndex)}>
                                         <Image
                                             src={mediaUrl}
                                             alt={`Media ${mediaIndex}`}
@@ -228,48 +127,12 @@ const NewsFeed = ({ posts }) => {
                         )}
 
                         {/* Shared post content */}
-                        {post.sharedPostId &&
+                        {post.sharedPostId && post.sharedPostId !== '' &&
                             <SharedPostContent sharedPostContent={post.sharedPostId} />
                         }
 
                         {/* interaction section */}
-                        <div className=' mt-3'>
-                            <div className=' text-xs flex items-center justify-end gap-2 text-gray-500 px-3 py-1'>
-                                <p onClick={() => toggleOpenLike(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.likesCount} {post.likesCount > 1 ? 'Likes' : 'Like'}</p><p className=' font-bold'>.</p>
-                                <p onClick={() => toggleOpenComment(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.commentsCount} {post.commentsCount > 1 ? 'Comments' : 'Comment'}</p><p className=' font-bold'>.</p>
-                                <p className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.sharesCount} {post.sharesCount > 1 ? 'Shares' : 'Share'}</p>
-                            </div>
-                            <div className='flex justify-evenly'>
-                                {/* Like */}
-                                <button onClick={() => handleLikeToggle(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'>
-                                    {post.isLiked ? <BiSolidLike size={22} className="text-black" /> : <BiLike size={22} />}
-                                </button>
-
-                                {/* Comment */}
-                                <button onClick={() => toggleOpenComment(post._id)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'>
-                                    <BiCommentDetail size={22} />
-                                </button>
-
-                                {/* Share */}
-                                <button onClick={() => toggleOpenShare(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'>
-                                    <BiShare style={{ transform: "scaleX(-1)" }} size={22} />
-                                </button>
-
-                                {/* Save */}
-                                <button onClick={() => handleSaveToggle(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'>
-                                    {post.isSaved ? <BiSolidBookmarkAlt size={22} className=' text-black' /> : <BiBookmarkAlt size={22} />}
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* comment section */}
-                        {
-                            openComment[post._id] &&
-                            <div>
-                                <CommentSection user={user} postId={post._id} />
-                                <AllComments user={user} postId={post._id} openComment={openComment} />
-                            </div>
-                        }
+                        <PostInteractionSection user={user} post={post} />
                     </div>
                 ))
             }
@@ -279,20 +142,9 @@ const NewsFeed = ({ posts }) => {
                     isOpen={openPostDetails.isOpen}
                     onClose={closePostDetailsModal}
                     user={user}
-                    post={openPostDetails.post}
+                    postId={openPostDetails.postId}
                     initialIndex={openPostDetails.currentImageIndex}
-                    handleLikeToggle={handleLikeToggle}
-                    toggleOpenShare={toggleOpenShare}
-                    handleSaveToggle={handleSaveToggle}
                 />
-            }
-
-            {openLike.isOpen &&
-                <AllLikes openLike={openLike.isOpen} toggleOpenLike={toggleOpenLike} postId={openLike.postId} />
-            }
-
-            {openShare.isOpen &&
-                <ShareModal openShare={openShare.isOpen} toggleOpenShare={toggleOpenShare} post={openShare.post} userId={user._id} />
             }
         </div>
     );

@@ -3,7 +3,7 @@ import PostModal from './PostModal';
 import ConfirmationModal from '@/shared/ConfirmationModal';
 import { deletePost } from '@/actions/postData';
 import { useDispatch } from 'react-redux';
-import { removePost } from '@/redux/postSlice';
+import { removePost, updatePostOnInteraction } from '@/redux/postSlice';
 import toast from 'react-hot-toast';
 
 const EditAndDeletePost = ({ onEditDeleteClose, post }) => {
@@ -21,8 +21,19 @@ const EditAndDeletePost = ({ onEditDeleteClose, post }) => {
         if (postToDelete) {
 
             try {
-                await deletePost(post._id);
-                dispatch(removePost(post._id));
+                deletePost(post._id)
+                    .then((response) => {
+                        if (response) {
+
+                            if (response.sharedPostId) {
+                                dispatch(updatePostOnInteraction(response.sharedPostId));
+                            }
+                            else {
+                                dispatch(updatePostOnInteraction(response._id));
+                            }
+                            dispatch(removePost(post._id));
+                        }
+                    })
             }
             catch (error) {
                 console.error('Error deleting post:', error);

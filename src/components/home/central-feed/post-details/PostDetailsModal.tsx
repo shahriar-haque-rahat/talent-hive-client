@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { MdClose, MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md';
 import { Image } from '@nextui-org/react';
 import PostInteractionSection from '../post-interaction/PostInteractionSection';
-import { selectPostById } from '@/redux/postSlice';
-import { useSelector } from 'react-redux';
+import { addCachePost, selectPostById } from '@/redux/postSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOnePost } from '@/actions/postData';
 
 const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
+    const dispatch = useDispatch();
     const post = useSelector((state) => selectPostById(state, postId));
     const [currentIndex, setCurrentIndex] = useState(initialIndex);
     const [expandedPosts, setExpandedPosts] = useState(false);
     const [isPortrait, setIsPortrait] = useState(false);
+    const [loading, setLoading] = useState(true);
+    console.log(post);
 
     const handleImageLoad = (e) => {
         const { naturalWidth, naturalHeight } = e.target;
@@ -41,13 +45,33 @@ const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
         return content;
     };
 
+    const fetchPost = async () => {
+        setLoading(true);
+        const fetchedPost = await getOnePost(postId);
+        if (fetchedPost) {
+            dispatch(addCachePost({ postData: fetchedPost }));
+        }
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        if (isOpen && !post) {
+            fetchPost();
+        }
+        else {
+            setLoading(false);
+        }
+    }, [isOpen, post]);
+
     useEffect(() => {
         if (isOpen) {
             setCurrentIndex(initialIndex);
-        } else {
+        }
+        else {
             setCurrentIndex(0);
         }
     }, [isOpen, initialIndex]);
+
 
     const handlePrev = () => {
         if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
@@ -56,6 +80,10 @@ const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
     const handleNext = () => {
         if (currentIndex < post.media.length - 1) setCurrentIndex(currentIndex + 1);
     };
+
+    if (loading) {
+        return <div>Loading post details...</div>;
+    }
 
     if (!isOpen) return null;
 

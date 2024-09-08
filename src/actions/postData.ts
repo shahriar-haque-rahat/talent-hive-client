@@ -27,6 +27,20 @@ export const getOnePost = async (postId: string) => {
     }
 };
 
+export const getPostShares = async (postId: string) => {
+    try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/share/${postId}`);
+        const postShares = response.data;
+
+        return postShares;
+    }
+
+    catch (error) {
+        console.error("Error fetching post shares:", error);
+        return null;
+    }
+}
+
 export const createPost = async (postData: any) => {
     try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post`, postData);

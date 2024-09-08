@@ -8,12 +8,14 @@ import AllLikes from './AllLikes';
 import CommentSection from './CommentSection';
 import AllComments from './AllComments';
 import ShareModal from '../posting/ShareModal';
+import AllShares from './AllShares';
 
 const PostInteractionSection = ({ user, post, isModalView = false }) => {
     const dispatch = useDispatch();
     const [openLike, setOpenLike] = useState({ isOpen: false, postId: null });
     const [openComment, setOpenComment] = useState(isModalView ? { [post._id]: true } : {});
     const [openShare, setOpenShare] = useState({ isOpen: false, post: null });
+    const [openShareList, setOpenShareList] = useState({ isOpen: false, postId: null });
 
     // like
     const toggleOpenLike = (postId) => {
@@ -61,6 +63,10 @@ const PostInteractionSection = ({ user, post, isModalView = false }) => {
         setOpenShare({ isOpen: !openShare.isOpen, post });
     }
 
+    const toggleOpenShareList = (postId) => {
+        setOpenShareList({ isOpen: !openShareList.isOpen, postId });
+    }
+
     // save
     const handleSaveToggle = async (post) => {
         if (!user._id) return;
@@ -90,7 +96,7 @@ const PostInteractionSection = ({ user, post, isModalView = false }) => {
                 <div className=' text-xs flex items-center justify-end gap-2 text-gray-500 px-3 py-1'>
                     <p onClick={() => toggleOpenLike(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.likesCount} {post.likesCount > 1 ? 'Likes' : 'Like'}</p><p className=' font-bold'>.</p>
                     <p onClick={() => toggleOpenComment(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.commentsCount} {post.commentsCount > 1 ? 'Comments' : 'Comment'}</p><p className=' font-bold'>.</p>
-                    <p className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.sharesCount} {post.sharesCount > 1 ? 'Shares' : 'Share'}</p>
+                    <p onClick={() => toggleOpenShareList(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.sharesCount} {post.sharesCount > 1 ? 'Shares' : 'Share'}</p>
                 </div>
                 <div className='flex justify-evenly'>
                     {/* Like */}
@@ -114,12 +120,12 @@ const PostInteractionSection = ({ user, post, isModalView = false }) => {
                     </button>
                 </div>
 
-                {/* view likes modal */}
+                {/* likes modals */}
                 {openLike.isOpen &&
                     <AllLikes openLike={openLike.isOpen} toggleOpenLike={toggleOpenLike} postId={openLike.postId} />
                 }
 
-                {/* comment section */}
+                {/* comment modals */}
                 {
                     openComment[post._id] &&
                     <div>
@@ -128,9 +134,13 @@ const PostInteractionSection = ({ user, post, isModalView = false }) => {
                     </div>
                 }
 
-                {/* share modal */}
+                {/* share modals */}
                 {openShare.isOpen &&
                     <ShareModal openShare={openShare.isOpen} toggleOpenShare={toggleOpenShare} post={openShare.post} userId={user._id} />
+                }
+
+                {openShareList.isOpen &&
+                    <AllShares openShareList={openShareList.isOpen} toggleOpenShareList={toggleOpenShareList} postId={openShareList.postId} />
                 }
             </div>
         </div>

@@ -1,13 +1,14 @@
 import { createPost } from '@/actions/postData';
 import { addPost, updatePostOnInteraction } from '@/redux/postSlice';
 import { Image } from '@nextui-org/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { MdClose } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 
 const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
     const dispatch = useDispatch();
+    const [sharedPost, setSharedPost] = useState(post);
     const [content, setContent] = useState("");
     const [expandedPosts, setExpandedPosts] = useState(false);
 
@@ -37,10 +38,10 @@ const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
     };
 
     const handleShare = () => {
-        if (userId && post) {
+        if (userId && sharedPost) {
             const sharePostData = {
                 userId,
-                sharedPostId: post._id,
+                sharedPostId: sharedPost._id,
                 content
             }
             createPost(sharePostData)
@@ -58,6 +59,11 @@ const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
         }
     };
 
+    useEffect(() => {
+        if (post.sharedPostId) {
+            setSharedPost(post.sharedPostId);
+        }
+    }, [post])
     if (!openShare) return null;
 
     return (
@@ -87,22 +93,22 @@ const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
                         <div className="border border-gray-300 rounded-lg p-4 overflow-y-scroll">
                             <div className="flex gap-2 items-center">
                                 <Image
-                                    src={post.userId.profileImage}
-                                    alt={post.userId.fullName}
+                                    src={sharedPost.userId.profileImage}
+                                    alt={sharedPost.userId.fullName}
                                     className="rounded-full w-10 h-10 object-cover object-center"
                                 />
                                 <div>
-                                    <h1 className="font-semibold">{post.userId.fullName}</h1>
-                                    <p className="text-xs">{post.timestamp.slice(0, 10)}</p>
+                                    <h1 className="font-semibold">{sharedPost.userId.fullName}</h1>
+                                    <p className="text-xs">{sharedPost.timestamp.slice(0, 10)}</p>
                                 </div>
                             </div>
 
-                            <p className="mt-4">{renderContent(post.content)}</p>
+                            <p className="mt-4">{renderContent(sharedPost.content)}</p>
 
                             {/* Media files with scroll if overflow */}
-                            {post.media && post.media.length > 0 && (
+                            {sharedPost.media && sharedPost.media.length > 0 && (
                                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                                    {post.media.map((mediaUrl, mediaIndex) => (
+                                    {sharedPost.media.map((mediaUrl, mediaIndex) => (
                                         <div key={mediaIndex} className="relative w-full cursor-pointer" >
                                             <Image
                                                 src={mediaUrl}

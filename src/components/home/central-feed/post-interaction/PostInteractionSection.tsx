@@ -16,6 +16,7 @@ const PostInteractionSection = ({ user, post, isModalView = false }) => {
     const [openComment, setOpenComment] = useState(isModalView ? { [post._id]: true } : {});
     const [openShare, setOpenShare] = useState({ isOpen: false, post: null });
     const [openShareList, setOpenShareList] = useState({ isOpen: false, postId: null });
+console.log(post);
 
     // like
     const toggleOpenLike = (postId) => {

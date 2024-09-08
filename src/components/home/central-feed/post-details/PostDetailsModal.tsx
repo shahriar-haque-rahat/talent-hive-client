@@ -47,7 +47,7 @@ const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
 
     const fetchPost = async () => {
         setLoading(true);
-        const fetchedPost = await getOnePost(postId);
+        const fetchedPost = await getOnePost(postId, user._id);
         if (fetchedPost) {
             dispatch(addCachePost({ postData: fetchedPost }));
         }

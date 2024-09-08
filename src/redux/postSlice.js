@@ -30,9 +30,15 @@ const postSlice = createSlice({
         },
         updatePostOnInteraction: (state, action) => {
             const updatedPost = action.payload;
-            const index = state.posts.findIndex(post => post._id === updatedPost._id);
-            if (index !== -1) {
-                state.posts[index] = { ...state.posts[index], ...updatedPost };
+
+            let postIndex = state.posts.findIndex(post => post._id === updatedPost._id);
+            if (postIndex !== -1) {
+                state.posts[postIndex] = { ...state.posts[postIndex], ...updatedPost };
+            } else {
+                const cachedPostIndex = state.cachedPosts.findIndex(post => post._id === updatedPost._id);
+                if (cachedPostIndex !== -1) {
+                    state.cachedPosts[cachedPostIndex] = { ...state.cachedPosts[cachedPostIndex], ...updatedPost };
+                }
             }
         },
         addCachePost: (state, action) => {

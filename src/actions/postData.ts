@@ -14,9 +14,11 @@ export const getPosts = async (userId: string, page = 0, limit = 10) => {
     }
 };
 
-export const getOnePost = async (postId: string) => {
+export const getOnePost = async (postId: string, userId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}`, {
+            params: { userId }
+        });
         const post = response.data;
 
         return post;

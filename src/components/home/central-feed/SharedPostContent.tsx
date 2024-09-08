@@ -47,7 +47,7 @@ const SharedPostContent = ({ user, sharedPostContent: post }) => {
                         />
                         <div>
                             <h1 className='font-semibold'>{post.userId.fullName}</h1>
-                            <p className='text-xs mt-2'>{post.timestamp.slice(0, 10)}</p>
+                            <p className='text-xs mt-2'>{post.modifiedOn.slice(0, 10)}</p>
                         </div>
                     </div>
 

@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const getPosts = async (userId: string) => {
+export const getPosts = async (userId: string, page = 0, limit = 10) => {
     try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post`, {
-            params: { userId }
+            params: { userId, page, limit }
         });
         const posts = response.data;
 

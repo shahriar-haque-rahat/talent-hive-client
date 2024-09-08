@@ -12,7 +12,7 @@ import { setPosts } from '@/redux/postSlice';
 const CentralFeed = () => {
     const dispatch = useDispatch();
     const { user } = useContext(AuthContext);
-    const posts = useSelector((state: any) => state.post.posts);
+    // const posts = useSelector((state: any) => state.post.posts);
 
     const router = useRouter();
     const [isPostModalOpen, setIsPostModalOpen] = useState(false);
@@ -32,15 +32,15 @@ const CentralFeed = () => {
         setIsPostModalOpen(false);
     };
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            if (user && user._id) {
-                const fetchedPosts = await getPosts(user._id);
-                dispatch(setPosts(fetchedPosts));
-            }
-        };
-        fetchPosts();
-    }, [dispatch, user]);
+    // useEffect(() => {
+    //     const fetchPosts = async () => {
+    //         if (user && user._id) {
+    //             const fetchedPosts = await getPosts(user._id);
+    //             dispatch(setPosts(fetchedPosts));
+    //         }
+    //     };
+    //     fetchPosts();
+    // }, [dispatch, user]);
 
     return (
         <>
@@ -67,7 +67,7 @@ const CentralFeed = () => {
                 </div> */}
             </div>
             <div className='my-6 border-t border-gray-500'></div>
-            <NewsFeed posts={posts} />
+            <NewsFeed />
             <PostModal isOpen={isPostModalOpen} onClose={closePostModal} post={null} />
         </>
     );

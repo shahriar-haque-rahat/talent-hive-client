@@ -1,16 +1,27 @@
 'use client'
 
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { CiMenuKebab } from 'react-icons/ci';
 import EditAndDeletePost from './posting/EditAndDeletePost';
 import PostDetailsModal from './post-details/PostDetailsModal';
 import SharedPostContent from './SharedPostContent';
 import PostInteractionSection from './post-interaction/PostInteractionSection';
 import { Image } from '@nextui-org/react';
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { getPosts } from '@/actions/postData';
+import { setPosts } from '@/redux/postSlice';
+import PostSkeleton from '@/skeletons/PostSkeleton';
 
-const NewsFeed = ({ posts }) => {
+const NewsFeed = () => {
+    const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
+
+    const { ref, inView } = useIntersectionObserver();
+    const posts = useSelector((state: any) => state.post.posts);
+    const [page, setPage] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+
     const [expandedPosts, setExpandedPosts] = useState({});
     const [openEditDeleteModal, setOpenEditDeleteModal] = useState({});
     const [openPostDetails, setOpenPostDetails] = useState({ isOpen: false, user: null, postId: null, currentImageIndex: 0 });
@@ -52,12 +63,34 @@ const NewsFeed = ({ posts }) => {
         return content;
     };
 
+    // Edit Delete Modal
     const toggleEditDeleteModal = (postId) => {
         setOpenEditDeleteModal((prevState) => ({
             ...prevState,
             [postId]: !prevState[postId],
         }));
     };
+
+    const fetchPosts = async () => {
+        if (user && user._id) {
+            const fetchedPosts = await getPosts(user._id, page);
+            if (fetchedPosts.length < 10) {
+                setHasMore(false);
+            }
+            dispatch(setPosts([...posts, ...fetchedPosts]));
+            setPage(page + 1);
+        }
+    };
+
+    useEffect(() => {
+        fetchPosts();
+    }, [user]);
+
+    useEffect(() => {
+        if (inView && hasMore) {
+            fetchPosts();
+        }
+    }, [inView, hasMore]);
 
     return (
         <div className='space-y-4'>
@@ -142,6 +175,13 @@ const NewsFeed = ({ posts }) => {
                     initialIndex={openPostDetails.currentImageIndex}
                 />
             }
+
+            {/* Element to trigger for more fetch */}
+            {hasMore && (
+                <div ref={ref} className="h-fit">
+                    <PostSkeleton/>
+                </div>
+            )}
         </div>
     );
 };

@@ -99,7 +99,7 @@ const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
                                 />
                                 <div>
                                     <h1 className="font-semibold">{sharedPost.userId.fullName}</h1>
-                                    <p className="text-xs">{sharedPost.modifiedOn.slice(0, 10)}</p>
+                                    <p className="text-xs">{sharedPost.updatedAt.slice(0, 10)}</p>
                                 </div>
                             </div>
 

@@ -99,7 +99,7 @@ export const deleteComment = async (postId: string, id: string) => {
         return response.data;
     }
     catch (error) {
-        console.log("Error deleting comment:", error);
+        console.error("Error deleting comment:", error);
         return error;
     }
 }

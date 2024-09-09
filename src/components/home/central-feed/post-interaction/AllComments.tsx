@@ -122,7 +122,7 @@ const AllComments = ({ user, postId, openComment }) => {
                     postId,
                     comments: [...comments, ...newComments.comments]
                 }));
-                console.log(newComments.comments.length);
+                
                 if (newComments.comments.length < 5) {
                     setHasMore(false);
                 }

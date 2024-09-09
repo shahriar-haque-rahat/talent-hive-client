@@ -1,17 +1,28 @@
-import { getPostShares } from '@/actions/postData';
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { MdClose } from 'react-icons/md';
+import { getPostShares } from '@/actions/postData';
+import { addCachePost, selectManyPostById } from '@/redux/postSlice';
 
-const AllShares = ({ openShareList, toggleOpenShareList, postId }) => {
+const AllShares = ({ openShareList, toggleOpenShareList, post }) => {
+    const dispatch = useDispatch();
     const [shares, setShares] = useState([]);
     const [hasFetchedShares, setHasFetchedShares] = useState(false);
-console.log(shares);
 
-    const fetchPostShares = async (postId) => {
-        if (postId && !hasFetchedShares) {
+    const existingShares = useSelector(state => selectManyPostById(state, post._id));
+
+    const fetchPostShares = async () => {
+        if (post._id && !hasFetchedShares) {
             try {
-                const response = await getPostShares(postId);
-                setShares(response);
+                let fetchedShares = [];
+                if (existingShares?.length !== post.sharesCount) {
+                    const excludePostIds = existingShares.map(post => post._id).join(',');
+                    fetchedShares = await getPostShares(post._id, excludePostIds);
+                    fetchedShares.forEach(postData => {
+                        dispatch(addCachePost({ postData }));
+                    });
+                }
+                setShares([...existingShares, ...fetchedShares]);
                 setHasFetchedShares(true);
             }
             catch (error) {
@@ -24,13 +35,13 @@ console.log(shares);
         setShares([]);
         setHasFetchedShares(false);
         toggleOpenShareList();
-    }
+    };
 
     useEffect(() => {
         if (openShareList && !hasFetchedShares) {
-            fetchPostShares(postId);
+            fetchPostShares();
         }
-    }, [])
+    }, [openShareList]);
 
     if (!openShareList) return null;
 
@@ -43,7 +54,14 @@ console.log(shares);
                 >
                     <MdClose size={24} />
                 </button>
-                <h2 className="text-xl font-bold mb-4">All Likes</h2>
+                <h2 className="text-xl font-bold mb-4">All Shares</h2>
+                <div>
+                    {shares.map(share => (
+                        <div key={share._id} className="share-item">
+                            <p>{share.content}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

@@ -43,7 +43,10 @@ const postSlice = createSlice({
         },
         addCachePost: (state, action) => {
             const { postData } = action.payload;
-            state.cachedPosts.push(postData);
+            const isPostAlreadyStored = state.posts.some(post => post._id === postData._id) || state.cachedPosts.some(post => post._id === postData._id);
+            if (!isPostAlreadyStored) {
+                state.cachedPosts.push(postData);
+            }
         },
     },
 });
@@ -64,5 +67,11 @@ export const selectPostById = (state, postId) => {
     return undefined;
 };
 
+export const selectManyPostById = (state, postId) => {
+    const combinedPosts = [...state.post.posts, ...state.post.cachedPosts];
+    const uniquePosts = combinedPosts.filter(post => post.sharedPostId?._id === postId);
+
+    return uniquePosts;
+};
 
 export default postSlice.reducer;

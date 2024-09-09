@@ -15,8 +15,7 @@ const PostInteractionSection = ({ user, post, isModalView = false }) => {
     const [openLike, setOpenLike] = useState({ isOpen: false, postId: null });
     const [openComment, setOpenComment] = useState(isModalView ? { [post._id]: true } : {});
     const [openShare, setOpenShare] = useState({ isOpen: false, post: null });
-    const [openShareList, setOpenShareList] = useState({ isOpen: false, postId: null });
-console.log(post);
+    const [openShareList, setOpenShareList] = useState({ isOpen: false, post: null });
 
     // like
     const toggleOpenLike = (postId) => {
@@ -64,8 +63,8 @@ console.log(post);
         setOpenShare({ isOpen: !openShare.isOpen, post });
     }
 
-    const toggleOpenShareList = (postId) => {
-        setOpenShareList({ isOpen: !openShareList.isOpen, postId });
+    const toggleOpenShareList = (post) => {
+        setOpenShareList({ isOpen: !openShareList.isOpen, post });
     }
 
     // save
@@ -97,7 +96,7 @@ console.log(post);
                 <div className=' text-xs flex items-center justify-end gap-2 text-gray-500 px-3 py-1'>
                     <p onClick={() => toggleOpenLike(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.likesCount} {post.likesCount > 1 ? 'Likes' : 'Like'}</p><p className=' font-bold'>.</p>
                     <p onClick={() => toggleOpenComment(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.commentsCount} {post.commentsCount > 1 ? 'Comments' : 'Comment'}</p><p className=' font-bold'>.</p>
-                    <p onClick={() => toggleOpenShareList(post._id)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.sharesCount} {post.sharesCount > 1 ? 'Shares' : 'Share'}</p>
+                    <p onClick={() => toggleOpenShareList(post)} className=' cursor-pointer hover:text-sky-500 hover:underline'>{post.sharesCount} {post.sharesCount > 1 ? 'Shares' : 'Share'}</p>
                 </div>
                 <div className='flex justify-evenly'>
                     {/* Like */}
@@ -141,7 +140,7 @@ console.log(post);
                 }
 
                 {openShareList.isOpen &&
-                    <AllShares openShareList={openShareList.isOpen} toggleOpenShareList={toggleOpenShareList} postId={openShareList.postId} />
+                    <AllShares openShareList={openShareList.isOpen} toggleOpenShareList={toggleOpenShareList} post={openShareList.post} />
                 }
             </div>
         </div>

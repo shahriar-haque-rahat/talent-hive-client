@@ -13,8 +13,7 @@ const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
     const [expandedPosts, setExpandedPosts] = useState(false);
     const [isPortrait, setIsPortrait] = useState(false);
     const [loading, setLoading] = useState(true);
-    console.log(post);
-
+    
     const handleImageLoad = (e) => {
         const { naturalWidth, naturalHeight } = e.target;
         setIsPortrait(naturalHeight > naturalWidth);

@@ -29,19 +29,22 @@ export const getOnePost = async (postId: string, userId: string) => {
     }
 };
 
-export const getPostShares = async (postId: string) => {
+export const getPostShares = async (postId, excludePostIds = '') => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/share/${postId}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/share/${postId}`, {
+            params: {
+                exclude: excludePostIds
+            }
+        });
         const postShares = response.data;
 
         return postShares;
     }
-
     catch (error) {
         console.error("Error fetching post shares:", error);
         return null;
     }
-}
+};
 
 export const createPost = async (postData: any) => {
     try {

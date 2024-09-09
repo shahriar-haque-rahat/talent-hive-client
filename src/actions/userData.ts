@@ -6,7 +6,7 @@ export const getUser = async (userId) => {
         return response.data;
     }
     catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }

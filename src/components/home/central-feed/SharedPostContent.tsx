@@ -37,9 +37,9 @@ const SharedPostContent = ({ user, sharedPostContent: post }) => {
     return (
         <>
             <div>
-                <div className='border-b-0 border border-gray-300 rounded-t-lg p-2 m-4 mb-0'>
+                <div className='border-b-0 border border-gray-300 rounded-t-lg m-4 mb-0'>
                     {/* User details */}
-                    <div className='flex gap-2 '>
+                    <div className='flex gap-2 p-3'>
                         <Image
                             src={post.userId.profileImage}
                             alt={post.fullName}
@@ -52,7 +52,7 @@ const SharedPostContent = ({ user, sharedPostContent: post }) => {
                     </div>
 
                     {/* Content */}
-                    <div className='mt-2 p-3'>
+                    <div className='p-3'>
                         <p>{renderContent(post.content)}</p>
                     </div>
                 </div>

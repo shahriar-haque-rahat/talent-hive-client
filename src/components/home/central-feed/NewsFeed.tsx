@@ -130,7 +130,7 @@ const NewsFeed = () => {
                         </div>
 
                         {/* Post content */}
-                        <div className='mt-2 p-3'>
+                        <div className='p-3'>
                             <p>{renderContent(post.content, index)}</p>
                         </div>
 

@@ -78,12 +78,12 @@ const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
                         <MdArrowBackIos size={20} />
                     </button>
 
-                    <div className="flex-grow flex justify-center">
+                    <div className="flex-grow flex justify-center items-center">
                         <img
                             src={post.media[currentIndex]}
                             alt={`Media ${currentIndex + 1}`}
                             onLoad={handleImageLoad}
-                            className={`rounded-lg object-cover ${isPortrait ? 'h-[80vh]' : 'w-[80vw]'}`}
+                            className={`rounded-lg object-cover ${isPortrait ? ' h-[80vh]' : 'w-[70%]'}`}
                         />
                     </div>
 

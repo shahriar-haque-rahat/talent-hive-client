@@ -26,7 +26,7 @@ const MediaSection = ({ media, postId, user }) => {
                                 style={{ aspectRatio: '1 / 1' }}
                             />
                             {mediaIndex === 3 && media.length > 4 && (
-                                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-xl">
+                                <div className="absolute inset-0 z-[60] bg-black bg-opacity-50 flex items-center justify-center text-white text-xl">
                                     +{media.length - 4}
                                 </div>
                             )}

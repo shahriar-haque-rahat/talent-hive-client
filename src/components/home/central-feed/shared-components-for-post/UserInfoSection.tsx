@@ -3,7 +3,7 @@ import React from 'react';
 
 const UserInfoSection = ({ profileImage, fullName, updatedAt }) => {
     return (
-        <div className='flex gap-2'>
+        <div className='flex gap-2 p-3'>
             <Image
                 src={profileImage}
                 alt={fullName}

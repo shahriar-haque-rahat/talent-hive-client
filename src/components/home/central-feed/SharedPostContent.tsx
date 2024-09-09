@@ -1,6 +1,7 @@
-import { Image } from '@nextui-org/react';
 import React, { useState } from 'react';
 import PostDetailsModal from './post-details/PostDetailsModal';
+import UserInfoSection from './shared-components-for-post/UserInfoSection';
+import MediaSection from './shared-components-for-post/MediaSection';
 
 const SharedPostContent = ({ user, sharedPostContent: post }) => {
     const [openPostDetails, setOpenPostDetails] = useState({ isOpen: false, user: null, postId: null, currentImageIndex: 0 });
@@ -39,17 +40,7 @@ const SharedPostContent = ({ user, sharedPostContent: post }) => {
             <div>
                 <div className='border-b-0 border border-gray-300 rounded-t-lg m-4 mb-0'>
                     {/* User details */}
-                    <div className='flex gap-2 p-3'>
-                        <Image
-                            src={post.userId.profileImage}
-                            alt={post.fullName}
-                            className="rounded-full border-2 border-white w-14 h-14 object-cover object-center"
-                        />
-                        <div>
-                            <h1 className='font-semibold'>{post.userId.fullName}</h1>
-                            <p className='text-xs mt-2'>{post.updatedAt.slice(0, 10)}</p>
-                        </div>
-                    </div>
+                    <UserInfoSection profileImage={post.userId.profileImage} fullName={post.userId.fullName} updatedAt={post.updatedAt.slice(0, 10)} />
 
                     {/* Content */}
                     <div className='p-3'>
@@ -58,25 +49,7 @@ const SharedPostContent = ({ user, sharedPostContent: post }) => {
                 </div>
 
                 {/* Display media files */}
-                {post.media && post.media.length > 0 && (
-                    <div className="grid grid-cols-2 w-full">
-                        {post.media.slice(0, 4).map((mediaUrl, mediaIndex) => (
-                            <div key={mediaIndex} className="relative w-full cursor-pointer" onClick={() => openPostDetailsModal(post._id, mediaIndex)}>
-                                <Image
-                                    src={mediaUrl}
-                                    alt={`Media ${mediaIndex}`}
-                                    className=" rounded-none border-2 border-white object-cover object-center"
-                                    style={{ aspectRatio: '1 / 1' }}
-                                />
-                                {mediaIndex === 3 && post.media.length > 4 && (
-                                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white text-xl">
-                                        +{post.media.length - 4}
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                )}
+                <MediaSection media={post.media} postId={post._id} user={user} />
 
                 {openPostDetails.isOpen &&
                     <PostDetailsModal

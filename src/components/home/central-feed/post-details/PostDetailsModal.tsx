@@ -5,43 +5,18 @@ import PostInteractionSection from '../post-interaction/PostInteractionSection';
 import { addCachePost, selectPostById } from '@/redux/postSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { getOnePost } from '@/actions/postData';
+import ContentSection from '../shared-components-for-post/ContentSection';
 
 const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
     const dispatch = useDispatch();
     const post = useSelector((state) => selectPostById(state, postId));
     const [currentIndex, setCurrentIndex] = useState(initialIndex);
-    const [expandedPosts, setExpandedPosts] = useState(false);
     const [isPortrait, setIsPortrait] = useState(false);
     const [loading, setLoading] = useState(true);
-    
+
     const handleImageLoad = (e) => {
         const { naturalWidth, naturalHeight } = e.target;
         setIsPortrait(naturalHeight > naturalWidth);
-    };
-
-    // Content
-    const toggleReadMore = () => {
-        setExpandedPosts((prevExpanded) => !prevExpanded);
-    };
-
-    const renderContent = (content) => {
-        const words = content.split(' ');
-        const isExpanded = expandedPosts;
-
-        if (words.length > 20) {
-            return (
-                <>
-                    {isExpanded ? content : words.slice(0, 20).join(' ') + '...'}
-                    <span
-                        onClick={() => toggleReadMore()}
-                        className="text-blue-500 cursor-pointer ml-1"
-                    >
-                        {isExpanded ? 'Show less' : 'Read more'}
-                    </span>
-                </>
-            );
-        }
-        return content;
     };
 
     const fetchPost = async () => {
@@ -70,7 +45,6 @@ const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
             setCurrentIndex(0);
         }
     }, [isOpen, initialIndex]);
-
 
     const handlePrev = () => {
         if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
@@ -147,7 +121,7 @@ const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
                     {/* Scrollable content */}
                     <div className="my-4">
                         {/* Post Content */}
-                        <p className=' mb-4'>{renderContent(post.content)}</p>
+                        <ContentSection content={post.content} index={''} />
 
                         {/* Interaction Buttons */}
                         <PostInteractionSection user={user} post={post} isModalView={true} />

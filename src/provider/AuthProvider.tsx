@@ -70,7 +70,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
             }
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
             toast.error('Account activation failed')
         }
     }
@@ -86,7 +86,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
             }
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
             toast.error('Forgot password failed')
         }
     }
@@ -104,7 +104,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
             }
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
             toast.error('Password reset failed')
         }
     }
@@ -133,7 +133,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
             }
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
             toast.error('Failed to log out');
         }
     }

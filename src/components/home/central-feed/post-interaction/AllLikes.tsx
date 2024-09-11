@@ -3,6 +3,7 @@ import { Image } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 
+// TODO: loading skeleton while likes fetching 
 const AllLikes = ({ openLike, toggleOpenLike, postId }) => {
     const [likes, setLikes] = useState([]);
     const [hasFetchedLikes, setHasFetchedLikes] = useState(false);
@@ -46,7 +47,7 @@ const AllLikes = ({ openLike, toggleOpenLike, postId }) => {
                 <h2 className="text-xl font-bold mb-4">All Likes</h2>
                 <div className="overflow-y-scroll flex-1">
                     <ul>
-                        {likes.map((like) => (
+                        {likes.length > 0 && likes.map((like) => (
                             <div key={like._id} className=' flex gap-2 items-center py-2 border-b border-gray-200 hover:underline cursor-pointer'>
                                 <Image
                                     src={like.userId?.profileImage}
@@ -60,6 +61,9 @@ const AllLikes = ({ openLike, toggleOpenLike, postId }) => {
                                 </li>
                             </div>
                         ))}
+                        {likes.length === 0 &&
+                            <p className=' w-full text-center'>There are no likes</p>
+                        }
                     </ul>
                 </div>
             </div>

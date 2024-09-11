@@ -8,6 +8,7 @@ import SharedPostContent from '../SharedPostContent';
 import UserInfoSection from '../shared-components-for-post/UserInfoSection';
 import ContentSection from '../shared-components-for-post/ContentSection';
 
+// TODO: loading skeleton while share posts fetching  
 const AllShares = ({ openShareList, toggleOpenShareList, post }) => {
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
@@ -60,7 +61,7 @@ const AllShares = ({ openShareList, toggleOpenShareList, post }) => {
                 </button>
                 <h2 className="text-xl font-bold mb-4">All Shares</h2>
                 <div className='overflow-y-scroll flex-1'>
-                    {shares.map((post, index) =>
+                    {shares.length > 0 && shares.map((post, index) =>
                         <div key={index} className='bg-white border border-gray-300 rounded-lg mt-10 pb-6'>
                             <div className=' flex items-start justify-between p-3'>
                                 {/* User info */}
@@ -76,6 +77,9 @@ const AllShares = ({ openShareList, toggleOpenShareList, post }) => {
                             }
                         </div>
                     )}
+                    {shares.length === 0 &&
+                        <p className=' w-full text-center'>There are no shares</p>
+                    }
                 </div>
             </div>
         </div>

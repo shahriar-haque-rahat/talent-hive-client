@@ -6,6 +6,7 @@ import { setComments, removeComment, editComment } from '@/redux/commentSlice';
 import ConfirmationModal from '@/shared/ConfirmationModal';
 import { updatePostOnInteraction } from '@/redux/postSlice';
 
+// TODO: loading skeleton while comments fetching 
 const AllComments = ({ user, postId, openComment }) => {
     const dispatch = useDispatch();
     const isOpen = openComment[postId];
@@ -122,7 +123,7 @@ const AllComments = ({ user, postId, openComment }) => {
                     postId,
                     comments: [...comments, ...newComments.comments]
                 }));
-                
+
                 if (newComments.comments.length < 5) {
                     setHasMore(false);
                 }
@@ -154,7 +155,7 @@ const AllComments = ({ user, postId, openComment }) => {
     return (
         <>
             <div className='p-4'>
-                {comments.map((comment) => (
+                {comments.length > 0 && comments.map((comment) => (
                     <div key={comment._id} className='flex items-start gap-2 mt-2'>
                         <Image
                             src={comment.userId?.profileImage}
@@ -195,6 +196,10 @@ const AllComments = ({ user, postId, openComment }) => {
                         </div>
                     </div>
                 ))}
+
+                {comments.length === 0 &&
+                    <p className=' w-full text-center'>There are no comments</p>
+                }
             </div>
             {hasMore && (
                 <div className='text-center'>

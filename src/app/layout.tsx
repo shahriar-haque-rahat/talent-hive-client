@@ -6,6 +6,7 @@ import AuthProvider from "@/provider/AuthProvider";
 import Authorization from "@/components/authentication/Authorization";
 import StoreProvider from "@/provider/StoreProvider";
 import Navbar from "@/components/navbar/Navbar";
+import { EdgeStoreProvider } from "../edgestore/edgestore";
 
 const font = Lato({
   subsets: ["latin"],
@@ -25,15 +26,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${font.className} mx-auto max-w-[1440px] px-1 md:px-6`}>
-        <StoreProvider>
-          <AuthProvider>
-            <Authorization>
-              <Navbar />
-              <div className=" mt-20">{children}</div>
-            </Authorization>
-          </AuthProvider>
-          <Toaster />
-        </StoreProvider>
+        <EdgeStoreProvider>
+          <StoreProvider>
+            <AuthProvider>
+              <Authorization>
+                <Navbar />
+                <div className=" mt-20">{children}</div>
+              </Authorization>
+            </AuthProvider>
+            <Toaster />
+          </StoreProvider>
+        </EdgeStoreProvider>
       </body>
     </html>
   );

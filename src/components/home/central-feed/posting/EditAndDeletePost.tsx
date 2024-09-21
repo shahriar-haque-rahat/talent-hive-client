@@ -66,6 +66,7 @@ const EditAndDeletePost = ({ onEditDeleteClose, post }) => {
                 isOpen={isPostModalOpen}
                 onClose={closePostModal}
                 post={post}
+                isEditing={true}
             />
 
             <ConfirmationModal

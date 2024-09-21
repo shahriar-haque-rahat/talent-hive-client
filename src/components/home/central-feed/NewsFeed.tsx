@@ -61,7 +61,7 @@ const NewsFeed = () => {
                     <div key={index} className='bg-white border border-gray-300 rounded-lg '>
                         <div className=' flex items-start justify-between p-3'>
                             {/* User info */}
-                            <UserInfoSection profileImage={post.userId.profileImage} fullName={post.userId.fullName} updatedAt={post.updatedAt.slice(0, 10)} />
+                            <UserInfoSection profileImage={post.userId.profileImage} fullName={post.userId.fullName} createdAt={post.createdAt.slice(0, 10)} />
 
                             {/* Edit and delete modal */}
                             <div className='relative'>
@@ -88,7 +88,7 @@ const NewsFeed = () => {
                         <MediaSection media={post.media} postId={post._id} user={user} />
 
                         {/* Shared post content */}
-                        {post.sharedPostId && post.sharedPostId !== '' &&
+                        {(post.sharedPostId || post.sharedPostId === null) &&
                             <SharedPostContent user={user} sharedPostContent={post.sharedPostId} />
                         }
 

@@ -1,50 +1,22 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { MdClose, MdFileUpload } from 'react-icons/md';
-import toast from 'react-hot-toast';
 
-const AddMediaModal = ({ isOpen, onClose, onUpload, initialMedia = [], setRemovedMedia, isEditing }) => {
+const AddMediaModal = ({ onUpload }) => {
     const [mediaFiles, setMediaFiles] = useState([]);
     const fileInputRef = useRef(null);
 
-    useEffect(() => {
-        setMediaFiles(initialMedia);
-    }, [initialMedia]);
-
     const handleMediaChange = (e) => {
         const files = Array.from(e.target.files);
-        if (files.length + mediaFiles.length > 6) {
-            toast.error('You can only select up to 6 media files.');
-            return;
-        }
         setMediaFiles((prevFiles) => [...prevFiles, ...files]);
-    };
-
-    const handleRemoveMedia = (index) => {
-        const removedFile = mediaFiles[index];
-        if (isEditing && removedFile) {
-            setRemovedMedia((prev) => [...prev, removedFile]);
-        }
-        setMediaFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     };
 
     const handleUpload = () => {
         onUpload(mediaFiles);
-        setMediaFiles([]);
-        onClose();
     };
 
-    if (!isOpen) return null;
-
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[60]">
-            <div className="bg-white w-11/12 max-w-xl h-1/2 p-6 rounded-lg relative flex flex-col">
-                <button
-                    onClick={onClose}
-                    className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-                >
-                    <MdClose size={24} />
-                </button>
-
+        <>
+            <div className="flex flex-col h-full overflow-auto">
                 <h2 className="text-xl font-semibold mb-4">Upload Media</h2>
 
                 <div className="flex-grow overflow-y-auto">
@@ -56,13 +28,6 @@ const AddMediaModal = ({ isOpen, onClose, onUpload, initialMedia = [], setRemove
                                     alt="media preview"
                                     className="w-full h-32 object-cover rounded-md"
                                 />
-                                <button
-                                    type="button"
-                                    onClick={() => handleRemoveMedia(index)}
-                                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
-                                >
-                                    <MdClose size={16} />
-                                </button>
                             </div>
                         ))}
                     </div>
@@ -90,7 +55,7 @@ const AddMediaModal = ({ isOpen, onClose, onUpload, initialMedia = [], setRemove
                     </button>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

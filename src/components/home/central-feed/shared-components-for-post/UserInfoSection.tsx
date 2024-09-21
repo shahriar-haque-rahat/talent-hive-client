@@ -1,7 +1,8 @@
 import { Image } from '@nextui-org/react';
 import React from 'react';
 
-const UserInfoSection = ({ profileImage, fullName, updatedAt }) => {
+const UserInfoSection = ({ profileImage, fullName, createdAt }) => { console.log(createdAt);
+
     return (
         <div className='flex gap-2 p-3'>
             <Image
@@ -11,7 +12,7 @@ const UserInfoSection = ({ profileImage, fullName, updatedAt }) => {
             />
             <div>
                 <h1 className='font-semibold'>{fullName}</h1>
-                <p className='text-xs mt-2'>{updatedAt.slice(0, 10)}</p>
+                <p className='text-xs mt-2'>{createdAt.slice(0, 10)}</p>
             </div>
         </div>
     );

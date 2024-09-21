@@ -1,19 +1,11 @@
+import React, { useContext, useState } from 'react';
 import { Image } from '@nextui-org/react';
-import React, { useContext, useEffect, useState } from 'react';
-import NewsFeed from './NewsFeed';
-import PostModal from './posting/PostModal';
-import { MdArticle, MdPermMedia } from 'react-icons/md';
+import PostModal from '../central-feed/posting/PostModal';
 import { AuthContext } from '@/provider/AuthProvider';
 import { useRouter } from 'next/navigation';
-import { getPosts } from '@/actions/postData';
-import { useDispatch, useSelector } from 'react-redux';
-import { setPosts } from '@/redux/postSlice';
 
-const CentralFeed = () => {
-    const dispatch = useDispatch();
+const PostSection = () => {
     const { user } = useContext(AuthContext);
-    // const posts = useSelector((state: any) => state.post.posts);
-
     const router = useRouter();
     const [isPostModalOpen, setIsPostModalOpen] = useState(false);
 
@@ -31,16 +23,6 @@ const CentralFeed = () => {
     const closePostModal = () => {
         setIsPostModalOpen(false);
     };
-
-    // useEffect(() => {
-    //     const fetchPosts = async () => {
-    //         if (user && user._id) {
-    //             const fetchedPosts = await getPosts(user._id);
-    //             dispatch(setPosts(fetchedPosts));
-    //         }
-    //     };
-    //     fetchPosts();
-    // }, [dispatch, user]);
 
     return (
         <>
@@ -66,11 +48,9 @@ const CentralFeed = () => {
                     </button>
                 </div> */}
             </div>
-            <div className='my-6 border-t border-gray-500'></div>
-            <NewsFeed />
-            <PostModal isOpen={isPostModalOpen} onClose={closePostModal} post={null} isEditing={false}/>
+            <PostModal isOpen={isPostModalOpen} onClose={closePostModal} post={null} isEditing={false} />
         </>
     );
 };
 
-export default CentralFeed;
+export default PostSection;

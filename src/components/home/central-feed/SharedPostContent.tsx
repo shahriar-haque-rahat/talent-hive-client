@@ -4,6 +4,7 @@ import UserInfoSection from './shared-components-for-post/UserInfoSection';
 import MediaSection from './shared-components-for-post/MediaSection';
 
 const SharedPostContent = ({ user, sharedPostContent: post }) => {
+    console.log(post)
     const [openPostDetails, setOpenPostDetails] = useState({ isOpen: false, user: null, postId: null, currentImageIndex: 0 });
 
     // Post Details
@@ -37,30 +38,47 @@ const SharedPostContent = ({ user, sharedPostContent: post }) => {
 
     return (
         <>
-            <div>
-                <div className='border-b-0 border border-gray-300 rounded-t-lg m-4 mb-0'>
-                    {/* User details */}
-                    <UserInfoSection profileImage={post.userId.profileImage} fullName={post.userId.fullName} updatedAt={post.updatedAt.slice(0, 10)} />
+            {
+                post ?
+                    <div>
+                        <div className='border-b-0 border border-gray-300 rounded-t-lg m-4 mb-0'>
+                            {/* User details */}
+                            <UserInfoSection profileImage={post.userId.profileImage} fullName={post.userId.fullName} createdAt={post.createdAt.slice(0, 10)} />
 
-                    {/* Content */}
-                    <div className='p-3'>
-                        <p>{renderContent(post.content)}</p>
+                            {/* Content */}
+                            <div className='p-3'>
+                                <p>{renderContent(post.content)}</p>
+                            </div>
+                        </div>
+
+                        {/* Display media files */}
+                        <MediaSection media={post.media} postId={post._id} user={user} />
+
+                        {openPostDetails.isOpen &&
+                            <PostDetailsModal
+                                isOpen={openPostDetails.isOpen}
+                                onClose={closePostDetailsModal}
+                                user={user}
+                                postId={openPostDetails.postId}
+                                initialIndex={openPostDetails.currentImageIndex}
+                            />
+                        }
                     </div>
-                </div>
+                    :
+                    <div className="border-b-0 border border-gray-300 rounded-t-lg m-4 mb-0 bg-white p-4">
+                        <div className="flex items-center space-x-4">
+                            <div className="w-12 h-12 rounded-full bg-gray-300"></div>
+                            <div>
+                                <p className="text-gray-800 font-semibold">Unavailable Content</p>
+                                <p className="text-gray-600 text-sm">This content is unavailable right now.</p>
+                            </div>
+                        </div>
+                        <div className="mt-4">
+                            <p className="text-gray-500 text-sm">It looks like this content has been removed or is not accessible.</p>
+                        </div>
+                    </div>
 
-                {/* Display media files */}
-                <MediaSection media={post.media} postId={post._id} user={user} />
-
-                {openPostDetails.isOpen &&
-                    <PostDetailsModal
-                        isOpen={openPostDetails.isOpen}
-                        onClose={closePostDetailsModal}
-                        user={user}
-                        postId={openPostDetails.postId}
-                        initialIndex={openPostDetails.currentImageIndex}
-                    />
-                }
-            </div>
+            }
         </>
     );
 };

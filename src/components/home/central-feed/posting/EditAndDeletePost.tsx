@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PostModal from './PostModal';
+import ShareModal from './ShareModal';
 import ConfirmationModal from '@/shared/ConfirmationModal';
 import { deletePost } from '@/actions/postData';
 import { useDispatch } from 'react-redux';
@@ -7,9 +8,10 @@ import { removePost, updatePostOnInteraction } from '@/redux/postSlice';
 import toast from 'react-hot-toast';
 import { useEdgeStore } from '../../../../edgestore/edgestore';
 
-const EditAndDeletePost = ({ onEditDeleteClose, post }) => {
+const EditAndDeletePost = ({ onEditDeleteClose, post, userId }) => {
     const dispatch = useDispatch();
     const [isPostModalOpen, setIsPostModalOpen] = useState(false);
+    const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [postToDelete, setPostToDelete] = useState(null);
     const { edgestore } = useEdgeStore();
@@ -51,27 +53,47 @@ const EditAndDeletePost = ({ onEditDeleteClose, post }) => {
             }
         }
     };
+
     const closePostModal = () => {
         setIsPostModalOpen(false);
         onEditDeleteClose();
     };
 
+    const closeShareModal = () => {
+        setIsShareModalOpen(false);
+        onEditDeleteClose();
+    };
+
     const handleEditPost = () => {
-        setIsPostModalOpen(true);
+        if (post.sharedPostId) {
+            setIsShareModalOpen(true);
+        } else {
+            setIsPostModalOpen(true);
+        }
     };
 
     return (
         <>
             <div className="absolute right-0 mt-2 flex flex-col items-start text-sm bg-white border shadow-lg rounded-lg ">
                 <button onClick={handleEditPost} className='hover:bg-gray-200 py-2 px-3 w-full text-left'>Edit</button>
-                <button onClick={confirmDeletePost} className='hover:bg-gray-200 py-2 px-3 w-full text-left'>Delete</button>
+                <button onClick={() => confirmDeletePost(post._id)} className='hover:bg-gray-200 py-2 px-3 w-full text-left'>Delete</button>
             </div>
 
+            {/* Post Modal for regular posts */}
             <PostModal
                 isOpen={isPostModalOpen}
                 onClose={closePostModal}
                 post={post}
                 isEditing={true}
+            />
+
+            {/* Share Modal for shared posts */}
+            <ShareModal
+                openShare={isShareModalOpen}
+                toggleOpenShare={closeShareModal}
+                post={post}
+                userId={userId}
+                isEditing={true} 
             />
 
             <ConfirmationModal

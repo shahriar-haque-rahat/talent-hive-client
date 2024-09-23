@@ -37,7 +37,7 @@ const LeftSidebar = () => {
                 </div>
             </div>
             <div className='my-6 border-t border-gray-500'></div>
-            <PostSection/>
+            <PostSection />
         </>
     );
 };

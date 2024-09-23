@@ -1,18 +1,17 @@
-import { createPost } from '@/actions/postData';
-import { addPost, updatePostOnInteraction } from '@/redux/postSlice';
+import { createPost, updatePost } from '@/actions/postData';
+import { addPost, editPost, updatePostOnInteraction } from '@/redux/postSlice';
 import { Image } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { MdClose } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 
-const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
+const ShareModal = ({ openShare, toggleOpenShare, post, userId, isEditing = false }) => {
     const dispatch = useDispatch();
     const [sharedPost, setSharedPost] = useState(post);
-    const [content, setContent] = useState("");
+    const [content, setContent] = useState(isEditing ? post.content : "");
     const [expandedPosts, setExpandedPosts] = useState(false);
 
-    // Content
     const toggleReadMore = () => {
         setExpandedPosts((prevExpanded) => !prevExpanded);
     };
@@ -37,25 +36,40 @@ const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
         return content;
     };
 
-    const handleShare = () => {
+    const handleShareOrEdit = () => {
         if (userId && sharedPost) {
             const sharePostData = {
                 userId,
                 sharedPostId: sharedPost._id,
                 content
+            };
+            if (isEditing) {
+                updatePost(post._id, sharePostData)
+                    .then((response) => {
+                        if (response) {
+                            dispatch(editPost({ postId: post._id, editedData: response }));
+                            toast.success('Post updated successfully');
+                            toggleOpenShare();
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error updating post:', error);
+                        toast.error('Failed to update post');
+                    });
+            } else {
+                createPost(sharePostData)
+                    .then((response) => {
+                        if (response) {
+                            dispatch(addPost({ postData: response }));
+                            dispatch(updatePostOnInteraction(response.sharedPostId));
+                            toast.success('Successfully Post Shared');
+                            toggleOpenShare();
+                        }
+                    })
+                    .catch(() => {
+                        toast.error('Failed to share post');
+                    });
             }
-            createPost(sharePostData)
-                .then((response) => {
-                    if (response) {
-                        dispatch(addPost({ postData: response }));
-                        dispatch(updatePostOnInteraction(response.sharedPostId));
-                        toast.success('Successfully Post Shared');
-                        toggleOpenShare();
-                    }
-                })
-                .catch(() => {
-                    toast.error('Failed to share post');
-                });
         }
     };
 
@@ -63,76 +77,71 @@ const ShareModal = ({ openShare, toggleOpenShare, post, userId }) => {
         if (post.sharedPostId) {
             setSharedPost(post.sharedPostId);
         }
-    }, [post])
+    }, [post]);
+
     if (!openShare) return null;
 
     return (
-        <>
-            {openShare && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[60]">
-                    <div className="bg-white w-11/12 max-w-2xl h-3/4 p-6 rounded-lg relative flex flex-col">
-                        <button
-                            onClick={toggleOpenShare}
-                            className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-                        >
-                            <MdClose size={24} />
-                        </button>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[60]">
+            <div className="bg-white w-11/12 max-w-2xl h-3/4 p-6 rounded-lg relative flex flex-col">
+                <button
+                    onClick={toggleOpenShare}
+                    className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+                >
+                    <MdClose size={24} />
+                </button>
 
-                        <h2 className="text-xl font-semibold mb-4">Share Post</h2>
+                <h2 className="text-xl font-semibold mb-4">
+                    {isEditing ? 'Edit Shared Post' : 'Share Post'}
+                </h2>
 
-                        {/* content input */}
-                        <textarea
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            className="w-full max-h-44 min-h-44 p-2 outline-none"
-                            rows={4}
-                            placeholder="Add a content..."
+                <textarea
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    className="w-full max-h-44 min-h-44 p-2 outline-none"
+                    rows={4}
+                    placeholder="Add content..."
+                />
+
+                <div className="border border-gray-300 rounded-lg p-4 overflow-y-scroll">
+                    <div className="flex gap-2 items-center">
+                        <Image
+                            src={sharedPost.userId.profileImage}
+                            alt={sharedPost.userId.fullName}
+                            className="rounded-full w-10 h-10 object-cover object-center"
                         />
-
-                        {/* Display the post being shared */}
-                        <div className="border border-gray-300 rounded-lg p-4 overflow-y-scroll">
-                            <div className="flex gap-2 items-center">
-                                <Image
-                                    src={sharedPost.userId.profileImage}
-                                    alt={sharedPost.userId.fullName}
-                                    className="rounded-full w-10 h-10 object-cover object-center"
-                                />
-                                <div>
-                                    <h1 className="font-semibold">{sharedPost.userId.fullName}</h1>
-                                    <p className="text-xs">{sharedPost.updatedAt.slice(0, 10)}</p>
-                                </div>
-                            </div>
-
-                            <p className="mt-4">{renderContent(sharedPost.content)}</p>
-
-                            {/* Media files with scroll if overflow */}
-                            {sharedPost.media && sharedPost.media.length > 0 && (
-                                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                                    {sharedPost.media.map((mediaUrl, mediaIndex) => (
-                                        <div key={mediaIndex} className="relative w-full cursor-pointer" >
-                                            <Image
-                                                src={mediaUrl}
-                                                alt={`Media ${mediaIndex}`}
-                                                className=" rounded-none border-2 border-white object-cover object-center"
-                                                style={{ aspectRatio: '1 / 1' }}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
+                        <div>
+                            <h1 className="font-semibold">{sharedPost.userId.fullName}</h1>
+                            <p className="text-xs">{sharedPost.updatedAt.slice(0, 10)}</p>
                         </div>
-
-                        {/* Share button */}
-                        <button
-                            onClick={handleShare}
-                            className="bg-sky-500 text-white rounded-lg mt-4 py-2 px-4 hover:bg-sky-600 self-end"
-                        >
-                            Share
-                        </button>
                     </div>
+
+                    <p className="mt-4">{renderContent(sharedPost.content)}</p>
+
+                    {sharedPost.media && sharedPost.media.length > 0 && (
+                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                            {sharedPost.media.map((mediaUrl, mediaIndex) => (
+                                <div key={mediaIndex} className="relative w-full cursor-pointer">
+                                    <Image
+                                        src={mediaUrl}
+                                        alt={`Media ${mediaIndex}`}
+                                        className="rounded-none border-2 border-white object-cover object-center"
+                                        style={{ aspectRatio: '1 / 1' }}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
-            )}
-        </>
+
+                <button
+                    onClick={handleShareOrEdit}
+                    className="bg-sky-500 text-white rounded-lg mt-4 py-2 px-4 hover:bg-sky-600 self-end"
+                >
+                    {isEditing ? 'Save Changes' : 'Share'}
+                </button>
+            </div>
+        </div>
     );
 };
 

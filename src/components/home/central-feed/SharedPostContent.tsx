@@ -4,7 +4,6 @@ import UserInfoSection from './shared-components-for-post/UserInfoSection';
 import MediaSection from './shared-components-for-post/MediaSection';
 
 const SharedPostContent = ({ user, sharedPostContent: post }) => {
-    console.log(post)
     const [openPostDetails, setOpenPostDetails] = useState({ isOpen: false, user: null, postId: null, currentImageIndex: 0 });
 
     // Post Details

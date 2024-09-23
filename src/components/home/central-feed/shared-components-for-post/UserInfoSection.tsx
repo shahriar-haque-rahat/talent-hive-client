@@ -1,7 +1,9 @@
 import { Image } from '@nextui-org/react';
 import React from 'react';
+import { formatDistanceToNow } from 'date-fns';
 
-const UserInfoSection = ({ profileImage, fullName, createdAt }) => { console.log(createdAt);
+const UserInfoSection = ({ profileImage, fullName, createdAt }) => {
+    const timeAgo = formatDistanceToNow(new Date(createdAt), { addSuffix: true });
 
     return (
         <div className='flex gap-2 p-3'>
@@ -12,7 +14,7 @@ const UserInfoSection = ({ profileImage, fullName, createdAt }) => { console.log
             />
             <div>
                 <h1 className='font-semibold'>{fullName}</h1>
-                <p className='text-xs mt-2'>{createdAt.slice(0, 10)}</p>
+                <p className='text-xs mt-2'>{timeAgo}</p>
             </div>
         </div>
     );

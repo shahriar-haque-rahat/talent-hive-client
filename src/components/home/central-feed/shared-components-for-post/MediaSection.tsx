@@ -16,7 +16,8 @@ const MediaSection = ({ media, postId, user }) => {
     return (
         <div>
             {media && media.length > 0 && (
-                <div className={media.length === 1 ? "grid grid-cols-1 w-full" : "grid grid-cols-2 w-full"}>
+                // <div className={media.length === 1 ? "grid grid-cols-1 w-full" : "grid grid-cols-2 w-full"}>
+                <div className={media.length > 3 ? "grid grid-cols-2 w-full" : "flex w-full"}>
                     {media.slice(0, 4).map((mediaUrl, mediaIndex) => (
                         <div key={mediaIndex} className="relative w-full cursor-pointer" onClick={() => openPostDetailsModal(postId, mediaIndex)}>
                             <Image

@@ -74,7 +74,7 @@ const NewsFeed = () => {
                                             <CiMenuKebab />
                                         </button>
                                         {openEditDeleteModal[post._id] && (
-                                            <EditAndDeletePost onEditDeleteClose={() => toggleEditDeleteModal(post._id)} post={post} />
+                                            <EditAndDeletePost onEditDeleteClose={() => toggleEditDeleteModal(post._id)} post={post} userId={user._id}/>
                                         )}
                                     </>
                                 )}

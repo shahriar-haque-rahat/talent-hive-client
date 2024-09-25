@@ -37,7 +37,7 @@ const NavbarDropdown = () => {
     return (
         <div className="relative">
             {user?.email ? (
-                <div ref={dropdownRef} className="w-16">
+                <div ref={dropdownRef} className="w-fit">
                     <div onClick={toggleDropdown} className="cursor-pointer rounded-full w-10 h-10 border border-gray-200">
                         <Image
                             src="/assets/user.png"
@@ -47,9 +47,11 @@ const NavbarDropdown = () => {
                     </div>
                     {isOpen && (
                         <div className="absolute right-0 mt-2 w-48 bg-white border shadow-lg z-50">
-                            <button className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">
-                                Profile
-                            </button>
+                            <Link href="/profile">
+                                <button className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">
+                                    Profile
+                                </button>
+                            </Link>
                             <button
                                 onClick={handleLogout}
                                 className="block w-full text-left px-4 py-2 bg-sky-500 text-white hover:bg-sky-600"

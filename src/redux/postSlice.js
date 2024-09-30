@@ -5,6 +5,7 @@ const postSlice = createSlice({
     initialState: {
         posts: [],
         cachedPosts: [],
+        timelinePosts: [],
     },
     reducers: {
         addPost: (state, action) => {
@@ -28,19 +29,30 @@ const postSlice = createSlice({
         setPosts: (state, action) => {
             state.posts = action.payload;
         },
+        setTimelinePosts: (state, action) => {
+            state.timelinePosts = action.payload;
+        },
         updatePostOnInteraction: (state, action) => {
             const updatedPost = action.payload;
-
+        
+            // Update in `posts` array
             let postIndex = state.posts.findIndex(post => post._id === updatedPost._id);
             if (postIndex !== -1) {
                 state.posts[postIndex] = { ...state.posts[postIndex], ...updatedPost };
-            } else {
-                const cachedPostIndex = state.cachedPosts.findIndex(post => post._id === updatedPost._id);
-                if (cachedPostIndex !== -1) {
-                    state.cachedPosts[cachedPostIndex] = { ...state.cachedPosts[cachedPostIndex], ...updatedPost };
-                }
+            } 
+        
+            // Update in `cachedPosts` array
+            const cachedPostIndex = state.cachedPosts.findIndex(post => post._id === updatedPost._id);
+            if (cachedPostIndex !== -1) {
+                state.cachedPosts[cachedPostIndex] = { ...state.cachedPosts[cachedPostIndex], ...updatedPost };
             }
-        },
+        
+            // Update in `timelinePosts` array
+            const timelinePostIndex = state.timelinePosts.findIndex(post => post._id === updatedPost._id);
+            if (timelinePostIndex !== -1) {
+                state.timelinePosts[timelinePostIndex] = { ...state.timelinePosts[timelinePostIndex], ...updatedPost };
+            }
+        },        
         addCachePost: (state, action) => {
             const { postData } = action.payload;
             const isPostAlreadyStored = state.posts.some(post => post._id === postData._id) || state.cachedPosts.some(post => post._id === postData._id);
@@ -51,7 +63,7 @@ const postSlice = createSlice({
     },
 });
 
-export const { setPosts, addPost, editPost, removePost, updatePostOnInteraction, addCachePost } = postSlice.actions;
+export const { setPosts, setTimelinePosts, addPost, editPost, removePost, updatePostOnInteraction, addCachePost } = postSlice.actions;
 
 export const selectPostById = (state, postId) => {
     const postFromCache = state.post.cachedPosts.find(post => post._id === postId);

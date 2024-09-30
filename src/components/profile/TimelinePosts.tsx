@@ -11,13 +11,13 @@ import SharedPostContent from '../home/central-feed/SharedPostContent';
 import PostInteractionSection from '../home/central-feed/post-interaction/PostInteractionSection';
 import PostSkeleton from '@/skeletons/PostSkeleton';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { getPosts } from '@/actions/postData';
-import { setPosts } from '@/redux/postSlice';
+import { getTimelinePosts } from '@/actions/postData';
+import { setTimelinePosts } from '@/redux/postSlice';
 
 const TimelinePosts = () => {
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
-    const posts = useSelector((state: any) => state.post.posts);
+    const timelinePosts = useSelector((state: any) => state.post.timelinePosts);
     const [openEditDeleteModal, setOpenEditDeleteModal] = useState({});
     const { ref, inView } = useIntersectionObserver();
     const [page, setPage] = useState(0);
@@ -32,11 +32,11 @@ const TimelinePosts = () => {
 
     const fetchPosts = async () => {
         if (user && user._id) {
-            const fetchedPosts = await getPosts(user._id, page);
+            const fetchedPosts = await getTimelinePosts(user._id, page);
             if (fetchedPosts.length < 10) {
                 setHasMore(false);
             }
-            dispatch(setPosts([...posts, ...fetchedPosts]));
+            dispatch(setTimelinePosts([...timelinePosts, ...fetchedPosts]));
             setPage(page + 1);
         }
     };
@@ -54,8 +54,8 @@ const TimelinePosts = () => {
     return (
         <>
             <div className='space-y-4 mt-10'>
-                {Array.isArray(posts) &&
-                    posts?.map((post, index) => (
+                {Array.isArray(timelinePosts) &&
+                    timelinePosts?.map((post, index) => (
                         <div key={index} className='bg-white border border-gray-300 rounded-lg '>
                             <div className=' flex items-start justify-between p-3'>
                                 {/* User info */}

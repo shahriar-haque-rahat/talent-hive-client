@@ -14,6 +14,20 @@ export const getPosts = async (userId: string, page = 0, limit = 10) => {
     }
 };
 
+export const getTimelinePosts = async (userId: string, page = 0, limit = 10) => {
+    try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/timeline`, {
+            params: { userId, page, limit }
+        });
+        const posts = response.data;
+
+        return posts;
+    } catch (error) {
+        console.error("Error fetching posts:", error);
+        return [];
+    }
+};
+
 export const getOnePost = async (postId: string, userId: string) => {
     try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}`, {

@@ -10,21 +10,42 @@ const postSlice = createSlice({
     reducers: {
         addPost: (state, action) => {
             const { postData } = action.payload;
+            
+            // Update posts array
             state.posts.unshift(postData);
+
+            // Update timelinePosts array
+            state.timelinePosts.unshift(postData);
         },
         editPost: (state, action) => {
             const { postId, editedData } = action.payload;
-            const index = state.posts.findIndex(post => post._id === postId);
-            if (index !== -1) {
-                state.posts[index] = {
-                    ...state.posts[index],
+
+            // Update posts array
+            const postIndex = state.posts.findIndex(post => post._id === postId);
+            if (postIndex !== -1) {
+                state.posts[postIndex] = {
+                    ...state.posts[postIndex],
+                    ...editedData,
+                };
+            }
+
+            // Update timelinePosts array
+            const timelinePostIndex = state.timelinePosts.findIndex(post => post._id === postId);
+            if (timelinePostIndex !== -1) {
+                state.timelinePosts[timelinePostIndex] = {
+                    ...state.timelinePosts[timelinePostIndex],
                     ...editedData,
                 };
             }
         },
         removePost: (state, action) => {
             const postId = action.payload;
+
+            // Update posts array
             state.posts = state.posts.filter(post => post._id !== postId);
+
+            // Update timelinePosts array
+            state.timelinePosts = state.timelinePosts.filter(post => post._id !== postId);
         },
         setPosts: (state, action) => {
             state.posts = action.payload;
@@ -34,25 +55,25 @@ const postSlice = createSlice({
         },
         updatePostOnInteraction: (state, action) => {
             const updatedPost = action.payload;
-        
+
             // Update in `posts` array
             let postIndex = state.posts.findIndex(post => post._id === updatedPost._id);
             if (postIndex !== -1) {
                 state.posts[postIndex] = { ...state.posts[postIndex], ...updatedPost };
-            } 
-        
+            }
+
             // Update in `cachedPosts` array
             const cachedPostIndex = state.cachedPosts.findIndex(post => post._id === updatedPost._id);
             if (cachedPostIndex !== -1) {
                 state.cachedPosts[cachedPostIndex] = { ...state.cachedPosts[cachedPostIndex], ...updatedPost };
             }
-        
+
             // Update in `timelinePosts` array
             const timelinePostIndex = state.timelinePosts.findIndex(post => post._id === updatedPost._id);
             if (timelinePostIndex !== -1) {
                 state.timelinePosts[timelinePostIndex] = { ...state.timelinePosts[timelinePostIndex], ...updatedPost };
             }
-        },        
+        },
         addCachePost: (state, action) => {
             const { postData } = action.payload;
             const isPostAlreadyStored = state.posts.some(post => post._id === postData._id) || state.cachedPosts.some(post => post._id === postData._id);

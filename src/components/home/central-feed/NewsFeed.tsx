@@ -34,18 +34,26 @@ const NewsFeed = () => {
     };
 
     const fetchPosts = async () => {
-        if (user && user._id) {
+        if (user && user._id && hasMore) {
             const fetchedPosts = await getPosts(user._id, page);
             if (fetchedPosts.length < 10) {
                 setHasMore(false);
             }
-            dispatch(setPosts([...posts, ...fetchedPosts]));
-            setPage(page + 1);
+
+            const existingPostIds = new Set(posts.map(post => post._id));
+            const newPosts = fetchedPosts.filter(post => !existingPostIds.has(post._id));
+
+            if (newPosts.length > 0) {
+                dispatch(setPosts([...posts, ...newPosts]));
+                setPage(prevPage => prevPage + 1);
+            }
         }
     };
 
     useEffect(() => {
-        fetchPosts();
+        if (posts.length === 0) {
+            fetchPosts();
+        }
     }, [user]);
 
     useEffect(() => {
@@ -74,7 +82,7 @@ const NewsFeed = () => {
                                             <CiMenuKebab />
                                         </button>
                                         {openEditDeleteModal[post._id] && (
-                                            <EditAndDeletePost onEditDeleteClose={() => toggleEditDeleteModal(post._id)} post={post} userId={user._id}/>
+                                            <EditAndDeletePost onEditDeleteClose={() => toggleEditDeleteModal(post._id)} post={post} userId={user._id} />
                                         )}
                                     </>
                                 )}

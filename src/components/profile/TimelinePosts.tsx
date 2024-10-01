@@ -12,7 +12,7 @@ import PostInteractionSection from '../home/central-feed/post-interaction/PostIn
 import PostSkeleton from '@/skeletons/PostSkeleton';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { getTimelinePosts } from '@/actions/postData';
-import { setTimelinePosts } from '@/redux/postSlice';
+import { addCachePost, setTimelinePosts } from '@/redux/postSlice';
 
 const TimelinePosts = () => {
     const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const TimelinePosts = () => {
     const { ref, inView } = useIntersectionObserver();
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    
+
     const toggleEditDeleteModal = (postId) => {
         setOpenEditDeleteModal((prevState) => ({
             ...prevState,
@@ -31,18 +31,28 @@ const TimelinePosts = () => {
     };
 
     const fetchPosts = async () => {
-        if (user && user._id) {
+        if (user && user._id && hasMore) {
             const fetchedPosts = await getTimelinePosts(user._id, page);
             if (fetchedPosts.length < 10) {
                 setHasMore(false);
             }
-            dispatch(setTimelinePosts([...timelinePosts, ...fetchedPosts]));
-            setPage(page + 1);
+            const existingPostIds = new Set(timelinePosts.map(post => post._id));
+            const newPosts = fetchedPosts.filter(post => !existingPostIds.has(post._id));
+
+            if (newPosts && newPosts.length > 0) {
+                for (const post of newPosts) {
+                    dispatch(addCachePost({ postData: post }));
+                }
+                dispatch(setTimelinePosts([...timelinePosts, ...newPosts]));
+                setPage(page + 1);
+            }
         }
     };
 
     useEffect(() => {
-        fetchPosts();
+        if (timelinePosts.length === 0) {
+            fetchPosts();
+        }
     }, [user]);
 
     useEffect(() => {

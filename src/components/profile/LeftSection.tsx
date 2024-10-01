@@ -1,9 +1,12 @@
 import React from 'react';
+import ProfileHeader from './ProfileHeader';
+import Timeline from './Timeline';
 
 const LeftSection = () => {
     return (
         <div>
-            Left Section for suggestions
+            <ProfileHeader/>
+            <Timeline/>
         </div>
     );
 };

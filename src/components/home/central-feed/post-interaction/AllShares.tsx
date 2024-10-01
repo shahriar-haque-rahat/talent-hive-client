@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { MdClose } from 'react-icons/md';
-import { getPostShares } from '@/actions/postData';
+import { getPostShares } from '@/api/postData';
 import { addCachePost, selectManyPostById } from '@/redux/postSlice';
 import { Image } from '@nextui-org/react';
 import SharedPostContent from '../SharedPostContent';

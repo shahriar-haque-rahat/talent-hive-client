@@ -4,8 +4,10 @@ const postSlice = createSlice({
     name: 'post',
     initialState: {
         posts: [],
+        postsPage: 0,
         cachedPosts: [],
         timelinePosts: [],
+        timelinePostsPage: 0,
     },
     reducers: {
         addPost: (state, action) => {
@@ -50,8 +52,14 @@ const postSlice = createSlice({
         setPosts: (state, action) => {
             state.posts = action.payload;
         },
+        setPostsPage: (state, action) => {
+            state.postsPage = action.payload;
+        },
         setTimelinePosts: (state, action) => {
             state.timelinePosts = action.payload;
+        },
+        setTimelinePostsPage: (state, action) => {
+            state.timelinePostsPage = action.payload;
         },
         updatePostOnInteraction: (state, action) => {
             const updatedPost = action.payload;
@@ -84,7 +92,7 @@ const postSlice = createSlice({
     },
 });
 
-export const { setPosts, setTimelinePosts, addPost, editPost, removePost, updatePostOnInteraction, addCachePost } = postSlice.actions;
+export const { setPosts,setPostsPage, setTimelinePosts, setTimelinePostsPage, addPost, editPost, removePost, updatePostOnInteraction, addCachePost } = postSlice.actions;
 
 export const selectPostById = (state, postId) => {
     const postFromCache = state.post.cachedPosts.find(post => post._id === postId);

@@ -11,16 +11,16 @@ import SharedPostContent from '../home/central-feed/SharedPostContent';
 import PostInteractionSection from '../home/central-feed/post-interaction/PostInteractionSection';
 import PostSkeleton from '@/skeletons/PostSkeleton';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { getTimelinePosts } from '@/actions/postData';
-import { addCachePost, setTimelinePosts } from '@/redux/postSlice';
+import { getTimelinePosts } from '@/api/postData';
+import { addCachePost, setTimelinePosts, setTimelinePostsPage } from '@/redux/postSlice';
 
 const TimelinePosts = () => {
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
     const timelinePosts = useSelector((state: any) => state.post.timelinePosts);
+    const page = useSelector((state: any) => state.post.timelinePostsPage);
     const [openEditDeleteModal, setOpenEditDeleteModal] = useState({});
     const { ref, inView } = useIntersectionObserver();
-    const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
 
     const toggleEditDeleteModal = (postId) => {
@@ -33,18 +33,18 @@ const TimelinePosts = () => {
     const fetchPosts = async () => {
         if (user && user._id && hasMore) {
             const fetchedPosts = await getTimelinePosts(user._id, page);
-            if (fetchedPosts.length < 10) {
+            if (fetchedPosts.posts.length < 10) {
                 setHasMore(false);
             }
             const existingPostIds = new Set(timelinePosts.map(post => post._id));
-            const newPosts = fetchedPosts.filter(post => !existingPostIds.has(post._id));
+            const newPosts = fetchedPosts.posts.filter(post => !existingPostIds.has(post._id));
 
             if (newPosts && newPosts.length > 0) {
                 for (const post of newPosts) {
                     dispatch(addCachePost({ postData: post }));
                 }
                 dispatch(setTimelinePosts([...timelinePosts, ...newPosts]));
-                setPage(page + 1);
+                dispatch(setTimelinePostsPage(fetchedPosts.page));
             }
         }
     };

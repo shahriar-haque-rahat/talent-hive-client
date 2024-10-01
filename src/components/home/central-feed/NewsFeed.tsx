@@ -7,8 +7,8 @@ import EditAndDeletePost from './posting/EditAndDeletePost';
 import SharedPostContent from './SharedPostContent';
 import PostInteractionSection from './post-interaction/PostInteractionSection';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { getPosts } from '@/actions/postData';
-import { setPosts } from '@/redux/postSlice';
+import { getPosts } from '@/api/postData';
+import { setPosts, setPostsPage } from '@/redux/postSlice';
 import PostSkeleton from '@/skeletons/PostSkeleton';
 import UserInfoSection from './shared-components-for-post/UserInfoSection';
 import ContentSection from './shared-components-for-post/ContentSection';
@@ -17,12 +17,11 @@ import MediaSection from './shared-components-for-post/MediaSection';
 const NewsFeed = () => {
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
-
     const { ref, inView } = useIntersectionObserver();
     const posts = useSelector((state: any) => state.post.posts);
-    const [page, setPage] = useState(0);
+    const page = useSelector((state: any) => state.post.postsPage);
     const [hasMore, setHasMore] = useState(true);
-
+console.log(page)
     const [openEditDeleteModal, setOpenEditDeleteModal] = useState({});
 
     // Edit Delete Modal
@@ -36,16 +35,16 @@ const NewsFeed = () => {
     const fetchPosts = async () => {
         if (user && user._id && hasMore) {
             const fetchedPosts = await getPosts(user._id, page);
-            if (fetchedPosts.length < 10) {
+            if (fetchedPosts.posts.length < 10) {
                 setHasMore(false);
             }
 
             const existingPostIds = new Set(posts.map(post => post._id));
-            const newPosts = fetchedPosts.filter(post => !existingPostIds.has(post._id));
+            const newPosts = fetchedPosts.posts.filter(post => !existingPostIds.has(post._id));
 
             if (newPosts.length > 0) {
                 dispatch(setPosts([...posts, ...newPosts]));
-                setPage(prevPage => prevPage + 1);
+                dispatch(setPostsPage(fetchedPosts.page));
             }
         }
     };

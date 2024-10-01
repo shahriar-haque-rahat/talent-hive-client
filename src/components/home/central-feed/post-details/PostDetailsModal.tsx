@@ -4,7 +4,7 @@ import { Image } from '@nextui-org/react';
 import PostInteractionSection from '../post-interaction/PostInteractionSection';
 import { addCachePost, selectPostById } from '@/redux/postSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { getOnePost } from '@/actions/postData';
+import { getOnePost } from '@/api/postData';
 import ContentSection from '../shared-components-for-post/ContentSection';
 
 const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {

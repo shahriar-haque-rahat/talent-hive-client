@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PostModal from './PostModal';
 import ShareModal from './ShareModal';
 import ConfirmationModal from '@/shared/ConfirmationModal';
-import { deletePost } from '@/actions/postData';
+import { deletePost } from '@/api/postData';
 import { useDispatch } from 'react-redux';
 import { removePost, updatePostOnInteraction } from '@/redux/postSlice';
 import toast from 'react-hot-toast';

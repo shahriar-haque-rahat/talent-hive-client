@@ -1,4 +1,4 @@
-import { postComment } from '@/actions/postInteraction';
+import { postComment } from '@/api/postInteraction';
 import { addComment } from '@/redux/commentSlice';
 import { updatePostOnInteraction } from '@/redux/postSlice';
 import { Image } from '@nextui-org/react';

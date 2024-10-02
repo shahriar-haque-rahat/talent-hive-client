@@ -21,7 +21,6 @@ const NewsFeed = () => {
     const posts = useSelector((state: any) => state.post.posts);
     const page = useSelector((state: any) => state.post.postsPage);
     const [hasMore, setHasMore] = useState(true);
-console.log(page)
     const [openEditDeleteModal, setOpenEditDeleteModal] = useState({});
 
     // Edit Delete Modal
@@ -33,8 +32,11 @@ console.log(page)
     };
 
     const fetchPosts = async () => {
-        if (user && user._id && hasMore) {
-            const fetchedPosts = await getPosts(user._id, page);
+        if (!user || !hasMore) return;
+
+        const fetchedPosts = await getPosts(user._id, page);
+
+        if (fetchedPosts && fetchedPosts.posts && Array.isArray(fetchedPosts.posts)) {
             if (fetchedPosts.posts.length < 10) {
                 setHasMore(false);
             }
@@ -46,6 +48,9 @@ console.log(page)
                 dispatch(setPosts([...posts, ...newPosts]));
                 dispatch(setPostsPage(fetchedPosts.page));
             }
+        }
+        else {
+            setHasMore(false);
         }
     };
 

@@ -31,8 +31,11 @@ const TimelinePosts = () => {
     };
 
     const fetchPosts = async () => {
-        if (user && user._id && hasMore) {
-            const fetchedPosts = await getTimelinePosts(user._id, page);
+        if (!user || !hasMore) return;
+
+        const fetchedPosts = await getTimelinePosts(user._id, page);
+
+        if (fetchedPosts && fetchedPosts.posts && Array.isArray(fetchedPosts.posts)) {
             if (fetchedPosts.posts.length < 10) {
                 setHasMore(false);
             }
@@ -46,6 +49,9 @@ const TimelinePosts = () => {
                 dispatch(setTimelinePosts([...timelinePosts, ...newPosts]));
                 dispatch(setTimelinePostsPage(fetchedPosts.page));
             }
+        }
+        else {
+            setHasMore(false);
         }
     };
 

@@ -13,11 +13,11 @@ const ProfileHeader = () => {
             <div className=' bg-white border rounded-lg'>
                 <div className=' relative'>
                     <img
-                        src="/assets/bg.jpg"
+                        src={user.coverImage ? user.coverImage : "/assets/bg.jpg"}
                         className=' w-full h-52 object-cover object-center rounded-t-lg'
                     />
                     <img
-                        src={user.profileImage}
+                        src={user.profileImage ? user.profileImage : '/assets/user.png'}
                         alt={user.fullName}
                         className='absolute top-20 left-1/2 transform -translate-x-1/2 border-4 border-white h-48 w-48 rounded-full md:left-6 md:translate-x-0'
                     />

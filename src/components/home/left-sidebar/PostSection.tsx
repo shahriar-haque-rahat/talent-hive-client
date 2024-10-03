@@ -26,9 +26,9 @@ const PostSection = () => {
 
     return (
         <>
-            <div className='bg-white p-3 border border-gray-300 rounded-lg'>
+            <div className='bg-white p-3 border shadow rounded-lg'>
                 <div className='flex items-center justify-center gap-2'>
-                    <div className='w-12 h-12'>
+                    <div className='w-14 h-14 flex items-center'>
                         <Image
                             src="/assets/user.png"
                             alt="Profile"

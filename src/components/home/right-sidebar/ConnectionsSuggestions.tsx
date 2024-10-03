@@ -24,7 +24,7 @@ const ConnectionsSuggestions = () => {
 
     return (
         <>
-            <div className=' bg-white p-3 border border-gray-300 rounded-lg'>
+            <div className=' bg-white p-3 border shadow rounded-lg'>
                 <p className=' mb-4 font-semibold'>Add to your connect</p>
                 {
                     users?.map(user => (

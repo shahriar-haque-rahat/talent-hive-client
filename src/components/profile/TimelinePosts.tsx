@@ -72,7 +72,7 @@ const TimelinePosts = () => {
             <div className='space-y-4 mt-10'>
                 {Array.isArray(timelinePosts) &&
                     timelinePosts?.map((post, index) => (
-                        <div key={index} className='bg-white border border-gray-300 rounded-lg '>
+                        <div key={index} className='bg-white border shadow rounded-lg '>
                             <div className=' flex items-start justify-between p-3'>
                                 {/* User info */}
                                 <UserInfoSection profileImage={post.userId.profileImage} fullName={post.userId.fullName} createdAt={post.createdAt.slice(0, 10)} />

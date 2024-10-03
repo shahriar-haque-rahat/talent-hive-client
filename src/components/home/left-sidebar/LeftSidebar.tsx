@@ -4,7 +4,7 @@ import PostSection from './PostSection';
 const LeftSidebar = () => {
     return (
         <>
-            <div className=' bg-white rounded-lg pb-4 border border-gray-300'>
+            <div className=' bg-white rounded-lg pb-4 border shadow'>
                 {/* profile icon */}
                 <div className=' relative'>
                     <div>

@@ -66,7 +66,7 @@ const NavbarItems = () => {
             {/* small device */}
             <ul
                 ref={menuRef}
-                className={`flex flex-col duration-500 ease-in-out bg-white border py-4 px-6 w-3/5 md:w-1/3 lg:hidden gap-4 font-semibold absolute h-screen z-20 ${menuOpen ? "left-0" : "-left-[500px]"} -ml-4 md:-ml-5 mt-[0.52rem] pt-6 border-none shadow-sm`}
+                className={`flex flex-col duration-500 ease-in-out bg-white border py-4 px-6 w-4/5 md:w-1/3 lg:hidden gap-4 font-semibold absolute h-screen z-20 ${menuOpen ? "left-0" : "-left-[500px]"} -ml-4 md:-ml-5 mt-[0.52rem] pt-6 border-none shadow-sm`}
             >
                 {navItems.map(item => (
                     <NavItem key={item.path} {...item} onClick={() => dispatch(toggleMenu())} />

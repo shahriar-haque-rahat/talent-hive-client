@@ -70,7 +70,7 @@ const NewsFeed = () => {
         <div className='space-y-4'>
             {Array.isArray(posts) &&
                 posts?.map((post, index) => (
-                    <div key={index} className='bg-white border border-gray-300 rounded-lg '>
+                    <div key={index} className='bg-white border rounded-lg shadow'>
                         <div className=' flex items-start justify-between p-3'>
                             {/* User info */}
                             <UserInfoSection profileImage={post.userId.profileImage} fullName={post.userId.fullName} createdAt={post.createdAt.slice(0, 10)} />

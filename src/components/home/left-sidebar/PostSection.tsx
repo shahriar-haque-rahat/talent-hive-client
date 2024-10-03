@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { Image } from '@nextui-org/react';
-import PostModal from '../central-feed/posting/PostModal';
 import { AuthContext } from '@/provider/AuthProvider';
 import { useRouter } from 'next/navigation';
+import PostModal from '../central-feed/posting/PostModal';
 
 const PostSection = () => {
     const { user } = useContext(AuthContext);

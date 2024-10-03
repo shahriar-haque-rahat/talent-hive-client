@@ -4,7 +4,6 @@ const RightSection = () => {
     return (
         <div>
             
-            Left Section for suggestions
         </div>
     );
 };

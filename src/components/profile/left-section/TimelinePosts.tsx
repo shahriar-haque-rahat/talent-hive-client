@@ -2,17 +2,17 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import UserInfoSection from '../home/central-feed/shared-components-for-post/UserInfoSection';
 import { CiMenuKebab } from 'react-icons/ci';
-import EditAndDeletePost from '../home/central-feed/posting/EditAndDeletePost';
-import ContentSection from '../home/central-feed/shared-components-for-post/ContentSection';
-import MediaSection from '../home/central-feed/shared-components-for-post/MediaSection';
-import SharedPostContent from '../home/central-feed/SharedPostContent';
-import PostInteractionSection from '../home/central-feed/post-interaction/PostInteractionSection';
 import PostSkeleton from '@/skeletons/PostSkeleton';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { getTimelinePosts } from '@/api/postData';
 import { addCachePost, setTimelinePosts, setTimelinePostsPage } from '@/redux/postSlice';
+import UserInfoSection from '@/components/home/central-feed/shared-components-for-post/UserInfoSection';
+import EditAndDeletePost from '@/components/home/central-feed/posting/EditAndDeletePost';
+import ContentSection from '@/components/home/central-feed/shared-components-for-post/ContentSection';
+import MediaSection from '@/components/home/central-feed/shared-components-for-post/MediaSection';
+import SharedPostContent from '@/components/home/central-feed/SharedPostContent';
+import PostInteractionSection from '@/components/home/central-feed/post-interaction/PostInteractionSection';
 
 const TimelinePosts = () => {
     const dispatch = useDispatch();
@@ -69,7 +69,7 @@ const TimelinePosts = () => {
 
     return (
         <>
-            <div className='space-y-4 mt-10'>
+            <div className='space-y-4 mt-6'>
                 {Array.isArray(timelinePosts) &&
                     timelinePosts?.map((post, index) => (
                         <div key={index} className='bg-white border shadow rounded-lg '>

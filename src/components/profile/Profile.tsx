@@ -1,6 +1,6 @@
 import React from 'react';
-import LeftSection from './LeftSection';
-import RightSection from './RightSection';
+import LeftSection from './left-section/LeftSection';
+import RightSection from './right-section/RightSection';
 
 const Profile = () => {
     return (

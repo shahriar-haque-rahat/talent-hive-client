@@ -50,7 +50,7 @@ const ConnectionRecommendations = () => {
     return (
         <>
             <div>
-                <p className='mb-4 text-2xl font-semibold p-6 bg-white rounded-b-lg shadow'>People You May Know</p>
+                <p className='mb-4 text-2xl font-semibold p-6 bg-white rounded-lg shadow'>People You May Know</p>
                 <div className=' grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'>
                     {
                         users?.map(user => (

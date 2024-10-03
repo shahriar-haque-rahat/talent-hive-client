@@ -4,9 +4,9 @@ import RightSection from './right-section/RightSection';
 
 const Profile = () => {
     return (
-        <div className=' grid grid-cols-3 gap-6'>
-            <div className=' col-span-2'><LeftSection/></div>
-            <RightSection/>
+        <div className=' grid lg:grid-cols-4 gap-6'>
+            <div className=' lg:col-span-3'><LeftSection/></div>
+            <div className='hidden lg:block'><RightSection/></div>
         </div>
     );
 };

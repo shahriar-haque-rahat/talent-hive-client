@@ -24,27 +24,27 @@ const ConnectionsSuggestions = () => {
 
     return (
         <>
-            <div className=' bg-white p-3 border shadow rounded-lg'>
+            <div className=' bg-white p-3 xl:p-6 border shadow rounded-lg'>
                 <p className=' mb-4 font-semibold'>Add to your connect</p>
                 {
                     users?.map(user => (
-                        <div className=' flex gap-3 mb-4'>
-                            <div className=' w-14 h-14'>
+                        <div className=' flex gap-3 xl:gap-6 mb-4'>
+                            <div className=' h-full my-auto'>
                                 <Image
                                     src={user.profileImage ? user.profileImage : "/assets/user.png"}
                                     alt="Profile"
-                                    className="rounded-full w-14 h-14 border-2 border-white object-cover object-top"
+                                    className="rounded-full w-16 h-16 border-2 border-white object-cover object-top"
                                 />
                             </div>
 
-                            <div className=' flex flex-col xl:flex-row gap-1 xl:gap-3 xl:items-center'>
+                            <div className=' flex flex-col gap-1'>
                                 <div>
                                     <h1 className=' font-semibold'>{user.fullName}</h1>
                                     <p className='text-xs text-gray-500'>
                                         {user.designation ? user.designation : 'No designation available'}
                                     </p>
                                 </div>
-                                <button className=' w-20 xl:w-24 mt-1 text-sm py-1 px-3 rounded-lg border border-gray-600 hover:border-black hover:bg-gray-200 flex gap-1 justify-center items-center font-bold'><FiPlus size={16} />Add</button>
+                                <button className=' w-20 xl:w-24 text-sm py-1 px-3 rounded-lg border border-gray-600 hover:border-black hover:bg-gray-200 flex gap-1 justify-center items-center font-bold'><FiPlus size={16} />Add</button>
                             </div>
                         </div>
                     ))

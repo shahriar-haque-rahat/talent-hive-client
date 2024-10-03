@@ -1,6 +1,5 @@
 import React from 'react';
 import ProfileHeader from './ProfileHeader';
-import TimelinePostSection from './TimelinePostSection';
 import Timeline from './Timeline';
 import LeftBar from './LeftBar';
 
@@ -9,9 +8,9 @@ const LeftSection = () => {
         <>
             <div className=' flex'>
                 <LeftBar />
-                <div>
+                <div className=' ml-7 md:ml-2 lg:ml-8 xl:ml-10 w-full'>
                     <ProfileHeader />
-                    <TimelinePostSection />
+                    <div className='my-6 border-t border-gray-500'></div>
                     <Timeline />
                 </div>
             </div>

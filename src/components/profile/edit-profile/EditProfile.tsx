@@ -2,10 +2,12 @@
 
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Input, Button, Textarea } from '@nextui-org/react';
+import { Input, Button, Textarea, Image } from '@nextui-org/react';
 import { patchUser } from '@/apiFunctions/userData';
 import { addAuthorizedUser } from '@/redux/userSlice';
 import toast from 'react-hot-toast';
+import EditProfileAndCoverImageModal from './EditProfileAndCoverImageModal';
+import { MdEditSquare } from "react-icons/md";
 
 const EditProfile = () => {
     const dispatch = useDispatch();
@@ -15,13 +17,12 @@ const EditProfile = () => {
 
     const [formData, setFormData] = useState({
         fullName: user?.fullName || '',
-        userName: user?.userName || '',
-        email: user?.email || '',
+        designation: user?.designation || '',
         about: user?.about || '',
         facebookLink: user?.facebookLink || '',
         linkedInLink: user?.linkedInLink || '',
         cvLink: user?.cvLink || '',
-        designation: user?.designation || '',
+        phoneNumber: user?.phoneNumber || '',
     });
 
     const [aboutCharCount, setAboutCharCount] = useState(formData.about.length);
@@ -54,10 +55,6 @@ const EditProfile = () => {
             newErrors.fullName = 'Full name is required';
         }
 
-        if (!formData.userName.trim()) {
-            newErrors.userName = 'Username is required';
-        }
-
         setErrors(newErrors);
 
         return Object.keys(newErrors).length === 0;
@@ -83,105 +80,161 @@ const EditProfile = () => {
         }
     };
 
+    // Function to handle opening and closing modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalType, setModalType] = useState<'profile' | 'cover' | null>(null);
+
+    const openModal = (type: 'profile' | 'cover') => {
+        setModalType(type);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setModalType(null);
+    };
+
     return (
-        <div>
-            <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow'>Edit Profile Details</h1>
+        <>
+            <div>
+                <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow'>Edit Profile Details</h1>
 
-            <form onSubmit={handleSubmit} className='space-y-4'>
-                <div className='bg-white p-6 rounded-lg border shadow'>
-                    <p className='text-lg font-medium'>User Details</p>
-                    <div className='grid grid-cols-2 gap-10'>
-                        <Input
-                            label="Username"
-                            fullWidth
-                            variant='underlined'
-                            name="userName"
-                            isDisabled
-                            value={formData.userName}
+                <div className=' flex flex-col justify-center items-center text-center bg-white pb-6 rounded-lg border shadow'>
+                    <div className='w-full relative'>
+                        {/* Cover Image */}
+                        <img
+                            src={user.coverImage ? user.coverImage : "/assets/bg.jpg"}
+                            className=' w-full h-60 object-cover object-center rounded-t-lg'
                         />
-
-                        <Input
-                            label="Email"
-                            fullWidth
-                            variant='underlined'
-                            name="email"
-                            isDisabled
-                            value={formData.email}
+                        {/* Button to Change Cover Image */}
+                        <button
+                            type="button"
+                            onClick={() => openModal('cover')}
+                            className='absolute bottom-2 right-2 bg-gray-700 text-white p-1 border-2 border-white text-sm rounded-full hover:bg-gray-500'
+                        >
+                            <MdEditSquare size={22} />
+                        </button>
+                    </div>
+                    <div className=' relative w-fit mx-auto -mt-24'>
+                        {/* Profile Image */}
+                        <img
+                            src={user.profileImage ? user.profileImage : '/assets/user.png'}
+                            alt={user.fullName}
+                            className='border-4 border-white h-48 w-48 rounded-full object-cover object-top'
                         />
+                        {/* Button to Change Profile Image */}
+                        <button
+                            type="button"
+                            onClick={() => openModal('profile')}
+                            className='absolute bottom-2 right-7 bg-gray-700 text-white p-1 border-2 border-white text-sm rounded-full hover:bg-gray-500'
+                        >
+                            <MdEditSquare size={22} />
+                        </button>
+                    </div>
+                    <div className=''>
+                        <p className=' text-lg font-semibold'>{user.userName}</p>
+                        <p>{user.email}</p>
+                    </div>
+                </div>
 
-                        <Input
-                            label="Full Name"
-                            fullWidth
-                            variant='underlined'
-                            name="fullName"
-                            isInvalid={!!errors.fullName}
-                            errorMessage={errors.fullName}
-                            isRequired
-                            value={formData.fullName}
-                            onChange={handleInputChange}
-                        />
-
-                        <Input
-                            label="Designation"
-                            fullWidth
-                            variant='underlined'
-                            name="designation"
-                            value={formData.designation}
-                            onChange={handleInputChange}
-                        />
-
-                        <div className="col-span-2">
-                            <Textarea
-                                label="About"
+                <form onSubmit={handleSubmit} className='space-y-4 mt-4'>
+                    <div className='bg-white p-6 rounded-lg border shadow'>
+                        <p className='text-lg font-medium'>User Details</p>
+                        <div className='grid grid-cols-2 gap-10'>
+                            <Input
+                                label="Full Name"
                                 fullWidth
                                 variant='underlined'
-                                name="about"
-                                value={formData.about}
+                                name="fullName"
+                                isInvalid={!!errors.fullName}
+                                errorMessage={errors.fullName}
+                                isRequired
+                                value={formData.fullName}
                                 onChange={handleInputChange}
                             />
-                            {/* Character count display */}
-                            <div className="text-right text-sm text-gray-500">
-                                {aboutCharCount}/{characterLimit} characters
+
+                            <Input
+                                label="Designation"
+                                fullWidth
+                                variant='underlined'
+                                name="designation"
+                                value={formData.designation}
+                                onChange={handleInputChange}
+                            />
+
+                            <div className="col-span-2">
+                                <Textarea
+                                    label="About"
+                                    fullWidth
+                                    variant='underlined'
+                                    name="about"
+                                    value={formData.about}
+                                    onChange={handleInputChange}
+                                />
+                                {/* Character count display */}
+                                <div className="text-right text-sm text-gray-500">
+                                    {aboutCharCount}/{characterLimit} characters
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div className='bg-white p-6 rounded-lg border shadow'>
-                    <p className='text-lg font-medium'>Social Links</p>
-                    <div className='grid grid-cols-2 gap-10'>
-                        <Input
-                            label="Facebook Link"
-                            fullWidth
-                            variant='underlined'
-                            name="facebookLink"
-                            value={formData.facebookLink}
-                            onChange={handleInputChange}
-                        />
+                    <div className='bg-white p-6 rounded-lg border shadow'>
+                        <p className='text-lg font-medium'>Contact Information</p>
+                        <div className='grid grid-cols-2 gap-10'>
+                            <Input
+                                label="Facebook Link"
+                                fullWidth
+                                variant='underlined'
+                                name="facebookLink"
+                                value={formData.facebookLink}
+                                onChange={handleInputChange}
+                            />
 
-                        <Input
-                            label="LinkedIn Link"
-                            fullWidth
-                            variant='underlined'
-                            name="linkedInLink"
-                            value={formData.linkedInLink}
-                            onChange={handleInputChange}
-                        />
+                            <Input
+                                label="LinkedIn Link"
+                                fullWidth
+                                variant='underlined'
+                                name="linkedInLink"
+                                value={formData.linkedInLink}
+                                onChange={handleInputChange}
+                            />
 
-                        <Input
-                            label="CV Link"
-                            fullWidth
-                            variant='underlined'
-                            name="cvLink"
-                            value={formData.cvLink}
-                            onChange={handleInputChange}
-                        />
+                            <Input
+                                label="CV Link"
+                                fullWidth
+                                variant='underlined'
+                                name="cvLink"
+                                value={formData.cvLink}
+                                onChange={handleInputChange}
+                            />
+
+                            <Input
+                                label="Phone Number"
+                                fullWidth
+                                variant='underlined'
+                                name="phoneNumber"
+                                type='number'
+                                value={formData.phoneNumber}
+                                onChange={handleInputChange}
+                            />
+                        </div>
                     </div>
-                </div>
 
-                <Button type='submit' className='bg-sky-500 w-full text-white rounded-lg'>Save Changes</Button>
-            </form>
-        </div>
+                    <Button type='submit' className='bg-sky-500 w-full text-white rounded-lg'>Save Changes</Button>
+                </form>
+            </div>
+
+            {/* Modal to edit profile or cover image */}
+            {isModalOpen && modalType && (
+                <EditProfileAndCoverImageModal
+                    userId={user._id}
+                    type={modalType}
+                    initialMediaUrl={modalType === 'profile' ? user.profileImage : user.coverImage}
+                    onClose={closeModal}
+                />
+            )}
+        </>
     );
 };
 

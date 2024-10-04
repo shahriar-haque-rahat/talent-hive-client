@@ -24,14 +24,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${font.className} mx-auto max-w-[1440px] px-1 md:px-6 bg-gray-100`}>
+    <html lang="en" className="bg-gray-100">
+      <body className={`${font.className}`}>
         <EdgeStoreProvider>
           <StoreProvider>
             <AuthProvider>
               <Authorization>
                 <Navbar />
-                <div className=" pt-20 min-h-screen">{children}</div>
+                <div className=" mx-auto max-w-[1440px] px-1 md:px-6 py-20 min-h-screen">
+                  {children}
+                </div>
               </Authorization>
             </AuthProvider>
             <Toaster />

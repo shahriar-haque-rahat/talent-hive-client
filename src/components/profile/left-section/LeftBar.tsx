@@ -19,7 +19,7 @@ const LeftBar = () => {
 
     return (
         <>
-            <div className='fixed h-3/4 bg-sky-500 -ml-1 md:-ml-6 text-white p-1 lg:p-2 rounded-r-lg flex flex-col justify-between items-center top-1/2 transform -translate-y-1/2'>
+            <div className='fixed h-3/4 bg-sky-500 -ml-1 md:-ml-6 text-white p-1 lg:p-2 rounded-r-lg 2xl:rounded-lg flex flex-col justify-between items-center top-1/2 transform -translate-y-1/2'>
                 <div className='space-y-3 pt-32'>
                     <Tooltip placement="right-end" content="Facebook">
                         <div>

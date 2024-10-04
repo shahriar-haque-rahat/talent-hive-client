@@ -7,7 +7,7 @@ import Link from 'next/link';
 const NavbarContent = () => {
     return (
         <>
-            <div className="flex items-center justify-between gap-4 is-full relative">
+            <div className=" max-w-[1440px] m-auto h-16 px-6 py-2 flex items-center justify-between gap-4 relative">
                 <div className="flex gap-2 items-center">
                     <div className="lg:hidden">
                         <NavbarDrawer />

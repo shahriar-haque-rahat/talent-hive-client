@@ -19,7 +19,7 @@ const ProfileHeader = () => {
                     <img
                         src={user.profileImage ? user.profileImage : '/assets/user.png'}
                         alt={user.fullName}
-                        className='absolute top-20 left-1/2 transform -translate-x-1/2 border-4 border-white h-48 w-48 rounded-full md:left-6 md:translate-x-0'
+                        className='absolute top-20 left-1/2 transform -translate-x-1/2 border-4 border-white h-48 w-48 rounded-full md:left-6 md:translate-x-0 object-cover object-top'
                     />
                 </div>
                 <div className=' mt-16 flex flex-col md:flex-row gap-3 justify-between md:px-6'>

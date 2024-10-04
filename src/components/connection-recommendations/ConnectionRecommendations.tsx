@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUsers } from '@/api/userData';
+import { getUsers } from '@/apiFunctions/userData';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { addFetchedUsers } from '@/redux/userSlice';
 import UserConnectionCard from './UserConnectionCard';
@@ -50,7 +50,7 @@ const ConnectionRecommendations = () => {
     return (
         <>
             <div>
-                <p className='mb-4 text-2xl font-semibold p-6 bg-white rounded-lg shadow'>People You May Know</p>
+                <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow'>People You May Know</h1>
                 <div className=' grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'>
                     {
                         users?.map(user => (

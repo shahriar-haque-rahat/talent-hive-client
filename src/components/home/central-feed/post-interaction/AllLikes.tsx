@@ -1,4 +1,4 @@
-import { getLikes } from '@/api/postInteraction';
+import { getLikes } from '@/apiFunctions/postInteraction';
 import { Image } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import { MdClose } from 'react-icons/md';

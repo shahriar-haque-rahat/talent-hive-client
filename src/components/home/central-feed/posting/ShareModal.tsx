@@ -1,4 +1,4 @@
-import { createPost, updatePost } from '@/api/postData';
+import { createPost, updatePost } from '@/apiFunctions/postData';
 import { addPost, editPost, updatePostOnInteraction } from '@/redux/postSlice';
 import { Image } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';

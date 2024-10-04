@@ -25,7 +25,7 @@ const ProfileHeader = () => {
                 <div className=' mt-16 flex flex-col md:flex-row gap-3 justify-between md:px-6'>
                     <div className='md:w-1/2 text-center md:text-start'>
                         <h1 className=' text-2xl font-semibold'>{user.fullName}</h1>
-                        <p>MERN Stack Developer || Focused on Building Reliable Web Applications || Interested in Software Engineering</p>
+                        <p>{user.about}</p>
                     </div>
                     <div className='md:w-1/2 flex justify-center items-center gap-6 mx-auto'>
                         <Button className=' bg-sky-500 text-white text-base font-semibold w-32 border border-sky-500'>Download CV</Button>

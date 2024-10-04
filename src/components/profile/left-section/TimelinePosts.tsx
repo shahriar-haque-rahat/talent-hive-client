@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CiMenuKebab } from 'react-icons/ci';
 import PostSkeleton from '@/skeletons/PostSkeleton';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { getTimelinePosts } from '@/api/postData';
+import { getTimelinePosts } from '@/apiFunctions/postData';
 import { addCachePost, setTimelinePosts, setTimelinePostsPage } from '@/redux/postSlice';
 import UserInfoSection from '@/components/home/central-feed/shared-components-for-post/UserInfoSection';
 import EditAndDeletePost from '@/components/home/central-feed/posting/EditAndDeletePost';

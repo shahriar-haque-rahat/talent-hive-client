@@ -8,6 +8,7 @@ import { MdEmail } from "react-icons/md";
 import { Tooltip } from '@nextui-org/react';
 import { AuthContextValues } from '@/types/auth/auth.types';
 import { AuthContext } from '@/provider/AuthProvider';
+import Link from 'next/link';
 
 const LeftBar = () => {
     const { logout } = useContext(AuthContext) as AuthContextValues;
@@ -40,11 +41,13 @@ const LeftBar = () => {
                 </div>
 
                 <div className='space-y-3 pb-6'>
-                    <Tooltip placement="right-end" content="Edit Profile">
-                        <div>
-                            <TbUserEdit className='cursor-pointer text-xl lg:text-3xl xl:text-4xl' />
-                        </div>
-                    </Tooltip>
+                    <Link href={"/edit-profile"}>
+                        <Tooltip placement="right-end" content="Edit Profile">
+                            <div>
+                                <TbUserEdit className='cursor-pointer text-xl lg:text-3xl xl:text-4xl' />
+                            </div>
+                        </Tooltip>
+                    </Link>
 
                     <Tooltip placement="right-end" content="Logout">
                         <div>

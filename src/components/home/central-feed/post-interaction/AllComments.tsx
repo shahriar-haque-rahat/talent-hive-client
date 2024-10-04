@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { deleteComment, getComments, updateComment } from '@/api/postInteraction';
+import { deleteComment, getComments, updateComment } from '@/apiFunctions/postInteraction';
 import { Image } from '@nextui-org/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setComments, removeComment, editComment } from '@/redux/commentSlice';

@@ -31,7 +31,7 @@ export default function RootLayout({
             <AuthProvider>
               <Authorization>
                 <Navbar />
-                <div className=" pt-20">{children}</div>
+                <div className=" pt-20 min-h-screen">{children}</div>
               </Authorization>
             </AuthProvider>
             <Toaster />

@@ -1,4 +1,4 @@
-import { deleteLike, deleteSave, postLike, postSave } from '@/api/postInteraction';
+import { deleteLike, deleteSave, postLike, postSave } from '@/apiFunctions/postInteraction';
 import { setComments } from '@/redux/commentSlice';
 import { updatePostOnInteraction } from '@/redux/postSlice';
 import React, { useState } from 'react';

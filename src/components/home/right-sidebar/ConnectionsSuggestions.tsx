@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Image } from '@nextui-org/react';
 import { TiArrowRight } from 'react-icons/ti';
 import { FiPlus } from "react-icons/fi";
-import { getUsers } from '@/api/userData';
+import { getUsers } from '@/apiFunctions/userData';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 

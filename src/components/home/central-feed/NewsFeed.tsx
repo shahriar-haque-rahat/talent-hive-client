@@ -7,7 +7,7 @@ import EditAndDeletePost from './posting/EditAndDeletePost';
 import SharedPostContent from './SharedPostContent';
 import PostInteractionSection from './post-interaction/PostInteractionSection';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { getPosts } from '@/api/postData';
+import { getPosts } from '@/apiFunctions/postData';
 import { setPosts, setPostsPage } from '@/redux/postSlice';
 import PostSkeleton from '@/skeletons/PostSkeleton';
 import UserInfoSection from './shared-components-for-post/UserInfoSection';

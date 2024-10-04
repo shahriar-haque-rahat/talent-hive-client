@@ -3,7 +3,7 @@ import { MdClose, MdFileUpload } from 'react-icons/md';
 import { AuthContext } from '@/provider/AuthProvider';
 import toast from 'react-hot-toast';
 import ConfirmationModal from '@/shared/ConfirmationModal';
-import { createPost, updatePost } from '@/api/postData';
+import { createPost, updatePost } from '@/apiFunctions/postData';
 import { useDispatch } from 'react-redux';
 import { addPost, editPost } from '@/redux/postSlice';
 import { useEdgeStore } from '../../../../edgestore/edgestore';

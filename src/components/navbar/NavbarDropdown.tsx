@@ -4,12 +4,14 @@ import { AuthContextValues } from '@/types/auth/auth.types';
 import { Image } from '@nextui-org/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 const NavbarDropdown = () => {
     const pathName = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-    const { user, logout } = useContext(AuthContext) as AuthContextValues;
+    const { logout } = useContext(AuthContext) as AuthContextValues;
+    const user = useSelector((state: any) => state.user.user);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -39,11 +41,11 @@ const NavbarDropdown = () => {
         <div className="relative">
             {user?.email ? (
                 <div ref={dropdownRef} className="w-fit">
-                    <div onClick={toggleDropdown} className="cursor-pointer rounded-full w-10 h-10 border border-gray-200">
+                    <div onClick={toggleDropdown} className="cursor-pointer rounded-full">
                         <Image
-                            src="/assets/user.png"
+                            src={user?.profileImage ? user.profileImage : "/assets/user.png"}
                             alt="Profile"
-                            className="rounded-full cursor-pointer"
+                            className="rounded-full w-10 h-10 border border-gray-200 object-cover object-top cursor-pointer"
                         />
                     </div>
                     {isOpen && (

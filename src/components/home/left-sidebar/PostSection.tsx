@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Image } from '@nextui-org/react';
-import { AuthContext } from '@/provider/AuthProvider';
 import { useRouter } from 'next/navigation';
 import PostModal from '../central-feed/posting/PostModal';
+import { useSelector } from 'react-redux';
 
 const PostSection = () => {
-    const { user } = useContext(AuthContext);
+    const user = useSelector((state: any) => state.user.user);
     const router = useRouter();
     const [isPostModalOpen, setIsPostModalOpen] = useState(false);
 
@@ -27,18 +27,19 @@ const PostSection = () => {
     return (
         <>
             <div className='bg-white p-3 border shadow rounded-lg'>
-                <div className='flex items-center justify-center gap-2'>
-                    <div className='w-14 h-14 flex items-center'>
-                        <Image
-                            src="/assets/user.png"
-                            alt="Profile"
-                            className="rounded-full border-2 border-white object-cover object-center"
-                        />
+                <div className='flex items-center gap-2'>
+                    <Image
+                        src={user?.profileImage ? user.profileImage : "/assets/user.png"}
+                        alt={user?.fullName}
+                        className="rounded-full w-12 h-12 object-cover object-center"
+                    />
+                    <div className='flex-grow'>
+                        <button onClick={openPostModal} className='hover:bg-gray-100 h-10 text-sm text-left border border-gray-400 p-2 pl-4 rounded-full w-full'>
+                            Create a post
+                        </button>
                     </div>
-                    <button onClick={openPostModal} className='hover:bg-gray-100 text-sm text-left border border-gray-400 p-2 pl-4 rounded-full w-full'>
-                        Create a post
-                    </button>
                 </div>
+
                 {/* <div className='text-sm mt-4 flex justify-evenly'>
                     <button className='hover:bg-gray-100 p-2 flex gap-2 items-center text-blue-500'>
                         <MdPermMedia size={20} />Add Media

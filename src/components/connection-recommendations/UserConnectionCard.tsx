@@ -7,14 +7,14 @@ const UserConnectionCard = ({ user }) => {
         <>
             <div key={user._id} className='flex flex-col bg-white justify-center items-center gap-3 rounded-lg border shadow'>
                 <div className=' w-full relative'>
-                    <Image
+                    <img
                         src={user.coverImage ? user.coverImage : "/assets/bg.jpg"}
                         alt="Profile"
                         className="w-full h-28 rounded-none rounded-t-lg"
                     />
 
                     <div className='w-full flex justify-center absolute top-6'>
-                        <Image
+                        <img
                             src={user.profileImage ? user.profileImage : "/assets/user.png"}
                             alt="Profile"
                             className="rounded-full w-36 h-36 border-2 border-white object-cover object-top"

@@ -49,15 +49,15 @@ const NavbarDropdown = () => {
                         />
                     </div>
                     {isOpen && (
-                        <div className="absolute right-0 mt-2 w-48 bg-white border shadow-lg z-50">
+                        <div className="absolute right-0 mt-2 w-48 bg-white border shadow-lg z-50 rounded-lg">
                             <Link href="/profile" onClick={() => setIsOpen(false)}>
-                                <button className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">
+                                <button className="block rounded-t-lg w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">
                                     Profile
                                 </button>
                             </Link>
                             <button
                                 onClick={handleLogout}
-                                className="block w-full text-left px-4 py-2 bg-sky-500 text-white hover:bg-sky-600"
+                                className="block rounded-b-lg w-full text-left px-4 py-2 bg-sky-500 text-white hover:bg-sky-600"
                             >
                                 Logout
                             </button>

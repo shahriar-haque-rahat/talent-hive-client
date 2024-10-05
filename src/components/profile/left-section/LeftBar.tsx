@@ -11,6 +11,7 @@ import { AuthContext } from '@/provider/AuthProvider';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
+import { IoDocument } from 'react-icons/io5';
 
 const LeftBar = () => {
     const user = useSelector((state: any) => state.user.user);
@@ -70,6 +71,28 @@ const LeftBar = () => {
                         </Tooltip>
                     )}
 
+                    {/* CV Link */}
+                    {user?.cvLink?.startsWith('http') ? (
+                        <Link
+                            href={user.cvLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <Tooltip placement="right-end" content="CV">
+                                <div>
+                                    <IoDocument className='cursor-pointer text-xl lg:text-3xl xl:text-4xl mb-3' />
+                                </div>
+                            </Tooltip>
+                        </Link>
+                    ) : (
+                        <Tooltip placement="right-end" content="CV">
+                            <div onClick={() => handleInvalidLink('CV not available')}>
+                                <IoDocument className='cursor-pointer text-xl lg:text-3xl xl:text-4xl mb-3' />
+                            </div>
+                        </Tooltip>
+                    )}
+
+                    {/* Direct email */}
                     <Link href={`mailto:${user?.email}`}>
                         <Tooltip placement="right-end" content="Email">
                             <div>

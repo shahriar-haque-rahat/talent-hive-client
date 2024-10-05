@@ -4,18 +4,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import TimelinePostSection from './TimelinePostSection';
 import { Button } from '@nextui-org/react';
-import Link from 'next/link';
-import Unavailable from '@/components/unavailable/Unavailable';
-import toast from 'react-hot-toast';
+import { FiPlus } from 'react-icons/fi';
 
 const ProfileHeader = () => {
     const user = useSelector((state: any) => state.user.user);
-
-    const handleDownloadCV = () => {
-        if (!user?.cvLink?.startsWith('http')) {
-            toast.error('CV not available');
-        }
-    };
 
     return (
         <>
@@ -37,26 +29,8 @@ const ProfileHeader = () => {
                         <p>{user.about}</p>
                     </div>
                     <div className='md:w-1/2 flex justify-center items-center gap-6 mx-auto'>
-                        {user?.cvLink?.startsWith('http') ? (
-                            <Link
-                                href={user.cvLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <Button className='bg-sky-500 text-white text-base font-semibold w-32 border border-sky-500'>
-                                    Download CV
-                                </Button>
-                            </Link>
-                        ) : (
-                            <Button
-                                className='bg-sky-500 text-white text-base font-semibold w-32 border border-sky-500'
-                                onClick={handleDownloadCV}
-                            >
-                                Download CV
-                            </Button>
-                        )}
-
-                        <Button className=' bg-transparent text-sky-500 text-base font-semibold w-32 border border-sky-500'>Message</Button>
+                        <Button className=' bg-transparent text-sky-500 text-base font-semibold w-28 border border-sky-500'>Message</Button>
+                        <Button className=' bg-sky-500 text-white text-base font-semibold w-28 border border-sky-500'><FiPlus size={16} />Add</Button>
                     </div>
                 </div>
                 <TimelinePostSection />

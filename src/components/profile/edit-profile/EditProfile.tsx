@@ -8,10 +8,14 @@ import { addAuthorizedUser } from '@/redux/userSlice';
 import toast from 'react-hot-toast';
 import EditProfileAndCoverImageModal from './EditProfileAndCoverImageModal';
 import { MdEditSquare } from "react-icons/md";
+import CVUpload from './CVUpload';
+import { useEdgeStore } from '@/edgestore/edgestore';
 
 const EditProfile = () => {
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
+    const { edgestore } = useEdgeStore();
+
     const [errors, setErrors] = useState<Record<string, string>>({});
     const characterLimit = 150;
 
@@ -21,11 +25,13 @@ const EditProfile = () => {
         about: user?.about || '',
         facebookLink: user?.facebookLink || '',
         linkedInLink: user?.linkedInLink || '',
-        cvLink: user?.cvLink || '',
         phoneNumber: user?.phoneNumber || '',
+        cvLink: user?.cvLink || '',
     });
 
+    const [cvFile, setCvFile] = useState<File | null>(null);
     const [aboutCharCount, setAboutCharCount] = useState(formData.about.length);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -48,6 +54,10 @@ const EditProfile = () => {
         }
     };
 
+    const handleCVFileChange = (file: File) => {
+        setCvFile(file);
+    };
+
     const validateForm = () => {
         const newErrors: Record<string, string> = {};
 
@@ -62,21 +72,59 @@ const EditProfile = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsSubmitting(true);
 
         const isFormChanged = Object.keys(formData).some(
             (key) => formData[key as keyof typeof formData] !== user[key as keyof typeof user]
         );
 
-        if (!isFormChanged) {
+        if (!isFormChanged && !cvFile) {
+            setIsSubmitting(false);
             return;
         }
 
         if (validateForm()) {
-            const updatedData = await patchUser(user._id, formData);
-            if (updatedData) {
-                dispatch(addAuthorizedUser(updatedData));
-                toast.success('Profile updated');
+            try {
+                let uploadedCVUrl = formData.cvLink;
+
+                if (cvFile) {
+                    if (user.cvLink) {
+                        await edgestore.userCVs.delete({
+                            url: user.cvLink,
+                        });
+                        console.log("Old CV deleted successfully");
+                    }
+
+                    // Upload the new CV
+                    const uploadRes = await edgestore.userCVs.upload({
+                        file: cvFile,
+                        onProgressChange: (progress) => {
+                            console.log('CV upload progress:', progress);
+                        },
+                    });
+                    uploadedCVUrl = uploadRes.url;
+                }
+
+                const updatedData = await patchUser(user._id, {
+                    ...formData,
+                    cvLink: uploadedCVUrl,
+                });
+
+                if (updatedData) {
+                    dispatch(addAuthorizedUser(updatedData));
+                    toast.success('Profile updated successfully');
+                }
             }
+            catch (error) {
+                toast.error('Failed to update profile.');
+                console.error('Profile update error:', error);
+            }
+            finally {
+                setIsSubmitting(false);
+            }
+        }
+        else {
+            setIsSubmitting(false);
         }
     };
 
@@ -201,15 +249,6 @@ const EditProfile = () => {
                             />
 
                             <Input
-                                label="CV Link"
-                                fullWidth
-                                variant='underlined'
-                                name="cvLink"
-                                value={formData.cvLink}
-                                onChange={handleInputChange}
-                            />
-
-                            <Input
                                 label="Phone Number"
                                 fullWidth
                                 variant='underlined'
@@ -219,9 +258,16 @@ const EditProfile = () => {
                                 onChange={handleInputChange}
                             />
                         </div>
+
+                        {/* CV Upload Component */}
+                        <div className=' mt-10'>
+                            <CVUpload onCVFileChange={handleCVFileChange} existingCV={user?.cvLink}/>
+                        </div>
                     </div>
 
-                    <Button type='submit' className='bg-sky-500 w-full text-white rounded-lg'>Save Changes</Button>
+                    <Button type="submit" className='bg-sky-500 w-full text-white rounded-lg' isDisabled={isSubmitting} isLoading={isSubmitting}>
+                        {isSubmitting ? 'Saving...' : 'Save Changes'}
+                    </Button>
                 </form>
             </div>
 
@@ -229,6 +275,7 @@ const EditProfile = () => {
             {isModalOpen && modalType && (
                 <EditProfileAndCoverImageModal
                     userId={user._id}
+                    userName={user.userName}
                     type={modalType}
                     initialMediaUrl={modalType === 'profile' ? user.profileImage : user.coverImage}
                     onClose={closeModal}

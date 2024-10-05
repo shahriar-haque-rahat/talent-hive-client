@@ -14,7 +14,7 @@ const edgeStoreRouter = es.router({
      * By default every upload from your app is allowed.
      */
     .beforeUpload(({ ctx, input, fileInfo }) => {
-      console.log('beforeUpload', ctx, input, fileInfo);
+      console.log('beforeUpload (publicFiles)', ctx, input, fileInfo);
       return true; // allow upload
     })
     /**
@@ -22,8 +22,46 @@ const edgeStoreRouter = es.router({
      * This function must be defined if you want to delete files directly from the client.
      */
     .beforeDelete(({ ctx, fileInfo }) => {
-      console.log('beforeDelete', ctx, fileInfo);
+      console.log('beforeDelete (publicFiles)', ctx, fileInfo);
       return true; // allow delete
+    }),
+
+  profileAndCoverImages: es
+    .fileBucket()
+    /**
+     * return `true` to allow upload
+     * By default every upload from your app is allowed.
+     */
+    .beforeUpload(({ ctx, input, fileInfo }) => {
+      console.log('beforeUpload (profileAndCoverImages)', ctx, input, fileInfo);
+      return true; // allow CV upload
+    })
+    /**
+     * return `true` to allow delete
+     * This function must be defined if you want to delete files directly from the client.
+     */
+    .beforeDelete(({ ctx, fileInfo }) => {
+      console.log('beforeDelete (profileAndCoverImages)', ctx, fileInfo);
+      return true; // allow CV delete
+    }),
+
+  userCVs: es
+    .fileBucket()
+    /**
+     * return `true` to allow upload
+     * By default every upload from your app is allowed.
+     */
+    .beforeUpload(({ ctx, input, fileInfo }) => {
+      console.log('beforeUpload (userCVs)', ctx, input, fileInfo);
+      return true; // allow CV upload
+    })
+    /**
+     * return `true` to allow delete
+     * This function must be defined if you want to delete files directly from the client.
+     */
+    .beforeDelete(({ ctx, fileInfo }) => {
+      console.log('beforeDelete (userCVs)', ctx, fileInfo);
+      return true; // allow CV delete
     }),
 });
 

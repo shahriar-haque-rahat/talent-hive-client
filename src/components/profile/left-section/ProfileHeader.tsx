@@ -4,6 +4,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import TimelinePostSection from './TimelinePostSection';
 import { Button } from '@nextui-org/react';
+import Link from 'next/link';
 
 const ProfileHeader = () => {
     const user = useSelector((state: any) => state.user.user);
@@ -28,7 +29,14 @@ const ProfileHeader = () => {
                         <p>{user.about}</p>
                     </div>
                     <div className='md:w-1/2 flex justify-center items-center gap-6 mx-auto'>
-                        <Button className=' bg-sky-500 text-white text-base font-semibold w-32 border border-sky-500'>Download CV</Button>
+                        <Link
+                            href={user?.cvLink?.startsWith('http') ? user.cvLink : '#'}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <Button className=' bg-sky-500 text-white text-base font-semibold w-32 border border-sky-500'>Download CV</Button>
+                        </Link>
+
                         <Button className=' bg-transparent text-sky-500 text-base font-semibold w-32 border border-sky-500'>Message</Button>
                     </div>
                 </div>

@@ -211,6 +211,7 @@ const PostModal = ({ isOpen, onClose, post, isEditing }) => {
                                         multiple
                                         ref={fileInputRef}
                                         onChange={handleAddMedia}
+                                        accept="image/*"
                                         className="hidden"
                                         disabled={isSubmitting}
                                     />

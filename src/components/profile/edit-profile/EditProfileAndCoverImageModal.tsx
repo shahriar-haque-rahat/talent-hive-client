@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { MdClose, MdFileUpload } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 
-const EditProfileAndCoverImageModal = ({ userId, initialMediaUrl, type, onClose }) => {
+const EditProfileAndCoverImageModal = ({ userId, userName, initialMediaUrl, type, onClose }) => {
     const dispatch = useDispatch();
     const [media, setMedia] = useState(null);
     const [removedMedia, setRemovedMedia] = useState(initialMediaUrl || null);
@@ -38,7 +38,7 @@ const EditProfileAndCoverImageModal = ({ userId, initialMediaUrl, type, onClose 
             const mediaUrls = [];
             if (removedMedia) {
                 try {
-                    await edgestore.publicFiles.delete({ url: removedMedia });
+                    await edgestore.profileAndCoverImages.delete({ url: removedMedia });
                     console.log('Deleted old media:', removedMedia);
                 } catch (error) {
                     console.error('Failed to delete old media:', removedMedia, error);
@@ -48,7 +48,7 @@ const EditProfileAndCoverImageModal = ({ userId, initialMediaUrl, type, onClose 
             // Upload new media
             if (media) {
                 try {
-                    const res = await edgestore.publicFiles.upload({
+                    const res = await edgestore.profileAndCoverImages.upload({
                         file: media,
                         onProgressChange: (progress) => {
                             console.log('Upload progress:', progress);
@@ -139,6 +139,7 @@ const EditProfileAndCoverImageModal = ({ userId, initialMediaUrl, type, onClose 
                                     type="file"
                                     ref={fileInputRef}
                                     onChange={handleAddMedia}
+                                    accept="image/*"
                                     className="hidden"
                                     disabled={isSubmitting}
                                 />

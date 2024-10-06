@@ -12,17 +12,17 @@ interface RegisterDataIncludeID extends RegisterData {
     id: string;
 }
 
-// const roles = [
-//     { key: 'user', label: 'User' },
-//     { key: 'employer', label: 'Employer' },
-// ];
+const roles = [
+    { key: 'user', label: 'User' },
+    { key: 'employer', label: 'Employer' },
+];
 
 const Register = () => {
     const { register } = useContext(AuthContext) as AuthContextValues;
     const [isVisible, setIsVisible] = useState(false);
     const [errors, setErrors] = useState<Record<string, boolean>>({});
     const [password, setPassword] = useState('');
-    // const [role, setRole] = useState(roles[0].key);
+    const [role, setRole] = useState(roles[0].key);
 
     const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -30,7 +30,7 @@ const Register = () => {
         handleFormSubmit<RegisterDataIncludeID>(
             event,
             async (data) => { await register(data); },
-            { status: 'inactive', role: 'user' },
+            { status: 'inactive', role },
             setErrors
         );
 
@@ -123,13 +123,13 @@ const Register = () => {
                                 onChange={handleChange}
                             />
 
-                            {/* <Select name="role" label="Role" variant="underlined" value={role} onChange={(e) => setRole(e.target.value)} >
+                            <Select name="role" label="Role" variant="underlined" value={role} onChange={(e) => setRole(e.target.value)} >
                                 {roles.map((role) => (
                                     <SelectItem key={role.key} value={role.key}>
                                         {role.label}
                                     </SelectItem>
                                 ))}
-                            </Select> */}
+                            </Select>
 
                             <Button type="submit" className=' bg-sky-500 text-white rounded-lg w-full mt-6 border border-sky-500 hover:bg-white hover:text-sky-500'>Register</Button>
                         </form>

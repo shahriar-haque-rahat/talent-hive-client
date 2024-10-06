@@ -71,22 +71,22 @@ const LeftBar = () => {
                         </Tooltip>
                     )}
 
-                    {/* CV Link */}
-                    {user?.cvLink?.startsWith('http') ? (
+                    {/* Resume Link */}
+                    {user?.resumeLink?.startsWith('http') ? (
                         <Link
-                            href={user.cvLink}
+                            href={user.resumeLink}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <Tooltip placement="right-end" content="CV">
+                            <Tooltip placement="right-end" content="Resume">
                                 <div>
                                     <IoDocument className='cursor-pointer text-xl lg:text-3xl xl:text-4xl mb-3' />
                                 </div>
                             </Tooltip>
                         </Link>
                     ) : (
-                        <Tooltip placement="right-end" content="CV">
-                            <div onClick={() => handleInvalidLink('CV not available')}>
+                        <Tooltip placement="right-end" content="Resume">
+                            <div onClick={() => handleInvalidLink('Resume not available')}>
                                 <IoDocument className='cursor-pointer text-xl lg:text-3xl xl:text-4xl mb-3' />
                             </div>
                         </Tooltip>

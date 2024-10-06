@@ -1,14 +1,14 @@
 import React, { useState, useRef } from "react";
 import { MdFileUpload } from "react-icons/md";
 
-const CVUpload = ({ onCVFileChange, existingCV }) => {
-    const [cvFile, setCvFile] = useState(null);
+const ResumeUpload = ({ onResumeFileChange, existingResume }) => {
+    const [resumeFile, setResumeFile] = useState(null);
     const fileInputRef = useRef(null);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
-        setCvFile(file);
-        onCVFileChange(file);
+        setResumeFile(file);
+        onResumeFileChange(file);
     };
 
     return (
@@ -18,7 +18,7 @@ const CVUpload = ({ onCVFileChange, existingCV }) => {
                     className="flex items-center px-3 py-2 border border-sky-500 text-sky-500 cursor-pointer hover:bg-sky-500 hover:text-white rounded-lg"
                 >
                     <MdFileUpload size={24} className="mr-2" />
-                    {cvFile || existingCV ? "Replace CV" : "Upload CV"}
+                    {resumeFile || existingResume ? "Replace Resume" : "Upload Resume"}
                     <input
                         type="file"
                         ref={fileInputRef}
@@ -28,12 +28,12 @@ const CVUpload = ({ onCVFileChange, existingCV }) => {
                     />
                 </label>
 
-                {cvFile && (
-                    <p className="ml-4">{cvFile.name}</p>
+                {resumeFile && (
+                    <p className="ml-4">{resumeFile.name}</p>
                 )}
             </div>
         </div>
     );
 };
 
-export default CVUpload;
+export default ResumeUpload;

@@ -8,8 +8,8 @@ import { addAuthorizedUser } from '@/redux/userSlice';
 import toast from 'react-hot-toast';
 import EditProfileAndCoverImageModal from './EditProfileAndCoverImageModal';
 import { MdEditSquare } from "react-icons/md";
-import CVUpload from './CVUpload';
 import { useEdgeStore } from '@/edgestore/edgestore';
+import ResumeUpload from './ResumeUpload';
 
 const EditProfile = () => {
     const dispatch = useDispatch();
@@ -26,10 +26,10 @@ const EditProfile = () => {
         facebookLink: user?.facebookLink || '',
         linkedInLink: user?.linkedInLink || '',
         phoneNumber: user?.phoneNumber || '',
-        cvLink: user?.cvLink || '',
+        resumeLink: user?.resumeLink || '',
     });
 
-    const [cvFile, setCvFile] = useState<File | null>(null);
+    const [resumeFile, setResumeFile] = useState<File | null>(null);
     const [aboutCharCount, setAboutCharCount] = useState(formData.about.length);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -54,8 +54,8 @@ const EditProfile = () => {
         }
     };
 
-    const handleCVFileChange = (file: File) => {
-        setCvFile(file);
+    const handleResumeFileChange = (file: File) => {
+        setResumeFile(file);
     };
 
     const validateForm = () => {
@@ -78,36 +78,36 @@ const EditProfile = () => {
             (key) => formData[key as keyof typeof formData] !== user[key as keyof typeof user]
         );
 
-        if (!isFormChanged && !cvFile) {
+        if (!isFormChanged && !resumeFile) {
             setIsSubmitting(false);
             return;
         }
 
         if (validateForm()) {
             try {
-                let uploadedCVUrl = formData.cvLink;
+                let uploadedResumeUrl = formData.resumeLink;
 
-                if (cvFile) {
-                    if (user.cvLink) {
-                        await edgestore.userCVs.delete({
-                            url: user.cvLink,
+                if (resumeFile) {
+                    if (user.resumeLink) {
+                        await edgestore.userResumes.delete({
+                            url: user.resumeLink,
                         });
-                        console.log("Old CV deleted successfully");
+                        console.log("Old Resume deleted successfully");
                     }
 
-                    // Upload the new CV
-                    const uploadRes = await edgestore.userCVs.upload({
-                        file: cvFile,
+                    // Upload the new Resume
+                    const uploadRes = await edgestore.userResumes.upload({
+                        file: resumeFile,
                         onProgressChange: (progress) => {
-                            console.log('CV upload progress:', progress);
+                            console.log('Resume upload progress:', progress);
                         },
                     });
-                    uploadedCVUrl = uploadRes.url;
+                    uploadedResumeUrl = uploadRes.url;
                 }
 
                 const updatedData = await patchUser(user._id, {
                     ...formData,
-                    cvLink: uploadedCVUrl,
+                    resumeLink: uploadedResumeUrl,
                 });
 
                 if (updatedData) {
@@ -259,9 +259,9 @@ const EditProfile = () => {
                             />
                         </div>
 
-                        {/* CV Upload Component */}
+                        {/* Resume Upload Component */}
                         <div className=' mt-10'>
-                            <CVUpload onCVFileChange={handleCVFileChange} existingCV={user?.cvLink}/>
+                            <ResumeUpload onResumeFileChange={handleResumeFileChange} existingResume={user?.resumeLink}/>
                         </div>
                     </div>
 

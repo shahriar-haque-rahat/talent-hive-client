@@ -63,6 +63,25 @@ const edgeStoreRouter = es.router({
       console.log('beforeDelete (userResumes)', ctx, fileInfo);
       return true; // allow Resume delete
     }),
+
+  employerCompanyLogo: es
+    .fileBucket()
+    /**
+     * return `true` to allow upload
+     * By default every upload from your app is allowed.
+     */
+    .beforeUpload(({ ctx, input, fileInfo }) => {
+      console.log('beforeUpload (employerCompanyLogo)', ctx, input, fileInfo);
+      return true; // allow Resume upload
+    })
+    /**
+     * return `true` to allow delete
+     * This function must be defined if you want to delete files directly from the client.
+     */
+    .beforeDelete(({ ctx, fileInfo }) => {
+      console.log('beforeDelete (employerCompanyLogo)', ctx, fileInfo);
+      return true; // allow Resume delete
+    }),
 });
 
 const handler = createEdgeStoreNextHandler({

@@ -28,8 +28,8 @@ const ConnectionsSuggestions = () => {
                 <p className=' mb-4 font-semibold'>Add to your connect</p>
                 {
                     users?.map(user => (
-                        <div className=' flex gap-3 xl:gap-6 mb-4'>
-                            <div className=' h-full my-auto'>
+                        <div className='flex gap-3 xl:gap-6 mb-4'>
+                            <div className='flex-shrink-0 w-16 h-16 my-auto'>
                                 <Image
                                     src={user.profileImage ? user.profileImage : "/assets/user.png"}
                                     alt="Profile"
@@ -37,20 +37,22 @@ const ConnectionsSuggestions = () => {
                                 />
                             </div>
 
-                            <div className=' flex flex-col gap-1'>
+                            <div className='flex-grow flex flex-col gap-1 justify-center'>
                                 <div>
-                                    <h1 className=' font-semibold'>{user.fullName}</h1>
+                                    <h1 className='font-semibold'>{user.fullName}</h1>
                                     <p className='text-xs text-gray-500'>
                                         {user.designation ? user.designation : 'No designation available'}
                                     </p>
                                 </div>
-                                <button className=' w-20 xl:w-24 text-sm py-1 px-3 rounded-lg border border-gray-600 hover:border-black hover:bg-gray-200 flex gap-1 justify-center items-center font-bold'><FiPlus size={16} />Add</button>
+                                <button className='w-20 xl:w-24 text-sm py-1 px-3 rounded-lg border border-gray-600 hover:border-black hover:bg-gray-200 flex gap-1 justify-center items-center font-bold'>
+                                    <FiPlus size={16} />Add
+                                </button>
                             </div>
                         </div>
                     ))
                 }
                 <Link href={"/connection-recommendations"}>
-                    <p className=' mt-4 font-semibold text-xs flex items-center cursor-pointer'>View all recommendations <TiArrowRight size={20} /></p>
+                    <p className=' text-gray-600 mt-4 font-semibold text-xs flex items-center cursor-pointer'>View all recommendations <TiArrowRight size={20} /></p>
                 </Link>
             </div>
         </>

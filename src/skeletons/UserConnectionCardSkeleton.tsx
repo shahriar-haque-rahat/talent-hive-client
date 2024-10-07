@@ -19,9 +19,9 @@ const UserConnectionCardSkeleton = () => {
     };
 
     useEffect(() => {
-        updateCardsToShow(); // Initial check on mount
-        window.addEventListener('resize', updateCardsToShow); // Update on window resize
-        return () => window.removeEventListener('resize', updateCardsToShow); // Cleanup on unmount
+        updateCardsToShow();
+        window.addEventListener('resize', updateCardsToShow);
+        return () => window.removeEventListener('resize', updateCardsToShow);
     }, []);
 
     return (
@@ -33,7 +33,7 @@ const UserConnectionCardSkeleton = () => {
                         <div className="w-full relative">
                             {/* Cover Image Skeleton */}
                             <Skeleton className="w-full h-28 rounded-none rounded-t-lg">
-                                <div className="w-full h-28 bg-default-200 rounded-none rounded-t-lg"></div>
+                                <div className="w-full h-28 bg-default-300 rounded-none rounded-t-lg"></div>
                             </Skeleton>
 
                             {/* Profile Image Skeleton */}
@@ -48,7 +48,7 @@ const UserConnectionCardSkeleton = () => {
                             {/* Name and Designation Skeleton */}
                             <div className="text-center">
                                 <Skeleton className="w-32 rounded-lg">
-                                    <div className="h-4 w-32 bg-default-200"></div>
+                                    <div className="h-4 w-32 bg-default-300"></div>
                                 </Skeleton>
                                 <Skeleton className="w-24 rounded-lg mt-2">
                                     <div className="h-3 w-24 bg-default-300"></div>
@@ -57,7 +57,7 @@ const UserConnectionCardSkeleton = () => {
 
                             {/* Button Skeleton */}
                             <Skeleton className="w-full rounded-lg">
-                                <div className="h-10 w-full bg-default-200 rounded-lg"></div>
+                                <div className="h-10 w-full bg-default-300 rounded-lg"></div>
                             </Skeleton>
                         </div>
                     </Card>

@@ -2,13 +2,13 @@ import React from 'react';
 import SidebarFooter from './SidebarFooter';
 import ConnectionsSuggestions from './ConnectionsSuggestions';
 
-const RightSidebar = () => {
+const HomeRightSection = () => {
     return (
         <>
-            <ConnectionsSuggestions/>
+            <ConnectionsSuggestions />
             <SidebarFooter />
         </>
     );
 };
 
-export default RightSidebar;
+export default HomeRightSection;

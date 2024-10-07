@@ -1,9 +1,9 @@
 'use client'
 
 import React from 'react';
-import LeftSidebar from './left-sidebar/LeftSidebar';
+import LeftSidebar from './home-left-section/HomeLeftSection';
 import NewsFeed from './central-feed/NewsFeed';
-import RightSidebar from './right-sidebar/RightSidebar';
+import RightSidebar from './home-right-section/HomeRightSection';
 
 const Home = () => {
     return (

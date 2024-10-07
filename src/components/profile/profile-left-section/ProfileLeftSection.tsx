@@ -3,7 +3,7 @@ import ProfileHeader from './ProfileHeader';
 import Timeline from './Timeline';
 import LeftBar from './LeftBar';
 
-const LeftSection = () => {
+const ProfileLeftSection = () => {
     return (
         <>
             <div className=' flex'>
@@ -18,4 +18,4 @@ const LeftSection = () => {
     );
 };
 
-export default LeftSection;
+export default ProfileLeftSection;

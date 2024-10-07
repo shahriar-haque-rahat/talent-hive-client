@@ -1,6 +1,6 @@
 'use client'
 
-import PostSection from '@/components/home/left-sidebar/PostSection';
+import PostSection from '@/components/home/home-left-section/PostSection';
 import React from 'react';
 
 const TimelinePostSection = () => {

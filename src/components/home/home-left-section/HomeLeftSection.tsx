@@ -2,7 +2,7 @@ import React from 'react';
 import PostSection from './PostSection';
 import { useSelector } from 'react-redux';
 
-const LeftSidebar = () => {
+const HomeLeftSection = () => {
     const user = useSelector((state: any) => state.user.user);
 
     return (
@@ -46,4 +46,4 @@ const LeftSidebar = () => {
     );
 };
 
-export default LeftSidebar;
+export default HomeLeftSection;

@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export const getUsers = async (userId, limit, page) => {
+export const getUsers = async (userId: string, limit: number, page: number) => {
     try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/all-user/${userId}`, {
             params: { limit, page }
@@ -14,7 +14,7 @@ export const getUsers = async (userId, limit, page) => {
     }
 };
 
-export const getUser = async (userId) => {
+export const getUser = async (userId: string) => {
     try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/${userId}`);
         console.log(response.data)
@@ -26,7 +26,7 @@ export const getUser = async (userId) => {
     }
 };
 
-export const patchUser = async (userId, updateData) => {
+export const patchUser = async (userId: string, updateData: any) => {
     try {
         const response = await axios.patch(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/${userId}`, updateData);
         return response.data;
@@ -37,7 +37,7 @@ export const patchUser = async (userId, updateData) => {
     }
 };
 
-export const deleteUser = async (userId) => {
+export const deleteUser = async (userId: string) => {
     try {
         const response = await axios.delete(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/${userId}`);
         return response.data;

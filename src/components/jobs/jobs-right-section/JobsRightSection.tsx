@@ -1,10 +1,11 @@
 import React from 'react';
+import JobPostList from './JobPostList';
 
 const JobsRightSection = () => {
     return (
-        <div>
-            
-        </div>
+        <>
+            <JobPostList/>
+        </>
     );
 };
 

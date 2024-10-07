@@ -43,7 +43,7 @@ export const getOnePost = async (postId: string, userId: string) => {
     }
 };
 
-export const getPostShares = async (postId, excludePostIds = '') => {
+export const getPostShares = async (postId: string, excludePostIds = '') => {
     try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/share/${postId}`, {
             params: {
@@ -68,7 +68,7 @@ export const createPost = async (postData: any) => {
         return newPost;
     }
     catch (error) {
-        console.error("Error fetching posts:", error);
+        console.error("Error creating post:", error);
         return null;
     }
 };
@@ -81,7 +81,7 @@ export const updatePost = async (postId: string, updateData: any) => {
         return updatedPost;
     }
     catch (error) {
-        console.error("Error fetching posts:", error);
+        console.error("Error updating post:", error);
         return null;
     }
 };
@@ -92,7 +92,7 @@ export const deletePost = async (postId: string) => {
         return response.data;
     }
     catch (error) {
-        console.error("Error fetching posts:", error);
+        console.error("Error deleting post:", error);
         return null;
     }
 };

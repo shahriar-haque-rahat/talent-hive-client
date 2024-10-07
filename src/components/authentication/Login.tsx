@@ -47,7 +47,7 @@ const Login = () => {
     return (
         <>
             <div className='flex justify-center items-center px-[10%] xl:px-[20%] h-[calc(100vh-80px)]'>
-                <div className='flex flex-col-reverse md:flex-row w-full max-w-4xl mx-auto shadow-md rounded-lg'>
+                <div className='flex flex-col-reverse md:flex-row w-full max-w-4xl mx-auto shadow border rounded-lg'>
                     <div className='w-full md:w-1/2 p-6 bg-white flex flex-col justify-center rounded-l-lg'>
                         <form onSubmit={handleSubmit}>
                             <h1 className=' text-2xl font-semibold my-3'>Login</h1>

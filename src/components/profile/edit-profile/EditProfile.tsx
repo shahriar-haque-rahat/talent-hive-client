@@ -145,7 +145,7 @@ const EditProfile = () => {
     return (
         <>
             <div>
-                <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow'>Edit Profile Details</h1>
+                <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow border'>Edit Profile Details</h1>
 
                 <div className=' flex flex-col justify-center items-center text-center bg-white pb-6 rounded-lg border shadow'>
                     <div className='w-full relative'>

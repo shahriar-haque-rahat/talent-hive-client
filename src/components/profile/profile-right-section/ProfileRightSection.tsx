@@ -1,6 +1,6 @@
 'use client'
 
-import ConnectionsSuggestions from '@/components/home/home-right-section/ConnectionsSuggestions';
+import ConnectionsSuggestions from '@/components/connection-recommendations/ConnectionsSuggestions';
 import React from 'react';
 
 const ProfileRightSection = () => {

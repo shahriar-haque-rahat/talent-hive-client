@@ -1,12 +1,16 @@
 import React from 'react';
 import SidebarFooter from './SidebarFooter';
-import ConnectionsSuggestions from './ConnectionsSuggestions';
+import ConnectionsSuggestions from '../../connection-recommendations/ConnectionsSuggestions';
+import CompanySuggestions from '@/components/company/CompanySuggestions';
 
 const HomeRightSection = () => {
     return (
         <>
-            <ConnectionsSuggestions />
-            <SidebarFooter />
+            <div className=' space-y-3'>
+                <ConnectionsSuggestions />
+                <CompanySuggestions />
+                <SidebarFooter />
+            </div>
         </>
     );
 };

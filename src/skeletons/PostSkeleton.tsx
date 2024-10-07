@@ -11,7 +11,7 @@ const PostSkeleton = () => {
                 </Skeleton>
                 <div className="space-y-3">
                     <Skeleton className="w-32 rounded-lg">
-                        <div className="h-4 w-32 bg-default-200"></div>
+                        <div className="h-4 w-32 bg-default-300"></div>
                     </Skeleton>
                     <Skeleton className="w-20 rounded-lg">
                         <div className="h-3 w-20 bg-default-300"></div>
@@ -22,10 +22,10 @@ const PostSkeleton = () => {
             <div className="mt-6 space-y-5">
                 {/* Post content skeleton */}
                 <Skeleton className="w-full rounded-lg">
-                    <div className="h-5 bg-default-200"></div>
+                    <div className="h-5 bg-default-300"></div>
                 </Skeleton>
                 <Skeleton className="w-full rounded-lg">
-                    <div className="h-5 bg-default-200"></div>
+                    <div className="h-5 bg-default-300"></div>
                 </Skeleton>
             </div>
 

@@ -54,7 +54,7 @@ const JobPostList = () => {
     return (
         <>
             <div>
-                <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg border'>Jobs for you</h1>
+                <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg border shadow'>Jobs for you</h1>
 
                 <div className=' space-y-4'>
                     {jobPosts?.map(jobPost => (

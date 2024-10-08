@@ -150,7 +150,7 @@ const EditProfileAndCoverImageModal = ({ userId, userName, initialMediaUrl, type
                         <button
                             type="button"
                             onClick={handleSubmit}
-                            className={`px-4 py-1 bg-sky-500 text-white rounded-lg ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`px-4 py-1 bg-sky-500 text-white rounded-lg shadow ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                             disabled={isSubmitting}
                         >
                             {isSubmitting ? 'Uploading...' : 'Save Changes'}

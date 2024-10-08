@@ -3,7 +3,7 @@ import { Card, Skeleton } from "@nextui-org/react";
 
 const PostSkeleton = () => {
     return (
-        <Card className="w-full p-6 pb-0" radius="lg">
+        <Card className="w-full p-6 pb-2" radius="lg">
             {/* User details skeleton */}
             <div className="flex gap-3 items-center space-y-0">
                 <Skeleton className="rounded-full">

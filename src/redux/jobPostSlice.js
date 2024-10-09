@@ -36,4 +36,14 @@ const jobPostSlice = createSlice({
 });
 
 export const { setJobPosts, setJobPostsPage, addJobPost, editPost, removePost } = jobPostSlice.actions;
+
+export const selectJobPostById = (state, jobPostId) => {
+    const jobPost = state.jobPost.jobPosts.find(post => post._id === jobPostId);
+    if (jobPost) {
+        return jobPost;
+    }
+
+    return undefined;
+};
+
 export default jobPostSlice.reducer;

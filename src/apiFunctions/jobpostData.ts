@@ -28,6 +28,18 @@ export const getJobPostsByCompany = async (companyId: string, page = 0, limit = 
     }
 };
 
+export const getOneJobPost = async (jobPostId: string) => {
+    try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/job-post/details/${jobPostId}`);
+        const jobPost = response.data;
+
+        return jobPost;
+    } catch (error) {
+        console.error("Error fetching job posts:", error);
+        return null;
+    }
+};
+
 export const createJobPost = async (jobPostData: any) => {
     try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/job-post`, jobPostData);

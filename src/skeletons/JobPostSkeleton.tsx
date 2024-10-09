@@ -4,7 +4,7 @@ import React from 'react';
 const JobPostSkeleton = () => {
     return (
         <>
-            <Card className=' p-3 md:p-6 mt-4'>
+            <Card className=' p-3 md:p-6 rounded-none rounded-b-lg'>
                 <div className="flex gap-3 xl:gap-6 mb-4">
                     <Skeleton className="flex-shrink-0 w-16 md:w-20 h-16 md:h-20 my-auto rounded-full">
                         <div className="rounded-full w-16 md:w-20 h-16 md:h-20 bg-default-300"></div>

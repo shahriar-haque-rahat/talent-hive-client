@@ -6,7 +6,7 @@ import React from 'react';
 
 const ProfileRightSection = () => {
     return (
-        <div className=' space-y-3'>
+        <div className=' space-y-2'>
             <ConnectionsSuggestions />
             <CompanySuggestions />
         </div>

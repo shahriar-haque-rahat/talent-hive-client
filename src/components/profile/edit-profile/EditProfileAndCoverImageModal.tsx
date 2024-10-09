@@ -1,6 +1,7 @@
 import { patchUser } from '@/apiFunctions/userData';
 import { useEdgeStore } from '@/edgestore/edgestore';
 import { addAuthorizedUser } from '@/redux/userSlice';
+import { Button } from '@nextui-org/react';
 import React, { useRef, useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { MdClose, MdFileUpload } from 'react-icons/md';
@@ -147,14 +148,14 @@ const EditProfileAndCoverImageModal = ({ userId, userName, initialMediaUrl, type
                         </div>
 
                         {/* Submit Button */}
-                        <button
+                        <Button
                             type="button"
                             onClick={handleSubmit}
-                            className={`px-4 py-1 bg-sky-500 text-white rounded-lg shadow ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`px-4 py-1 bg-sky-500 text-white rounded-lg shadow border border-sky-500 hover:bg-white hover:text-sky-500${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                             disabled={isSubmitting}
                         >
                             {isSubmitting ? 'Uploading...' : 'Save Changes'}
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>

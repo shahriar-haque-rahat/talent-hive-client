@@ -10,7 +10,7 @@ const ProfileLeftSection = () => {
                 <LeftBar />
                 <div className=' ml-7 md:ml-2 lg:ml-8 xl:ml-10 w-full'>
                     <ProfileHeader />
-                    <div className='my-6 border-t border-gray-500'></div>
+                    <div className='my-4 border-t border-gray-500'></div>
                     <Timeline />
                 </div>
             </div>

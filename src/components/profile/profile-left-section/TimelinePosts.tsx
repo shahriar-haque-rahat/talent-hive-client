@@ -69,7 +69,7 @@ const TimelinePosts = () => {
 
     return (
         <>
-            <div className='space-y-4 mt-6'>
+            <div className='space-y-4'>
                 {Array.isArray(timelinePosts) &&
                     timelinePosts?.map((post, index) => (
                         <div key={index} className='bg-white border shadow rounded-lg '>

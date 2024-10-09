@@ -6,7 +6,7 @@ import CompanySuggestions from '@/components/company/CompanySuggestions';
 const HomeRightSection = () => {
     return (
         <>
-            <div className=' space-y-3'>
+            <div className=' space-y-2'>
                 <ConnectionsSuggestions />
                 <CompanySuggestions />
                 <SidebarFooter />

@@ -38,8 +38,8 @@ const CompanySuggestions = () => {
                             </div>
 
                             <div className='flex-grow flex flex-col gap-1 justify-center'>
-                                <h1 className='font-semibold'>{company.companyName}</h1>
-                                <button className='w-20 xl:w-24 text-sm py-1 px-3 rounded-lg border border-gray-600 hover:border-black hover:bg-gray-200 flex gap-1 justify-center items-center font-bold'>
+                                <h1 className='cursor-pointer hover:underline font-semibold'>{company.companyName}</h1>
+                                <button className='w-24 xl:w-28 text-sm py-1 px-3 rounded-lg border border-gray-600 hover:border-black hover:bg-gray-200 flex gap-1 justify-center items-center font-bold'>
                                     <FiPlus size={16} />Follow
                                 </button>
                             </div>

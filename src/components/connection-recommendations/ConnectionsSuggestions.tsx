@@ -39,7 +39,7 @@ const ConnectionsSuggestions = () => {
 
                             <div className='flex-grow flex flex-col gap-1 justify-center'>
                                 <div>
-                                    <h1 className='font-semibold'>{user.fullName}</h1>
+                                    <h1 className='cursor-pointer hover:underline font-semibold'>{user.fullName}</h1>
                                     <p className='text-xs text-gray-500'>
                                         {user.designation ? user.designation : 'No designation available'}
                                     </p>

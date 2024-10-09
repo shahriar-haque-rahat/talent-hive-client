@@ -29,8 +29,8 @@ const ProfileHeader = () => {
                         <p>{user.about}</p>
                     </div>
                     <div className='md:w-1/2 flex justify-center items-center gap-6 mx-auto'>
-                        <Button className=' bg-transparent text-sky-500 text-base font-semibold w-28 border border-sky-500'>Message</Button>
-                        <Button className=' bg-sky-500 text-white text-base font-semibold w-28 border border-sky-500'><FiPlus size={16} />Add</Button>
+                        <Button className=' bg-transparent text-sky-500 text-base font-semibold w-28 border border-sky-500 hover:bg-sky-500 hover:text-white'>Message</Button>
+                        <Button className=' bg-sky-500 text-white text-base font-semibold w-28 border border-sky-500 hover:bg-white hover:text-sky-500'><FiPlus size={16} />Add</Button>
                     </div>
                 </div>
                 <TimelinePostSection />

@@ -261,11 +261,11 @@ const EditProfile = () => {
 
                         {/* Resume Upload Component */}
                         <div className=' mt-10'>
-                            <ResumeUpload onResumeFileChange={handleResumeFileChange} existingResume={user?.resumeLink}/>
+                            <ResumeUpload onResumeFileChange={handleResumeFileChange} existingResume={user?.resumeLink} />
                         </div>
                     </div>
 
-                    <Button type="submit" className='bg-sky-500 w-full text-white rounded-lg' isDisabled={isSubmitting} isLoading={isSubmitting}>
+                    <Button type="submit" className='bg-sky-500 w-full text-white rounded-lg border border-sky-500 hover:bg-white hover:text-sky-500' isDisabled={isSubmitting} isLoading={isSubmitting}>
                         {isSubmitting ? 'Saving...' : 'Save Changes'}
                     </Button>
                 </form>

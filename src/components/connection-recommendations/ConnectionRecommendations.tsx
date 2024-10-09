@@ -51,7 +51,7 @@ const ConnectionRecommendations = () => {
         <>
             <div>
                 <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow border'>People You May Know</h1>
-                <div className=' grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'>
+                <div className=' grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3'>
                     {
                         users?.map(user => (
                             <UserConnectionCard user={user} />

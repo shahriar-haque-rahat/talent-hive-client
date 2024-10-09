@@ -55,7 +55,7 @@ const Companies = () => {
         <>
             <div>
                 <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow border'>Company Recommendations</h1>
-                <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+                <div className=' grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3'>
                     {
                         companies?.map(company => (
                             <CompanyCard company={company} />

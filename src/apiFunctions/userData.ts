@@ -14,6 +14,18 @@ export const getUsers = async (userId: string, limit: number, page: number) => {
     }
 };
 
+export const suggestionUsers = async (userId: string) => {
+    try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/suggestion-user/${userId}`);
+        const users = response.data;
+
+        return users;
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        return [];
+    }
+};
+
 export const getUser = async (userId: string) => {
     try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/${userId}`);

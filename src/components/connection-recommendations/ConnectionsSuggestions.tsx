@@ -2,16 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Image } from '@nextui-org/react';
 import { TiArrowRight } from 'react-icons/ti';
 import { FiPlus } from "react-icons/fi";
-import { getUsers } from '@/apiFunctions/userData';
+import { suggestionUsers } from '@/apiFunctions/userData';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
+import { sendConnectionRequest } from '@/apiFunctions/connectionRequest';
 
 const ConnectionsSuggestions = () => {
     const user = useSelector((state: any) => state.user.user);
     const [users, setUsers] = useState([]);
 
+    const handleSendConnectionRequest = (receiverId) => {
+        sendConnectionRequest(user._id, receiverId);
+    }
+
     const fetchUsers = async () => {
-        const fetchedUsers = await getUsers(user._id, 3, 0);
+        const fetchedUsers = await suggestionUsers(user._id);
 
         setUsers(fetchedUsers.users);
     }
@@ -44,7 +49,7 @@ const ConnectionsSuggestions = () => {
                                         {user.designation ? user.designation : 'No designation available'}
                                     </p>
                                 </div>
-                                <button className='w-20 xl:w-24 text-sm py-1 px-3 rounded-lg border border-gray-600 hover:border-black hover:bg-gray-200 flex gap-1 justify-center items-center font-bold'>
+                                <button onClick={() => handleSendConnectionRequest(user._id)} className='w-20 xl:w-24 text-sm py-1 px-3 rounded-lg border border-gray-600 hover:border-black hover:bg-gray-200 flex gap-1 justify-center items-center font-bold'>
                                     <FiPlus size={16} />Add
                                 </button>
                             </div>

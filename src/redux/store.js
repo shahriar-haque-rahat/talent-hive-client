@@ -6,6 +6,7 @@ import postReducer from "./postSlice";
 import commentReducer from "./commentSlice";
 import companyReducer from "./companySlice";
 import jobPostReducer from "./jobPostSlice";
+import connectionReducer from "./connectionSlice";
 
 const store = configureStore({
     reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
         comment: commentReducer,
         company: companyReducer,
         jobPost: jobPostReducer,
+        connection: connectionReducer,
     }
 })
 

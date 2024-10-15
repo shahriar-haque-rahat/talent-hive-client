@@ -1,5 +1,18 @@
 import axios from "axios";
 
+export const getConnections = async (userId: string) => {
+    try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/connection/${userId}`);
+
+        return response.data;
+    } catch (error) {
+        console.error("Error checking connection status:", error);
+        return [];
+    }
+};
+
+// ===================================
+
 export const checkConnectionStatus = async (userId1: string, userIds: string[]) => {
     try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/connection-request/check-status`, {

@@ -7,7 +7,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { addFetchedUsers } from '@/redux/userSlice';
 import UserConnectionCard from './UserConnectionCard';
 import UserConnectionCardSkeleton from '@/skeletons/UserConnectionCardSkeleton';
-import { checkConnectionStatus } from '@/apiFunctions/connectionRequest';
+import { checkConnectionStatus } from '@/apiFunctions/connection';
 import { setBulkConnectionStatus } from '@/redux/connectionSlice';
 
 const ConnectionRecommendations = () => {

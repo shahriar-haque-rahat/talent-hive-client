@@ -11,7 +11,7 @@
   "dependencies": {
     "@edgestore/react": "^0.2.2",
     "@edgestore/server": "^0.2.2",
-    "@nextui-org/react": "^2.4.6",
+    "@nextui-org/react": "^2.4.8",
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.4",
     "date-fns": "^4.1.0",
@@ -30,8 +30,8 @@
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",

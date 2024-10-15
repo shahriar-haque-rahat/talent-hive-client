@@ -1,4 +1,4 @@
-import { acceptConnectionRequest, deleteConnectionRequest, removeConnection, sendConnectionRequest } from '@/apiFunctions/connectionRequest';
+import { acceptConnectionRequest, deleteConnectionRequest, removeConnection, sendConnectionRequest } from '@/apiFunctions/connection';
 import { setConnectionStatus } from '@/redux/connectionSlice';
 import React from 'react';
 import { FiPlus } from "react-icons/fi";

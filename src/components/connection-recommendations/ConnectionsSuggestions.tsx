@@ -5,7 +5,7 @@ import { FiPlus } from "react-icons/fi";
 import { suggestionUsers } from '@/apiFunctions/userData';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
-import { sendConnectionRequest } from '@/apiFunctions/connectionRequest';
+import { sendConnectionRequest } from '@/apiFunctions/connection';
 
 const ConnectionsSuggestions = () => {
     const user = useSelector((state: any) => state.user.user);

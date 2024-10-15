@@ -1,25 +1,21 @@
-'use client'
+'use client';
 
-import { deleteConnectionRequest, getSentRequests } from '@/apiFunctions/connection';
-import React, { useEffect, useState } from 'react';
+import { getSentRequests, deleteConnectionRequest } from '@/apiFunctions/connection';
 import { useDispatch, useSelector } from 'react-redux';
+import { setSentRequests, removeSentRequest, setConnectionStatus } from '@/redux/connectionSlice';
 import MyConnectionProfileHeader from '../my-connections-shared-component/MyConnectionProfileHeader';
-import { setConnectionStatus } from '@/redux/connectionSlice';
+import React, { useEffect } from 'react';
 
 const SentRequest = () => {
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
-    const [sentRequests, setSentRequests] = useState([]);
+    const sentRequests = useSelector((state: any) => state.connection.sentRequests);
 
-    const handleDeleteConnectionRequest = async (action: string, otherUserId: string) => {
-        const res = await deleteConnectionRequest(action, user._id, otherUserId);
+    const handleDeleteConnectionRequest = async (otherUserId: string) => {
+        const res = await deleteConnectionRequest('delete', user._id, otherUserId);
         if (res) {
-            const newStatus = action === 'reject' ? 'no_relationship' : 'no_relationship';
-            dispatch(setConnectionStatus({ userId: otherUserId, status: newStatus }));
-
-            setSentRequests((prevRequests) =>
-                prevRequests.filter((request: any) => request.receiver._id !== otherUserId)
-            );
+            dispatch(removeSentRequest(otherUserId));
+            dispatch(setConnectionStatus({ userId: otherUserId, status: 'no_relationship' }));
         }
     };
 
@@ -27,13 +23,14 @@ const SentRequest = () => {
         const fetchSentRequests = async () => {
             try {
                 const res = await getSentRequests(user._id);
-                setSentRequests(res);
+                dispatch(setSentRequests(res));
             } catch (error) {
                 console.error('Error fetching sent requests:', error);
             }
         };
+
         fetchSentRequests();
-    }, [user._id]);
+    }, [user._id, dispatch]);
 
     return (
         <div>
@@ -41,17 +38,15 @@ const SentRequest = () => {
                 <ul className='space-y-2'>
                     {sentRequests.map((request: any) => (
                         <li key={request.receiver._id} className="border bg-white shadow rounded-lg p-3">
-                            <MyConnectionProfileHeader
-                                profileImage={request.receiver.profileImage}
-                                fullName={request.receiver.fullName}
-                                email={request.receiver.email}
-                            />
-                            <button
-                                onClick={() => handleDeleteConnectionRequest('delete', request.receiver._id)}
-                                className='w-full mt-2 text-sm py-1 px-3 rounded-lg border border-gray-600 hover:border-black hover:bg-gray-200 flex gap-1 justify-center items-center font-bold'
-                            >
-                                Cancel
-                            </button>
+                            <MyConnectionProfileHeader profileImage={request.receiver.profileImage} fullName={request.receiver.fullName} email={request.receiver.email} />
+                            <div className='flex gap-2 justify-between mt-1 w-full'>
+                                <button
+                                    onClick={() => handleDeleteConnectionRequest(request.receiver._id)}
+                                    className='w-full text-sm py-1 px-3 rounded-lg border border-gray-600 hover:border-black hover:bg-gray-200 flex gap-1 justify-center items-center font-bold'
+                                >
+                                    Cancel Request
+                                </button>
+                            </div>
                         </li>
                     ))}
                 </ul>

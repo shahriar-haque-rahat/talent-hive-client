@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,7 +32,7 @@ const ConnectionRecommendations = () => {
             if (fetchedUsers.users.length > 0) {
                 dispatch(addFetchedUsers(fetchedUsers));
 
-                const userIds = fetchedUsers.users.map((u) => u._id);
+                const userIds = fetchedUsers.users.map((u: any) => u._id);
                 const statuses = await checkConnectionStatus(user._id, userIds);
 
                 if (statuses) {
@@ -44,19 +44,13 @@ const ConnectionRecommendations = () => {
         }
     };
 
-    // useEffect(() => {
-    //     if (users.length === 0) {
-    //         fetchUsersAndStatuses();
-    //     }
-    // }, []);
-
     useEffect(() => {
         if (inView && hasMore) {
             fetchUsersAndStatuses();
         }
-    }, [inView, hasMore]);
+    }, [inView, hasMore, page]);
 
-    const getConnectionStatus = (userId) => {
+    const getConnectionStatus = (userId: string) => {
         return connectionStatus[userId] || 'no_relationship';
     };
 
@@ -66,7 +60,7 @@ const ConnectionRecommendations = () => {
                 <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow border'>People You May Know</h1>
                 <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3'>
                     {
-                        users?.map(userInfo => {
+                        users?.map((userInfo: any) => {
                             const connectionStatus = getConnectionStatus(userInfo._id);
                             return (
                                 <UserConnectionCard
@@ -81,7 +75,6 @@ const ConnectionRecommendations = () => {
                 </div>
             </div>
 
-            {/* Element to trigger for more fetch */}
             {hasMore && (
                 <div ref={ref} className="h-fit">
                     <UserConnectionCardSkeleton />

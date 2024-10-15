@@ -44,14 +44,14 @@ const ConnectionRecommendations = () => {
         }
     };
 
-    useEffect(() => {
-        if (users.length === 0) {
-            fetchUsersAndStatuses();
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (users.length === 0) {
+    //         fetchUsersAndStatuses();
+    //     }
+    // }, []);
 
     useEffect(() => {
-        if (users.length > 0 && inView && hasMore) {
+        if (inView && hasMore) {
             fetchUsersAndStatuses();
         }
     }, [inView, hasMore]);

@@ -14,11 +14,9 @@ export const getCompanies = async (page = 0, limit = 10) => {
     }
 };
 
-export const getCompaniesByEmployer = async (employerId: string, page = 0, limit = 10) => {
+export const getCompaniesByEmployer = async (employerId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/company/${employerId}`, {
-            params: { page, limit }
-        });
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/company/${employerId}`);
         const companies = response.data;
 
         return companies;

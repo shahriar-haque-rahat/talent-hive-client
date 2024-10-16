@@ -89,10 +89,14 @@ const postSlice = createSlice({
                 state.cachedPosts.push(postData);
             }
         },
+        clearTimelinePosts: (state) => {
+            state.timelinePosts = [];
+            state.timelinePostsPage = 0;
+        },
     },
 });
 
-export const { setPosts,setPostsPage, setTimelinePosts, setTimelinePostsPage, addPost, editPost, removePost, updatePostOnInteraction, addCachePost } = postSlice.actions;
+export const { setPosts,setPostsPage, setTimelinePosts, setTimelinePostsPage, addPost, editPost, removePost, updatePostOnInteraction, addCachePost, clearTimelinePosts } = postSlice.actions;
 
 export const selectPostById = (state, postId) => {
     const postFromCache = state.post.cachedPosts.find(post => post._id === postId);

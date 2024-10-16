@@ -15,6 +15,7 @@ import { IoDocument } from 'react-icons/io5';
 
 const LeftBar = () => {
     const user = useSelector((state: any) => state.user.user);
+    const userProfile = useSelector((state: any) => state.user.userProfile);
     const { logout } = useContext(AuthContext) as AuthContextValues;
 
     const handleLogout = async () => {
@@ -30,9 +31,9 @@ const LeftBar = () => {
             <div className='fixed h-3/4 bg-sky-500 -ml-1 md:-ml-6 text-white p-1 lg:p-2 rounded-r-lg 2xl:rounded-lg flex flex-col justify-between items-center top-1/2 transform -translate-y-1/2'>
                 <div className='pt-32'>
                     {/* Facebook Link */}
-                    {user?.facebookLink?.startsWith('http') ? (
+                    {userProfile?.facebookLink?.startsWith('http') ? (
                         <Link
-                            href={user.facebookLink}
+                            href={userProfile.facebookLink}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -51,9 +52,9 @@ const LeftBar = () => {
                     )}
 
                     {/* LinkedIn Link */}
-                    {user?.linkedInLink?.startsWith('http') ? (
+                    {userProfile?.linkedInLink?.startsWith('http') ? (
                         <Link
-                            href={user.linkedInLink}
+                            href={userProfile.linkedInLink}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -72,9 +73,9 @@ const LeftBar = () => {
                     )}
 
                     {/* Resume Link */}
-                    {user?.resumeLink?.startsWith('http') ? (
+                    {userProfile?.resumeLink?.startsWith('http') ? (
                         <Link
-                            href={user.resumeLink}
+                            href={userProfile.resumeLink}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -93,7 +94,7 @@ const LeftBar = () => {
                     )}
 
                     {/* Direct email */}
-                    <Link href={`mailto:${user?.email}`}>
+                    <Link href={`mailto:${userProfile?.email}`}>
                         <Tooltip placement="right-end" content="Email">
                             <div>
                                 <MdEmail className='cursor-pointer text-xl lg:text-3xl xl:text-4xl mb-3' />
@@ -102,21 +103,23 @@ const LeftBar = () => {
                     </Link>
                 </div>
 
-                <div className='space-y-3 pb-6'>
-                    <Link href={"/edit-profile"}>
-                        <Tooltip placement="right-end" content="Edit Profile">
+                {userProfile._id === user._id &&
+                    <div className='space-y-3 pb-6'>
+                        <Link href={"/edit-profile"}>
+                            <Tooltip placement="right-end" content="Edit Profile">
+                                <div>
+                                    <TbUserEdit className='cursor-pointer text-xl lg:text-3xl xl:text-4xl' />
+                                </div>
+                            </Tooltip>
+                        </Link>
+
+                        <Tooltip placement="right-end" content="Logout">
                             <div>
-                                <TbUserEdit className='cursor-pointer text-xl lg:text-3xl xl:text-4xl' />
+                                <MdLogout onClick={handleLogout} className=' cursor-pointer text-xl lg:text-3xl xl:text-4xl' />
                             </div>
                         </Tooltip>
-                    </Link>
-
-                    <Tooltip placement="right-end" content="Logout">
-                        <div>
-                            <MdLogout onClick={handleLogout} className=' cursor-pointer text-xl lg:text-3xl xl:text-4xl' />
-                        </div>
-                    </Tooltip>
-                </div>
+                    </div>
+                }
             </div>
         </>
     );

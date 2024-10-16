@@ -1,11 +1,17 @@
 import { acceptConnectionRequest, deleteConnectionRequest, removeConnection, sendConnectionRequest } from '@/apiFunctions/connection';
 import { setConnectionStatus } from '@/redux/connectionSlice';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { FiPlus } from "react-icons/fi";
 import { useDispatch } from 'react-redux';
 
 const UserConnectionCard = ({ loggedInUser, user, connectionStatus }) => {
     const dispatch = useDispatch();
+    const router = useRouter();
+
+    const handleProfile = () => {
+        router.push(`/profile?id=${user._id}`);
+    }
 
     const handleSendConnectionRequest = async (receiverId) => {
         const res = await sendConnectionRequest(loggedInUser._id, receiverId);
@@ -62,6 +68,8 @@ const UserConnectionCard = ({ loggedInUser, user, connectionStatus }) => {
                             {user.designation ? user.designation : 'No designation available'}
                         </p>
                     </div>
+
+                    <button onClick={handleProfile} className=' text-sky-500 hover:text-sky-600'>View Profile</button>
 
                     {/* Conditionally render the button or status based on connection status */}
                     {

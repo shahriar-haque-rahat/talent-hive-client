@@ -6,6 +6,7 @@ const userSlice = createSlice({
         user: {},
         users: [],
         usersPage: 0,
+        userProfile: {},
     },
     reducers: {
         addAuthorizedUser: (state, action) => {
@@ -22,8 +23,11 @@ const userSlice = createSlice({
             state.users = [...state.users, ...newUsers];
             state.usersPage = action.payload.page;
         },
+        addUserProfile: (state, action) => {
+            state.userProfile = action.payload;
+        },
     },
 });
 
-export const { addAuthorizedUser, clearUser, addFetchedUsers } = userSlice.actions;
+export const { addAuthorizedUser, clearUser, addFetchedUsers, addUserProfile } = userSlice.actions;
 export default userSlice.reducer;

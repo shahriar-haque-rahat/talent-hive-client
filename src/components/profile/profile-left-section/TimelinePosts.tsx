@@ -6,7 +6,7 @@ import { CiMenuKebab } from 'react-icons/ci';
 import PostSkeleton from '@/skeletons/PostSkeleton';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { getTimelinePosts } from '@/apiFunctions/postData';
-import { addCachePost, setTimelinePosts, setTimelinePostsPage } from '@/redux/postSlice';
+import { addCachePost, setTimelinePosts, setTimelinePostsPage, clearTimelinePosts } from '@/redux/postSlice';
 import UserInfoSection from '@/components/home/central-feed/shared-components-for-post/UserInfoSection';
 import EditAndDeletePost from '@/components/home/central-feed/posting/EditAndDeletePost';
 import ContentSection from '@/components/home/central-feed/shared-components-for-post/ContentSection';
@@ -17,11 +17,13 @@ import PostInteractionSection from '@/components/home/central-feed/post-interact
 const TimelinePosts = () => {
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
+    const userProfile = useSelector((state: any) => state.user.userProfile);
     const timelinePosts = useSelector((state: any) => state.post.timelinePosts);
     const page = useSelector((state: any) => state.post.timelinePostsPage);
     const [openEditDeleteModal, setOpenEditDeleteModal] = useState({});
     const { ref, inView } = useIntersectionObserver();
     const [hasMore, setHasMore] = useState(true);
+    const [previousUserId, setPreviousUserId] = useState(null);
 
     const toggleEditDeleteModal = (postId) => {
         setOpenEditDeleteModal((prevState) => ({
@@ -31,9 +33,9 @@ const TimelinePosts = () => {
     };
 
     const fetchPosts = async () => {
-        if (!user || !hasMore) return;
+        if (!userProfile || !hasMore) return;
 
-        const fetchedPosts = await getTimelinePosts(user._id, page);
+        const fetchedPosts = await getTimelinePosts(userProfile._id, page);
 
         if (fetchedPosts && fetchedPosts.posts && Array.isArray(fetchedPosts.posts)) {
             if (fetchedPosts.posts.length < 10) {
@@ -42,30 +44,37 @@ const TimelinePosts = () => {
             const existingPostIds = new Set(timelinePosts.map(post => post._id));
             const newPosts = fetchedPosts.posts.filter(post => !existingPostIds.has(post._id));
 
-            if (newPosts && newPosts.length > 0) {
-                for (const post of newPosts) {
+            if (newPosts.length > 0) {
+                newPosts.forEach((post) => {
                     dispatch(addCachePost({ postData: post }));
-                }
+                });
                 dispatch(setTimelinePosts([...timelinePosts, ...newPosts]));
                 dispatch(setTimelinePostsPage(fetchedPosts.page));
             }
-        }
-        else {
+        } else {
             setHasMore(false);
         }
     };
 
     useEffect(() => {
-        if (timelinePosts.length === 0) {
-            fetchPosts();
+        if (userProfile && userProfile._id !== previousUserId) {
+            dispatch(clearTimelinePosts());
+            setHasMore(true);
+            setPreviousUserId(userProfile._id);
         }
-    }, [user]);
+    }, [userProfile, previousUserId, dispatch]);
 
     useEffect(() => {
-        if (inView && hasMore) {
+        if (userProfile && timelinePosts.length === 0) {
             fetchPosts();
         }
-    }, [inView, hasMore]);
+    }, [timelinePosts.length, userProfile]);
+
+    useEffect(() => {
+        if (inView && hasMore && userProfile) {
+            fetchPosts();
+        }
+    }, [inView, hasMore, userProfile]);
 
     return (
         <>
@@ -75,7 +84,7 @@ const TimelinePosts = () => {
                         <div key={index} className='bg-white border shadow rounded-lg '>
                             <div className=' flex items-start justify-between p-3'>
                                 {/* User info */}
-                                <UserInfoSection profileImage={post.userId.profileImage} fullName={post.userId.fullName} createdAt={post.createdAt.slice(0, 10)} />
+                                <UserInfoSection userId={post.userId._id} profileImage={post.userId.profileImage} fullName={post.userId.fullName} createdAt={post.createdAt.slice(0, 10)} />
 
                                 {/* Edit and delete modal */}
                                 <div className='relative'>
@@ -99,20 +108,20 @@ const TimelinePosts = () => {
                             <ContentSection content={post.content} index={index} />
 
                             {/* Display media files */}
-                            <MediaSection media={post.media} postId={post._id} user={user} />
+                            <MediaSection media={post.media} postId={post._id} user={userProfile} />
 
                             {/* Shared post content */}
                             {(post.sharedPostId || post.sharedPostId === null) &&
-                                <SharedPostContent user={user} sharedPostContent={post.sharedPostId} />
+                                <SharedPostContent user={userProfile} sharedPostContent={post.sharedPostId} />
                             }
 
                             {/* interaction section */}
-                            <PostInteractionSection user={user} post={post} />
+                            <PostInteractionSection user={userProfile} post={post} />
                         </div>
                     ))
                 }
 
-                {/* Element to trigger for more fetch */}
+                {/* Trigger more fetch when inView */}
                 {hasMore && (
                     <div ref={ref} className="h-fit">
                         <PostSkeleton />

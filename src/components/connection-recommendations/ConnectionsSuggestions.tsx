@@ -6,10 +6,16 @@ import { suggestionUsers } from '@/apiFunctions/userData';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { sendConnectionRequest } from '@/apiFunctions/connection';
+import { useRouter } from 'next/navigation';
 
 const ConnectionsSuggestions = () => {
     const user = useSelector((state: any) => state.user.user);
     const [users, setUsers] = useState([]);
+    const router = useRouter();
+
+    const handleProfile = (userId) => {
+        router.push(`/profile?id=${userId}`);
+    }
 
     const handleSendConnectionRequest = (receiverId) => {
         sendConnectionRequest(user._id, receiverId);
@@ -36,15 +42,16 @@ const ConnectionsSuggestions = () => {
                         <div className='flex gap-3 xl:gap-6 mb-4'>
                             <div className='flex-shrink-0 w-16 h-16 my-auto'>
                                 <Image
+                                    onClick={() => handleProfile(user._id)}
                                     src={user.profileImage ? user.profileImage : "/assets/user.png"}
                                     alt="Profile"
-                                    className="rounded-full w-16 h-16 border-2 border-white object-cover object-top"
+                                    className=" cursor-pointer rounded-full w-16 h-16 border-2 border-white object-cover object-top"
                                 />
                             </div>
 
                             <div className='flex-grow flex flex-col gap-1 justify-center'>
                                 <div>
-                                    <h1 className='cursor-pointer hover:underline font-semibold'>{user.fullName}</h1>
+                                    <h1 onClick={() => handleProfile(user._id)} className='cursor-pointer hover:underline font-semibold'>{user.fullName}</h1>
                                     <p className='text-xs text-gray-500'>
                                         {user.designation ? user.designation : 'No designation available'}
                                     </p>

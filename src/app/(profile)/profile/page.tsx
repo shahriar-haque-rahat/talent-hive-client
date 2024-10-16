@@ -1,10 +1,17 @@
 import Profile from '@/components/profile/Profile';
+import { PageProps } from '@/types/global/global.types';
+import { redirect } from 'next/navigation';
 import React from 'react';
 
-const page = () => {
+const page = ({ searchParams }: PageProps) => {
+    const id = searchParams.id;
+
+    if (!id) {
+        redirect(`/profile`)
+    }
     return (
         <div>
-            <Profile/>
+            <Profile id={id as string} />
         </div>
     );
 };

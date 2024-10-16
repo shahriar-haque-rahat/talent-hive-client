@@ -3,10 +3,11 @@ import { AuthContext } from '@/provider/AuthProvider';
 import { AuthContextValues } from '@/types/auth/auth.types';
 import { Image } from '@nextui-org/react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
 const NavbarDropdown = () => {
+    const router = useRouter();
     const pathName = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -30,6 +31,10 @@ const NavbarDropdown = () => {
         }
     };
 
+    const handleProfile = () => {
+        router.push(`/profile?id=${user._id}`);
+    }
+
     useEffect(() => {
         document.addEventListener('click', handleClickOutside);
         return () => {
@@ -50,11 +55,11 @@ const NavbarDropdown = () => {
                     </div>
                     {isOpen && (
                         <div className="absolute right-0 mt-2 w-48 bg-white border shadow-lg z-50 rounded-lg">
-                            <Link href="/profile" onClick={() => setIsOpen(false)}>
-                                <button className="block rounded-t-lg w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">
-                                    Profile
-                                </button>
-                            </Link>
+                            <button
+                                onClick={() => { setIsOpen(false); handleProfile(); }}
+                                className="block rounded-t-lg w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">
+                                Profile
+                            </button>
                             <button
                                 onClick={handleLogout}
                                 className="block rounded-b-lg w-full text-left px-4 py-2 bg-sky-500 text-white hover:bg-sky-600"

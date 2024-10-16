@@ -65,7 +65,7 @@ const AllShares = ({ openShareList, toggleOpenShareList, post }) => {
                         <div key={index} className='bg-white border border-gray-300 rounded-lg mt-10 pb-6'>
                             <div className=' flex items-start justify-between p-3'>
                                 {/* User info */}
-                                <UserInfoSection profileImage={post.userId.profileImage} fullName={post.userId.fullName} createdAt={post.createdAt.slice(0, 10)} />
+                                <UserInfoSection userId={post.userId._id} profileImage={post.userId.profileImage} fullName={post.userId.fullName} createdAt={post.createdAt.slice(0, 10)} />
                             </div>
 
                             {/* Post content */}

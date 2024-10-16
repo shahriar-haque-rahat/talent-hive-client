@@ -73,7 +73,7 @@ const NewsFeed = () => {
                     <div key={index} className='bg-white border rounded-lg shadow'>
                         <div className=' flex items-start justify-between p-3'>
                             {/* User info */}
-                            <UserInfoSection profileImage={post.userId.profileImage} fullName={post.userId.fullName} createdAt={post.createdAt.slice(0, 10)} />
+                            <UserInfoSection userId={post.userId._id} profileImage={post.userId.profileImage} fullName={post.userId.fullName} createdAt={post.createdAt.slice(0, 10)} />
 
                             {/* Edit and delete modal */}
                             <div className='relative'>

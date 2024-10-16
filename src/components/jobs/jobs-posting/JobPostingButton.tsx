@@ -44,7 +44,7 @@ const JobPostingButton = () => {
                 <Dropdown>
                     <DropdownTrigger>
                         <Button
-                            className="w-full rounded-lg border border-black bg-transparent hover:bg-gray-200"
+                            className="w-full rounded-lg border border-gray-500 bg-transparent hover:bg-gray-200"
                             onClick={handleFetchCompanies}
                         >
                             {selectedCompany
@@ -73,7 +73,7 @@ const JobPostingButton = () => {
                 <Button
                     className={`w-full text-lg rounded-lg border 
                         ${selectedCompany
-                            ? 'border-black bg-transparent hover:bg-gray-200'
+                            ? 'border-gray-500 bg-transparent hover:bg-gray-200'
                             : 'border-gray-400 bg-gray-300 cursor-not-allowed'}`}
                     onClick={handleOpenModal}
                     disabled={!selectedCompany}

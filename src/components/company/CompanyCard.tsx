@@ -37,6 +37,9 @@ const CompanyCard = ({ company }) => {
                         )}
                     </p>
                 </div>
+                <button className='w-full mt-2 text-sm py-1 px-3 rounded-lg border border-gray-600 hover:border-black hover:bg-gray-200 flex gap-1 justify-center items-center font-bold'>
+                    <FiPlus size={16} />Follow
+                </button>
             </div>
         </>
     );

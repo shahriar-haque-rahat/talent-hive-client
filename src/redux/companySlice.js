@@ -3,15 +3,37 @@ import { createSlice } from "@reduxjs/toolkit";
 const companySlice = createSlice({
     name: 'company',
     initialState: {
-        companies: [],
-        companiesPage: 0,
+        followedCompanies: [],
+        notFollowedCompanies: [],
+        followedCompaniesPage: 0,
+        notFollowedCompaniesPage: 0,
     },
     reducers: {
-        setCompanies: (state, action) => {
-            state.companies = action.payload;
+        setFollowedCompanies: (state, action) => {
+            state.followedCompanies = action.payload;
         },
-        setCompaniesPage: (state, action) => {
-            state.companiesPage = action.payload;
+        setNotFollowedCompanies: (state, action) => {
+            state.notFollowedCompanies = action.payload;
+        },
+        setFollowedCompaniesPage: (state, action) => {
+            state.followedCompaniesPage = action.payload;
+        },
+        setNotFollowedCompaniesPage: (state, action) => {
+            state.notFollowedCompaniesPage = action.payload;
+        },
+        followCompany: (state, action) => {
+            const company = action.payload;
+            state.followedCompanies.unshift(company);
+            state.notFollowedCompanies = state.notFollowedCompanies.filter(
+                (c) => c._id !== company._id
+            );
+        },
+        unfollowCompany: (state, action) => {
+            const company = action.payload;
+            state.notFollowedCompanies.unshift(company);
+            state.followedCompanies = state.followedCompanies.filter(
+                (c) => c._id !== company._id
+            );
         },
         addCompany: (state, action) => {
             const { companyData } = action.payload;
@@ -35,5 +57,6 @@ const companySlice = createSlice({
     },
 });
 
-export const { setCompanies, setCompaniesPage, addCompany, editPost, removePost } = companySlice.actions;
+export const { setFollowedCompanies, setNotFollowedCompanies, setFollowedCompaniesPage, setNotFollowedCompaniesPage, setCompanies, setCompaniesPage, addCompany, followCompany, unfollowCompany, editPost, removePost } = companySlice.actions;
+
 export default companySlice.reducer;

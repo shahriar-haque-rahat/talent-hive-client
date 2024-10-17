@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getCompanies = async (page = 0, limit = 10) => {
+export const getCompanies = async (page: number, limit: number) => {
     try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/company`, {
             params: { page, limit }
@@ -11,6 +11,32 @@ export const getCompanies = async (page = 0, limit = 10) => {
     } catch (error) {
         console.error("Error fetching companies:", error);
         return [];
+    }
+};
+
+export const getFollowedCompanies = async (userId: string, page: number, limit: number) => {
+    try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/company/followed/${userId}`, {
+            params: { page, limit }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching followed companies:", error);
+        return { companies: [], page };
+    }
+};
+
+export const getNotFollowedCompanies = async (userId: string, page: number, limit: number) => {
+    try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/company/not-followed/${userId}`, {
+            params: { page, limit }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching not followed companies:", error);
+        return { companies: [], page };
     }
 };
 
@@ -59,6 +85,32 @@ export const deleteCompany = async (companyId: string) => {
     }
     catch (error) {
         console.error("Error deleting company:", error);
+        return null;
+    }
+};
+
+export const followCompany = async (companyId: string, userId: string) => {
+    try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/company-followers/follow/${companyId}/${userId}`);
+        const updatedCompany = response.data;
+
+        return updatedCompany;
+    }
+    catch (error) {
+        console.error("Error updating company:", error);
+        return null;
+    }
+};
+
+export const unfollowCompany = async (companyId: string, userId: string) => {
+    try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/company-followers/unfollow/${companyId}/${userId}`);
+        const updatedCompany = response.data;
+
+        return updatedCompany;
+    }
+    catch (error) {
+        console.error("Error updating company:", error);
         return null;
     }
 };

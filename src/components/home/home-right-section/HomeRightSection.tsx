@@ -1,7 +1,8 @@
 import React from 'react';
 import SidebarFooter from './SidebarFooter';
 import ConnectionsSuggestions from '../../connection-recommendations/ConnectionsSuggestions';
-import CompanySuggestions from '@/components/company/CompanySuggestions';
+import CompanySuggestions from '@/components/company/company-recommendations/CompanySuggestions';
+
 
 const HomeRightSection = () => {
     return (

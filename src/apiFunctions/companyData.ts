@@ -40,6 +40,18 @@ export const getNotFollowedCompanies = async (userId: string, page: number, limi
     }
 };
 
+export const findCompanyById = async (companyId: string, userId: string) => {
+    try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/company/company-details/${companyId}/${userId}`);
+        const company = response.data;
+
+        return company;
+    } catch (error) {
+        console.error("Error fetching company:", error);
+        return null;
+    }
+};
+
 export const getCompaniesByEmployer = async (employerId: string) => {
     try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/company/${employerId}`);

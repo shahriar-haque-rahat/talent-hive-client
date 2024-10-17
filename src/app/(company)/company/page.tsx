@@ -7,7 +7,7 @@ const page = ({ searchParams }: PageProps) => {
     const id = searchParams.id;
 
     if (!id) {
-        redirect(`/profile`)
+        redirect(`/company-recommendations`)
     }
     return (
         <div>

@@ -4,8 +4,10 @@ import { followCompany, unfollowCompany } from '@/redux/companySlice';
 import { Image } from '@nextui-org/react';
 import React from 'react';
 import { FiPlus, FiCheck } from 'react-icons/fi';
+import { useRouter } from 'next/navigation';
 
 const CompanyCard = ({ company, userId, followed }) => {
+    const router = useRouter();
     const dispatch = useDispatch();
 
     const description = company?.companyDescription;
@@ -25,11 +27,16 @@ const CompanyCard = ({ company, userId, followed }) => {
         dispatch(unfollowCompany(company));
     };
 
+    const handleCompanyDetails = () => {
+        router.push(`/company?id=${company._id}`);
+    }
+
     return (
         <div className="bg-white rounded-lg p-3 shadow border">
             <div className="flex gap-3 xl:gap-6 mb-4">
                 <div className="flex-shrink-0 w-16 md:w-20 h-16 md:h-20 my-auto">
                     <Image
+                        onClick={handleCompanyDetails}
                         src={company.companyProfileImage || "/assets/user.png"}
                         alt="Profile"
                         className="cursor-pointer rounded-full w-16 md:w-20 h-16 md:h-20 border border-gray-300 object-cover object-top"
@@ -37,7 +44,7 @@ const CompanyCard = ({ company, userId, followed }) => {
                 </div>
 
                 <div className="flex-grow flex flex-col gap-1 justify-center">
-                    <h1 className="text-xl font-semibold hover:underline cursor-pointer">
+                    <h1 onClick={handleCompanyDetails} className="text-xl font-semibold hover:underline cursor-pointer">
                         {company.companyName}
                     </h1>
                 </div>

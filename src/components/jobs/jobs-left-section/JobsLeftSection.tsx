@@ -1,6 +1,6 @@
 import React from 'react';
-import CompanySuggestions from '@/components/company/CompanySuggestions';
 import JobPostingButton from '../jobs-posting/JobPostingButton';
+import CompanySuggestions from '@/components/company/company-recommendations/CompanySuggestions';
 
 const JobsLeftSection = () => {
     return (

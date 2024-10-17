@@ -1,6 +1,6 @@
 'use client'
 
-import CompanySuggestions from '@/components/company/CompanySuggestions';
+import CompanySuggestions from '@/components/company/company-recommendations/CompanySuggestions';
 import ConnectionsSuggestions from '@/components/connection-recommendations/ConnectionsSuggestions';
 import React from 'react';
 

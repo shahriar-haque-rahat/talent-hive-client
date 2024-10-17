@@ -1,4 +1,3 @@
-import CompanyHeader from '@/components/company/CompanyHeader';
 import { formatDistanceToNow } from 'date-fns';
 import { LuDot } from "react-icons/lu";
 import React from 'react';
@@ -6,6 +5,7 @@ import { MdWork } from 'react-icons/md';
 import { GoDotFill } from "react-icons/go";
 import { Button, Image } from '@nextui-org/react';
 import { FiPlus } from 'react-icons/fi';
+import CompanyHeader from '@/components/company/company-recommendations/CompanyHeader';
 
 const JobDetailsRightSection = ({ jobPost }) => {
     const timeAgo = formatDistanceToNow(new Date(jobPost.createdAt), { addSuffix: true });

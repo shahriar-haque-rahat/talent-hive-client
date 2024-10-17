@@ -26,8 +26,14 @@ const userSlice = createSlice({
         addUserProfile: (state, action) => {
             state.userProfile = action.payload;
         },
+        editUserProfile: (state, action) => {
+            state.userProfile = {
+                ...state.userProfile,
+                ...action.payload,
+            };
+        },
     },
 });
 
-export const { addAuthorizedUser, clearUser, addFetchedUsers, addUserProfile } = userSlice.actions;
+export const { addAuthorizedUser, clearUser, addFetchedUsers, addUserProfile, editUserProfile } = userSlice.actions;
 export default userSlice.reducer;

@@ -13,21 +13,21 @@ const UserConnectionCard = ({ loggedInUser, user, connectionStatus }) => {
         router.push(`/profile?id=${user._id}`);
     }
 
-    const handleSendConnectionRequest = async (receiverId) => {
+    const handleSendConnectionRequest = async (receiverId: string) => {
         const res = await sendConnectionRequest(loggedInUser._id, receiverId);
         if (res) {
             dispatch(setConnectionStatus({ userId: res.receiver, status: 'request_sent' }));
         }
     };
 
-    const handleAcceptConnectionRequest = async (otherUserId) => {
+    const handleAcceptConnectionRequest = async (otherUserId: string) => {
         const res = await acceptConnectionRequest(loggedInUser._id, otherUserId);
         if (res) {
             dispatch(setConnectionStatus({ userId: otherUserId, status: 'connected' }));
         }
     };
 
-    const handleDeleteConnectionRequest = async (action, otherUserId) => {
+    const handleDeleteConnectionRequest = async (action: string, otherUserId: string) => {
         const res = await deleteConnectionRequest(action, loggedInUser._id, otherUserId);
         if (res) {
             const newStatus = action === 'reject' ? 'no_relationship' : 'no_relationship';
@@ -35,7 +35,7 @@ const UserConnectionCard = ({ loggedInUser, user, connectionStatus }) => {
         }
     };
 
-    const handleRemoveConnection = async (userId2) => {
+    const handleRemoveConnection = async (userId2: string) => {
         const res = await removeConnection(loggedInUser._id, userId2);
         if (res) {
             dispatch(setConnectionStatus({ userId: userId2, status: 'no_relationship' }));

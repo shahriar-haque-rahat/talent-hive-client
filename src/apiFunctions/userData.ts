@@ -26,10 +26,22 @@ export const suggestionUsers = async (userId: string) => {
     }
 };
 
+export const getUserDetails = async (loggedInUserId: string, userId: string) => {
+    try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/${loggedInUserId}/${userId}`);
+
+        return response.data;
+    }
+    catch (error) {
+        console.error(error);
+        return error;
+    }
+};
+
 export const getUser = async (userId: string) => {
     try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/${userId}`);
-        console.log(response.data)
+
         return response.data;
     }
     catch (error) {

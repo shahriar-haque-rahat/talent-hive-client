@@ -106,7 +106,7 @@ const DetailsPage = ({ id }: CompanyDetails) => {
                         </div>
 
                         <div className=' pr-10'>
-                            <InteractionButtons isFollowed={isFollowed} setIsFollowed={setIsFollowed} company={company} userId={user._id} />
+                            <InteractionButtons isFollowed={isFollowed} setCompany={setCompany} setIsFollowed={setIsFollowed} company={company} userId={user._id} />
                         </div>
                     </div>
 

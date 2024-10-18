@@ -5,11 +5,12 @@ import React from 'react';
 import { FiCheck, FiPlus } from 'react-icons/fi';
 import { createCompanyFollowedEvent } from '@/event-emitter/events';
 
-const InteractionButtons = ({ isFollowed, setIsFollowed, company, userId }) => {
+const InteractionButtons = ({ isFollowed, setCompany, setIsFollowed, company, userId }) => {
     const dispatch = useDispatch();
 
     const handleFollow = async () => {
-        await followAPI(company._id, userId);
+        const res = await followAPI(company._id, userId);
+        setCompany(res.company)
         dispatch(followCompany(company));
         setIsFollowed(true);
 
@@ -18,7 +19,8 @@ const InteractionButtons = ({ isFollowed, setIsFollowed, company, userId }) => {
     };
 
     const handleUnfollow = async () => {
-        await unfollowAPI(company._id, userId);
+        const res = await unfollowAPI(company._id, userId);
+        setCompany(res.company)
         dispatch(unfollowCompany(company));
         setIsFollowed(false);
     };

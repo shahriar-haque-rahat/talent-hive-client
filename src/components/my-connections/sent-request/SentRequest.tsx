@@ -38,7 +38,7 @@ const SentRequest = () => {
                 <ul className='space-y-2'>
                     {sentRequests.map((request: any) => (
                         <li key={request.receiver._id} className="border bg-white shadow rounded-lg p-3">
-                            <MyConnectionProfileHeader profileImage={request.receiver.profileImage} fullName={request.receiver.fullName} email={request.receiver.email} />
+                            <MyConnectionProfileHeader userId={request.receiver._id} profileImage={request.receiver.profileImage} fullName={request.receiver.fullName} email={request.receiver.email} />
                             <div className='flex gap-2 justify-between mt-1 w-full'>
                                 <button
                                     onClick={() => handleDeleteConnectionRequest(request.receiver._id)}

@@ -49,12 +49,16 @@ const CompanySuggestions = () => {
     };
 
     const replaceCompany = async (followedCompanyId: string) => {
-        const newCompanies = await getNotFollowedCompanies(user._id, companies.length, 1);
-        setCompanies((prevCompanies) =>
-            prevCompanies
-                .filter((company: any) => company._id !== followedCompanyId)
-                .concat(newCompanies.companies)
+        const updatedCompanies = companies.filter(
+            (company: any) => company._id !== followedCompanyId
         );
+
+        if (updatedCompanies.length < 3) {
+            const newCompanies = await getNotFollowedCompanies(user._id, companies.length, 1);
+            setCompanies(updatedCompanies.concat(newCompanies.companies));
+        } else {
+            setCompanies(updatedCompanies);
+        }
     };
 
     return (

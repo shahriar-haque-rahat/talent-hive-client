@@ -47,7 +47,7 @@ const ReceivedRequest = () => {
                 <ul className='space-y-2'>
                     {receivedRequests.map((request: any) => (
                         <li key={request.sender._id} className="border bg-white shadow rounded-lg p-3">
-                            <MyConnectionProfileHeader profileImage={request.sender.profileImage} fullName={request.sender.fullName} email={request.sender.email} />
+                            <MyConnectionProfileHeader userId={request.sender._id} profileImage={request.sender.profileImage} fullName={request.sender.fullName} email={request.sender.email} />
                             <div className='flex gap-2 justify-between mt-1 w-full'>
                                 <button
                                     onClick={() => handleAcceptConnectionRequest(request.sender._id)}

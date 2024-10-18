@@ -100,13 +100,13 @@ const DetailsPage = ({ id }: CompanyDetails) => {
                                     )}
 
                                     <p><BsDot /></p>
-                                    <p className=' text-sm'>{company.followers} Followers</p>
+                                    <p className=' text-sm'>{company.followers} {(company.followers > 1) ? 'Followers' : 'Follower'}</p>
                                 </div>
                             </div>
                         </div>
 
                         <div className=' pr-10'>
-                            <InteractionButtons isFollowed={isFollowed} setIsFollowed={setIsFollowed} company={company} userId={user._id}/>
+                            <InteractionButtons isFollowed={isFollowed} setIsFollowed={setIsFollowed} company={company} userId={user._id} />
                         </div>
                     </div>
 

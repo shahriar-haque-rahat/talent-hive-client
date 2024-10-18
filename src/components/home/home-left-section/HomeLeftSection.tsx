@@ -1,13 +1,14 @@
 import React from 'react';
 import PostSection from './PostSection';
 import { useSelector } from 'react-redux';
+import Link from 'next/link';
 
 const HomeLeftSection = () => {
     const user = useSelector((state: any) => state.user.user);
 
     return (
         <>
-            <div className=' bg-white rounded-lg pb-4 border shadow'>
+            <div className=' bg-white rounded-lg border shadow'>
                 {/* profile icon */}
                 <div className=' relative'>
                     <div>
@@ -27,17 +28,19 @@ const HomeLeftSection = () => {
                 </div>
 
                 {/* info */}
-                <div className=' pt-8 px-3'>
-                    <div className='pb-3 text-center space-y-1'>
+                <div className=' pt-8'>
+                    <div className='pb-3 px-3 text-center space-y-1 border-b border-gray-300'>
                         <h1 className=' font-bold'>Shahriar Haque</h1>
                         <p className=' text-xs font-semibold'>{user?.designation}</p>
                         <p className=' text-xs'>{user?.about}</p>
                     </div>
 
-                    <div className=' text-sm pt-3 flex justify-between border-t border-gray-300 '>
-                        <p>Connections</p>
-                        <p className=' text-sky-500 font-semibold'>12</p>
-                    </div>
+                    <Link href={'/my-connections'}>
+                        <div className=' hover:bg-gray-100 rounded-b-lg text-sm p-3 flex justify-between'>
+                            <p>Connections</p>
+                            <p className=' text-sky-500 font-semibold'>{user?.connectionsCount}</p>
+                        </div>
+                    </Link>
                 </div>
             </div>
             <div className='my-6 border-t border-gray-500'></div>

@@ -20,22 +20,61 @@ const ConnectionsSuggestions = () => {
     const handleSendConnectionRequest = async (receiverId) => {
         try {
             await sendConnectionRequest(user._id, receiverId);
+
             setUsers(prevUsers => prevUsers.filter(u => u._id !== receiverId));
-            const newUser = await suggestionUsers(user._id);
-            setUsers(prevUsers => [...prevUsers, ...newUser.users.slice(0, 1)]);
+
+            const newUser = await fetchUniqueUser();
+            if (newUser) {
+                setUsers(prevUsers => [...prevUsers, newUser].slice(0, 3));
+            }
         } catch (error) {
             console.error('Error sending connection request:', error);
         }
-    }
+    };
+
+    const fetchUniqueUser = async () => {
+        let newUser = null;
+        try {
+            const fetchedUsers = await suggestionUsers(user._id);
+            const nonDuplicateUsers = fetchedUsers.users.filter(fetchedUser =>
+                !users.some(existingUser => existingUser._id === fetchedUser._id)
+            );
+            newUser = nonDuplicateUsers.length > 0 ? nonDuplicateUsers[0] : null;
+        } catch (error) {
+            console.error('Error fetching new users:', error);
+        }
+        return newUser;
+    };
 
     const fetchUsers = async () => {
         try {
             const fetchedUsers = await suggestionUsers(user._id);
-            setUsers(fetchedUsers.users);
+            setUsers(fetchedUsers.users.slice(0, 3));
         } catch (error) {
             console.error('Error fetching suggested users:', error);
         }
-    }
+    };
+
+    useEffect(() => {
+        const handleUserConnectionRequested = async (event) => {
+            const { userId } = event.detail;
+
+            if (users.some(u => u._id === userId)) {
+                setUsers(prevUsers => prevUsers.filter(u => u._id !== userId));
+
+                const newUser = await fetchUniqueUser();
+                if (newUser) {
+                    setUsers(prevUsers => [...prevUsers, newUser].slice(0, 3));
+                }
+            }
+        };
+
+        window.addEventListener('userConnectionRequested', handleUserConnectionRequested);
+
+        return () => {
+            window.removeEventListener('userConnectionRequested', handleUserConnectionRequested);
+        };
+    }, [users]);
 
     useEffect(() => {
         if (users.length === 0) {

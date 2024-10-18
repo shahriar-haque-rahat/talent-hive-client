@@ -5,6 +5,7 @@ import { acceptConnectionRequest, deleteConnectionRequest, removeConnection, sen
 import { useDispatch } from 'react-redux';
 import { setConnectionStatus } from '@/redux/connectionSlice';
 import { editUserProfile } from '@/redux/userSlice';
+import { createUserConnectionRequestedEvent } from '@/event-emitter/events';
 
 const InteractionButtons = ({ user, userProfile, relationshipStatus }) => {
     const dispatch = useDispatch();
@@ -15,6 +16,9 @@ const InteractionButtons = ({ user, userProfile, relationshipStatus }) => {
             dispatch(setConnectionStatus({ userId: res.receiver, status: 'request_sent' }));
             dispatch(editUserProfile({ relationshipStatus: 'request_sent' }));
         }
+
+        const event = createUserConnectionRequestedEvent(receiverId);
+        window.dispatchEvent(event);
     };
 
     const handleAcceptConnectionRequest = async (otherUserId: string) => {

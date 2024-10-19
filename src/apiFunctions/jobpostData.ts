@@ -64,6 +64,18 @@ export const updateJobPost = async (jobPostId: string, updatedData: any) => {
     }
 };
 
+export const applyForJobPost = async (jobPostId: string, updatedData: any) => {
+    try {
+        const response = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URL}/job-post/apply/${jobPostId}`, updatedData);
+        const updatedJobPost = response.data;
+
+        return updatedJobPost;
+    } catch (error) {
+        console.error("Error updating job post:", error);
+        return null;
+    }
+};
+
 export const deleteJobPost = async (jobPostId: string) => {
     try {
         const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/job-post/${jobPostId}`);

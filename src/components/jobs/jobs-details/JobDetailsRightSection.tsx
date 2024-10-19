@@ -3,9 +3,9 @@ import { LuDot } from "react-icons/lu";
 import React from 'react';
 import { MdWork } from 'react-icons/md';
 import { GoDotFill } from "react-icons/go";
-import { Button } from '@nextui-org/react';
 import CompanyHeader from '@/components/company/company-recommendations/CompanyHeader';
 import AboutCompany from './AboutCompany';
+import ApplyOrSaveButton from './ApplyOrSaveButton';
 
 const JobDetailsRightSection = ({ jobPost }) => {
     const timeAgo = formatDistanceToNow(new Date(jobPost.createdAt), { addSuffix: true });
@@ -25,19 +25,20 @@ const JobDetailsRightSection = ({ jobPost }) => {
                                 <p><LuDot /></p>
                                 <p>{timeAgo}</p>
                                 <p>{jobPost.applicants.length ? <LuDot /> : ''}</p>
-                                <p>{jobPost.applicants.length ? `${jobPost.applicants.length} applicants` : ''}</p>
+                                <p>
+                                    {jobPost.applicants.length
+                                        ? `${jobPost.applicants.length} applicant${jobPost.applicants.length === 1 ? '' : 's'}`
+                                        : ''}
+                                </p>
                             </div>
 
                             <div className='flex gap-2 items-center text-lg'>
                                 <MdWork size={22} className='text-gray-600' />
                                 <p>{jobPost.position}, {jobPost.workplaceType}, {jobPost.jobType}</p>
                             </div>
-
-                            <div className=' flex gap-3'>
-                                <Button className=' px-6 rounded-lg bg-sky-500 border border-sky-500 text-white hover:bg-white hover:text-sky-500'>Apply</Button>
-                                <Button className=' px-6 rounded-lg bg-white border border-sky-500 text-sky-500 hover:bg-sky-500 hover:text-white'>Save</Button>
-                            </div>
                         </div>
+
+                        <ApplyOrSaveButton jobPostId={jobPost._id} applicants={jobPost.applicants}/>
 
                         <div className=' my-6'>
                             <h2 className=' text-xl font-semibold mb-3'>About the job</h2>
@@ -69,7 +70,7 @@ const JobDetailsRightSection = ({ jobPost }) => {
                             </div>
                         </div>
 
-                        <AboutCompany jobPost={jobPost}/>
+                        <AboutCompany jobPost={jobPost} />
                     </div>
                 </div>
             </div>

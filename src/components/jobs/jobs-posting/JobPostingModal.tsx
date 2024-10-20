@@ -109,7 +109,7 @@ const JobPostingModal = ({ isOpen, onClose, companyId }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[60]">
-            <div className="bg-white w-full max-w-[80%] h-[80vh] p-6 rounded-lg relative overflow-auto">
+            <div className="bg-white w-full max-w-[80%] h-[90vh] lg:h-fit p-6 rounded-lg relative overflow-auto">
                 <button
                     onClick={onClose}
                     className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"

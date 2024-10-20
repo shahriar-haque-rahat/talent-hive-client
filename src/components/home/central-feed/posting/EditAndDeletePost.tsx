@@ -93,7 +93,7 @@ const EditAndDeletePost = ({ onEditDeleteClose, post, userId }) => {
                 toggleOpenShare={closeShareModal}
                 post={post}
                 userId={userId}
-                isEditing={true} 
+                isEditing={true}
             />
 
             <ConfirmationModal

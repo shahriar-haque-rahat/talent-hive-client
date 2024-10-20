@@ -6,6 +6,7 @@ import EmployerCompanyCard from './EmployerCompanyCard';
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import { getCompaniesByEmployer } from '@/apiFunctions/companyData';
 import { Button } from '@nextui-org/react';
+import CompanyPostingModal from './CompanyPostingModal';
 
 interface Company {
     _id: string;
@@ -18,6 +19,7 @@ const EmployerCompanies = () => {
     const [companies, setCompanies] = useState<Company[]>([]);
     const [currentSlide, setCurrentSlide] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleFetchCompanies = async () => {
         try {
@@ -46,11 +48,23 @@ const EmployerCompanies = () => {
         );
     };
 
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleAddCompany = (newCompany: Company) => {
+        setCompanies((prevCompanies) => [...prevCompanies, newCompany]);
+    };
+
     return (
         <>
             <div className='bg-white border rounded-lg shadow p-3 space-y-2'>
                 <div className='px-2'>
-                    <Button className='w-full border border-gray-400 rounded-lg bg-white hover:bg-gray-100'>
+                    <Button onClick={handleOpenModal} className='w-full border border-gray-400 rounded-lg bg-white hover:bg-gray-100'>
                         Create a company
                     </Button>
                 </div>
@@ -94,6 +108,13 @@ const EmployerCompanies = () => {
                     </div>
                 }
             </div>
+
+            <CompanyPostingModal
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+                addCompany={handleAddCompany}
+                employerId={user._id}
+            />
         </>
     );
 };

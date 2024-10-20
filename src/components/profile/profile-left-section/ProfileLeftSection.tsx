@@ -9,7 +9,7 @@ const ProfileLeftSection = () => {
         <>
             <div className=' flex'>
                 <LeftBar />
-                <div className=' ml-7 md:ml-2 lg:ml-8 xl:ml-10 w-full space-y-4'>
+                <div className=' ml-7 md:ml-2 lg:ml-8 xl:ml-10 w-full flex flex-col gap-4'>
                     <ProfileHeader />
                     <EmployerCompanies />
                     <div className='border-t border-gray-500'></div>

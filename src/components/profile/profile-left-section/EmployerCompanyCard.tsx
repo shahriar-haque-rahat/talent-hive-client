@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import toast from 'react-hot-toast';
 import { BsDot } from 'react-icons/bs';
+import { CiMenuKebab } from 'react-icons/ci';
 import { FaFacebook, FaLinkedin } from 'react-icons/fa';
 
 const EmployerCompanyCard = ({ company }) => {
@@ -23,6 +24,10 @@ const EmployerCompanyCard = ({ company }) => {
     return (
         <>
             <div className=" flex flex-col items-center justify-center">
+                <button className='hover:bg-gray-200 py-1 self-end'>
+                    <CiMenuKebab />
+                </button>
+
                 <div className="w-20 h-20 my-auto">
                     <Image
                         onClick={handleCompanyDetails}

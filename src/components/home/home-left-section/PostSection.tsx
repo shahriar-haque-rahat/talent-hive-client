@@ -34,7 +34,7 @@ const PostSection = () => {
                         className="rounded-full w-12 h-12 object-cover object-center"
                     />
                     <div className='flex-grow'>
-                        <button onClick={openPostModal} className='hover:bg-gray-100 h-10 text-sm text-left border border-gray-400 p-2 pl-4 rounded-full w-full'>
+                        <button onClick={openPostModal} className='hover:bg-gray-100 h-10 text-sm text-left border border-gray-400 p-2 pl-4 rounded-lg w-full'>
                             Create a post
                         </button>
                     </div>

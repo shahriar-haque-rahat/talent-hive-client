@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import JobPostingModal from './JobPostingModal';
 import { getCompaniesByEmployer } from '@/apiFunctions/companyData';
 import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
 
 const JobPostingButton = () => {
     const user = useSelector((state: any) => state.user.user);
@@ -16,7 +17,7 @@ const JobPostingButton = () => {
         if (selectedCompany) {
             setIsModalOpen(true);
         } else {
-            alert('Please select a company first.');
+            toast.error('Please select a company first.');
         }
     };
 

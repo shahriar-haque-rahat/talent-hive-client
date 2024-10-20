@@ -1,8 +1,8 @@
 import React from 'react';
-import ProfileHeader from './ProfileHeader';
-import Timeline from './Timeline';
+import ProfileHeader from './profile-header/ProfileHeader';
+import Timeline from './timeline-posts/Timeline';
 import LeftBar from './LeftBar';
-import EmployerCompanies from './EmployerCompanies';
+import EmployerCompanies from './company/EmployerCompanies';
 
 const ProfileLeftSection = () => {
     return (

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
-import TimelinePostSection from './TimelinePostSection';
+import TimelinePostSection from '../timeline-posts/TimelinePostSection';
 import InteractionButtons from './InteractionButtons';
 
 const ProfileHeader = () => {

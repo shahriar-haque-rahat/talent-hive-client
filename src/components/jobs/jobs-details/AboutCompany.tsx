@@ -43,49 +43,49 @@ const AboutCompany = ({ jobPost }) => {
                         </div>
 
                         <div className=' flex gap-2 items-start text-gray-700'>
-                                    {jobPost.companyId.facebookLink?.startsWith('http') ? (
-                                        <Link
-                                            href={jobPost.companyId.facebookLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            <Tooltip placement="top" content="Facebook">
-                                                <div>
-                                                    <FaFacebook className='cursor-pointer text-xl mb-3' />
-                                                </div>
-                                            </Tooltip>
-                                        </Link>
-                                    ) : (
-                                        <Tooltip placement="top" content="Facebook">
-                                            <div onClick={() => handleInvalidLink('Facebook link not available')}>
-                                                <FaFacebook className='cursor-pointer text-xl mb-3' />
-                                            </div>
-                                        </Tooltip>
-                                    )}
+                            {jobPost.companyId.facebookLink?.startsWith('http') ? (
+                                <Link
+                                    href={jobPost.companyId.facebookLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Tooltip placement="top" content="Facebook">
+                                        <div>
+                                            <FaFacebook className='cursor-pointer text-xl mb-3' />
+                                        </div>
+                                    </Tooltip>
+                                </Link>
+                            ) : (
+                                <Tooltip placement="top" content="Facebook">
+                                    <div onClick={() => handleInvalidLink('Facebook link not available')}>
+                                        <FaFacebook className='cursor-pointer text-xl mb-3' />
+                                    </div>
+                                </Tooltip>
+                            )}
 
-                                    {jobPost.companyId.linkedInLink?.startsWith('http') ? (
-                                        <Link
-                                            href={jobPost.companyId.linkedInLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            <Tooltip placement="top" content="LinkedIn">
-                                                <div>
-                                                    <FaLinkedin className='cursor-pointer text-xl mb-3' />
-                                                </div>
-                                            </Tooltip>
-                                        </Link>
-                                    ) : (
-                                        <Tooltip placement="top" content="LinkedIn">
-                                            <div onClick={() => handleInvalidLink('LinkedIn link not available')}>
-                                                <FaLinkedin className='cursor-pointer text-xl mb-3' />
-                                            </div>
-                                        </Tooltip>
-                                    )}
+                            {jobPost.companyId.linkedInLink?.startsWith('http') ? (
+                                <Link
+                                    href={jobPost.companyId.linkedInLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Tooltip placement="top" content="LinkedIn">
+                                        <div>
+                                            <FaLinkedin className='cursor-pointer text-xl mb-3' />
+                                        </div>
+                                    </Tooltip>
+                                </Link>
+                            ) : (
+                                <Tooltip placement="top" content="LinkedIn">
+                                    <div onClick={() => handleInvalidLink('LinkedIn link not available')}>
+                                        <FaLinkedin className='cursor-pointer text-xl mb-3' />
+                                    </div>
+                                </Tooltip>
+                            )}
 
-                                    <p><BsDot /></p>
-                                    <p className=' text-sm'>{jobPost.companyId.followers} {(jobPost.companyId.followers > 1) ? 'Followers' : 'Follower'}</p>
-                                </div>
+                            <p><BsDot /></p>
+                            <p className=' text-sm'>{jobPost.companyId.followers} {(jobPost.companyId.followers > 1) ? 'Followers' : 'Follower'}</p>
+                        </div>
                     </div>
 
                     <p>{jobPost.companyId.companyDescription}</p>

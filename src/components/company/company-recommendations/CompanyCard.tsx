@@ -13,10 +13,6 @@ const CompanyCard = ({ company, userId, followed }) => {
     const description = company?.companyDescription;
     const wordCount = description ? description.split(' ').length : 0;
 
-    const handleReadMore = () => {
-        // Route to details page
-    };
-
     const handleFollow = async () => {
         await followAPI(company._id, userId);
         dispatch(followCompany(company));
@@ -56,7 +52,7 @@ const CompanyCard = ({ company, userId, followed }) => {
                         ? description
                         : `${description.split(' ').slice(0, 10).join(' ')}...`}
                     {wordCount > 10 && (
-                        <button onClick={handleReadMore} className="text-sky-500 cursor-pointer ml-1">
+                        <button onClick={handleCompanyDetails} className="text-sky-500 cursor-pointer ml-1">
                             Read More
                         </button>
                     )}

@@ -7,7 +7,7 @@ import { getCompaniesByEmployer } from '@/apiFunctions/companyData';
 import { useSelector } from 'react-redux';
 
 const JobPostingButton = () => {
-    const user = useSelector((state) => state.user.user);
+    const user = useSelector((state: any) => state.user.user);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [companies, setCompanies] = useState([]);
     const [selectedCompany, setSelectedCompany] = useState(null);

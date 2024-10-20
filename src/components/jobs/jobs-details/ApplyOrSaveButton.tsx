@@ -8,8 +8,9 @@ import ResumeUploadModal from './ResumeUploadModal';
 import { useSelector } from 'react-redux';
 import { applyForJobPost } from '@/apiFunctions/jobpostData';
 import toast from 'react-hot-toast';
+import ApplicantsList from './ApplicantsList';
 
-const ApplyOrSaveButton = ({ jobPostId, applicants }) => {
+const ApplyOrSaveButton = ({ jobPostId, applicants, employerId }) => {console.log(applicants)
     const user = useSelector((state: any) => state.user.user);
     const [resumeFile, setResumeFile] = useState<File | null>(null);
     const [uploading, setUploading] = useState(false);
@@ -76,37 +77,37 @@ const ApplyOrSaveButton = ({ jobPostId, applicants }) => {
 
     return (
         <>
-            <div className="flex gap-3 pt-3">
-                {hasApplied ? (
-                    <Button
-                        disabled
-                        className=" cursor-not-allowed h-10 px-6 rounded-lg border border-gray-400 text-gray-500 bg-gray-200"
-                    >
-                        Applied
-                    </Button>
-                ) : (
-                    <>
-                        <label
-                            className=" h-10 flex items-center px-6 border border-sky-500 text-white bg-sky-500 cursor-pointer hover:bg-white hover:text-sky-500 rounded-lg"
-                        >
-                            <MdFileUpload size={24} className="mr-2" />
-                            Apply
-                            <input
-                                type="file"
-                                ref={fileInputRef}
-                                accept=".pdf,.doc,.docx"
-                                className="hidden"
-                                onChange={handleFileChange}
-                            />
-                        </label>
-                    </>
-                )}
-
-                <Button
-                    className=" h-10 px-6 rounded-lg border border-sky-500 text-sky-500 bg-white hover:bg-sky-500 hover:text-white text-lg"
-                >
-                    Save
-                </Button>
+            <div className=' mt-3'>
+                {employerId === user._id
+                    ? <ApplicantsList applicants={applicants}/>
+                    :
+                    <div className="flex">
+                        {hasApplied ? (
+                            <Button
+                                disabled
+                                className=" cursor-not-allowed h-10 px-6 rounded-lg border border-gray-400 text-gray-500 bg-gray-200"
+                            >
+                                Applied
+                            </Button>
+                        ) : (
+                            <>
+                                <label
+                                    className=" h-10 flex items-center px-6 border border-sky-500 text-white bg-sky-500 cursor-pointer hover:bg-white hover:text-sky-500 rounded-lg"
+                                >
+                                    <MdFileUpload size={24} className="mr-2" />
+                                    Apply
+                                    <input
+                                        type="file"
+                                        ref={fileInputRef}
+                                        accept=".pdf,.doc,.docx"
+                                        className="hidden"
+                                        onChange={handleFileChange}
+                                    />
+                                </label>
+                            </>
+                        )}
+                    </div>
+                }
             </div>
 
             <ResumeUploadModal

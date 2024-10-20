@@ -3,7 +3,7 @@ import { formatDistanceToNow } from 'date-fns';
 import React from 'react';
 import { LuDot } from 'react-icons/lu';
 
-const JobPostHeader = ({ jobTitle, position, jobLocation, workplaceType, createdAt, companyId }) => {
+const JobPostHeader = ({ jobTitle, position, jobLocation, applicants, workplaceType, createdAt, companyId }) => {
     const timeAgo = formatDistanceToNow(new Date(createdAt), { addSuffix: true });
 
     return (
@@ -18,12 +18,19 @@ const JobPostHeader = ({ jobTitle, position, jobLocation, workplaceType, created
                 </div>
 
                 <div className='flex-grow flex flex-col gap-1 justify-center'>
+                    <h1 className='font-semibold hover:underline cursor-pointer'>{jobTitle}</h1>
+
                     <span className=' flex items-center gap-2 flex-wrap'>
-                        <h1 className='font-semibold hover:underline cursor-pointer'>{jobTitle}</h1>
                         <p className='text-xs text-gray-500'>({timeAgo})</p>
+                        <p className='text-xs text-gray-500'>
+                            {applicants.length
+                                ? `${applicants.length} applicant${applicants.length === 1 ? '' : 's'}`
+                                : ''}
+                        </p>
                     </span>
 
                     <p className='text-sm font-semibold'>{companyId.companyName}</p>
+
                     <div className=' flex flex-wrap gap-2 items-center'>
                         <p className='text-sm'>{position}</p>
                         <p><LuDot /></p>

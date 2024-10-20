@@ -38,7 +38,7 @@ const JobDetailsRightSection = ({ jobPost }) => {
                             </div>
                         </div>
 
-                        <ApplyOrSaveButton jobPostId={jobPost._id} applicants={jobPost.applicants}/>
+                        <ApplyOrSaveButton jobPostId={jobPost._id} applicants={jobPost.applicants} employerId={jobPost.companyId.employerId}/>
 
                         <div className=' my-6'>
                             <h2 className=' text-xl font-semibold mb-3'>About the job</h2>

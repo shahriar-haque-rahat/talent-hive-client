@@ -12,6 +12,7 @@ const JobPostCard = ({ jobPost, handleDetails }) => {
                     jobTitle={jobPost?.jobTitle}
                     position={jobPost?.position}
                     jobLocation={jobPost.jobLocation}
+                    applicants={jobPost.applicants}
                     workplaceType={jobPost.workplaceType}
                     createdAt={jobPost.createdAt}
                     companyId={jobPost?.companyId}

@@ -110,7 +110,7 @@ const EmployerCompanies = () => {
                             {companies.map((company) => (
                                 <SwiperSlide key={company._id}>
                                     <div className=''>
-                                        <EmployerCompanyCard company={company} removeCompany={removeCompany} handleEditCompany={handleEditCompany} />
+                                        <EmployerCompanyCard userId={user._id} company={company} removeCompany={removeCompany} handleEditCompany={handleEditCompany} />
                                     </div>
                                 </SwiperSlide>
                             ))}

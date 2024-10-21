@@ -1,25 +1,28 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import EmployerCompanyCard from './EmployerCompanyCard';
-import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import { getCompaniesByEmployer } from '@/apiFunctions/companyData';
 import { Button } from '@nextui-org/react';
 import CompanyPostingModal from './CompanyPostingModal';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Scrollbar } from 'swiper/modules';
 
-interface Company {
-    _id: string;
-    name: string;
-}
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/scrollbar';
+import 'swiper/css/scrollbar';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+
 
 const EmployerCompanies = () => {
     const user = useSelector((state: any) => state.user.user);
     const userProfile = useSelector((state: any) => state.user.userProfile);
-    const [companies, setCompanies] = useState<Company[]>([]);
-    const [currentSlide, setCurrentSlide] = useState(0);
-    const containerRef = useRef<HTMLDivElement>(null);
+    const [companies, setCompanies] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [companyForEdit, setCompanyForEdit] = useState(null);
 
     const handleFetchCompanies = async () => {
         try {
@@ -36,18 +39,6 @@ const EmployerCompanies = () => {
         }
     }, [userProfile]);
 
-    const handleNextSlide = () => {
-        setCurrentSlide((prevSlide) =>
-            prevSlide === Math.ceil(companies.length / 2) - 1 ? 0 : prevSlide + 1
-        );
-    };
-
-    const handlePrevSlide = () => {
-        setCurrentSlide((prevSlide) =>
-            prevSlide === 0 ? Math.ceil(companies.length / 2) - 1 : prevSlide - 1
-        );
-    };
-
     const handleOpenModal = () => {
         setIsModalOpen(true);
     };
@@ -56,9 +47,32 @@ const EmployerCompanies = () => {
         setIsModalOpen(false);
     };
 
-    const handleAddCompany = (newCompany: Company) => {
-        setCompanies((prevCompanies) => [...prevCompanies, newCompany]);
+    const handleAddOrUpdateCompany = (newCompany) => {
+        setCompanies((prevCompanies) => {
+            const companyExists = prevCompanies.some(company => company._id === newCompany._id);
+    
+            if (companyExists) {
+                return prevCompanies.map(company =>
+                    company._id === newCompany._id ? newCompany : company
+                );
+            } else {
+                return [...prevCompanies, newCompany];
+            }
+        });
     };
+
+    const handleEditCompany = (companyId) => {
+        const res = companies.find((company: any) => company._id === companyId);
+        setCompanyForEdit(res)
+        setIsModalOpen(true);
+    }
+
+    const removeCompany = (companyId) => {
+        setCompanies((prevCompanies) => prevCompanies.filter(company => company._id !== companyId));
+    }
+
+    const prevRef = useRef(null);
+    const nextRef = useRef(null);
 
     return (
         <>
@@ -69,51 +83,64 @@ const EmployerCompanies = () => {
                     </Button>
                 </div>
 
-                {(companies.length > 0) &&
-                    <div>
-                        <div className="relative max-w-full overflow-hidden" ref={containerRef}>
-                            <div
-                                className="flex transition-transform duration-500 ease-in-out"
-                                style={{
-                                    transform: `translateX(-${currentSlide * 100}%)`,
-                                }}
-                            >
-                                {companies.map((company) => (
-                                    <div
-                                        key={company._id}
-                                        className="w-1/2 flex-shrink-0 flex px-2"
-                                    >
-                                        <div className="w-full h-full flex flex-col justify-between bg-white border p-4 rounded-lg shadow min-h-[250px]">
-                                            <EmployerCompanyCard company={company} />
-                                        </div>
+                {companies.length > 0 && (
+                    <div className="w-full max-w-sm md:max-w-2xl xl:max-w-4xl mx-auto">
+                        <Swiper
+                            modules={[Navigation, Scrollbar]}
+                            navigation={{
+                                prevEl: prevRef.current,
+                                nextEl: nextRef.current
+                            }}
+                            onSwiper={(swiper) => {
+                                swiper.params.navigation.prevEl = prevRef.current;
+                                swiper.params.navigation.nextEl = nextRef.current;
+                                swiper.navigation.init();
+                                swiper.navigation.update();
+                            }}
+                            scrollbar
+                            spaceBetween={20}
+                            slidesPerView={1}
+                            breakpoints={{
+                                640: { slidesPerView: 1 },
+                                768: { slidesPerView: 2 },
+                                1024: { slidesPerView: 2 },
+                            }}
+                            className="mySwiper"
+                        >
+                            {companies.map((company) => (
+                                <SwiperSlide key={company._id}>
+                                    <div className=''>
+                                        <EmployerCompanyCard company={company} removeCompany={removeCompany} handleEditCompany={handleEditCompany} />
                                     </div>
-                                ))}
-                            </div>
-                        </div>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
 
-                        <div className="flex justify-start gap-4 mt-2">
+                        {/* Custom buttons */}
+                        <div className="flex justify-start gap-3 mt-2">
                             <button
-                                className="text-sky-500 hover:text-sky-600 rounded-full"
-                                onClick={handlePrevSlide}
+                                ref={prevRef}
+                                className="flex items-center justify-center w-7 h-7 rounded-full bg-sky-500 text-white hover:bg-sky-700"
                             >
-                                <FaArrowAltCircleLeft size={24} />
+                                <FaArrowLeft size={20} />
                             </button>
                             <button
-                                className="text-sky-500 hover:text-sky-600 rounded-full"
-                                onClick={handleNextSlide}
+                                ref={nextRef}
+                                className="flex items-center justify-center w-7 h-7 rounded-full bg-sky-500 text-white hover:bg-sky-700"
                             >
-                                <FaArrowAltCircleRight size={24} />
+                                <FaArrowRight size={20} />
                             </button>
                         </div>
                     </div>
-                }
+                )}
             </div>
 
             <CompanyPostingModal
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
-                addCompany={handleAddCompany}
+                addOrUpdateCompany={handleAddOrUpdateCompany}
                 employerId={user._id}
+                company={companyForEdit}
             />
         </>
     );

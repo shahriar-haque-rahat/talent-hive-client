@@ -18,7 +18,7 @@ const UserInfoSection = ({ userId, profileImage, fullName, createdAt }) => {
                 onClick={handleProfile}
                 src={profileImage}
                 alt={fullName}
-                className="rounded-full border-2 border-white cursor-pointer w-14 h-14 object-cover object-center"
+                className="rounded-full border-2 border-white cursor-pointer w-14 h-14 object-cover object-top"
             />
             <div>
                 <h1 onClick={handleProfile} className='font-semibold cursor-pointer hover:underline'>{fullName}</h1>

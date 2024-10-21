@@ -31,7 +31,7 @@ const PostSection = () => {
                     <Image
                         src={user?.profileImage ? user.profileImage : "/assets/user.png"}
                         alt={user?.fullName}
-                        className="rounded-full w-12 h-12 object-cover object-center"
+                        className="rounded-full w-12 h-12 object-cover object-top"
                     />
                     <div className='flex-grow'>
                         <button onClick={openPostModal} className='hover:bg-gray-100 h-10 text-sm text-left border border-gray-400 p-2 pl-4 rounded-lg w-full'>

@@ -100,6 +100,12 @@ const EmployerCompanyCard = ({ company }) => {
                 </div>
             </div>
 
+            {/* Edit delete modal */}
+
+            <div className="absolute right-0 mt-2 flex flex-col items-start text-sm bg-white border shadow-lg rounded-lg ">
+                <button className='hover:bg-gray-200 py-2 px-3 w-full text-left'>Edit</button>
+                <button className='hover:bg-gray-200 py-2 px-3 w-full text-left'>Delete</button>
+            </div>
         </>
     );
 };

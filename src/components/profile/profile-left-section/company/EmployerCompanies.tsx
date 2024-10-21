@@ -43,10 +43,6 @@ const EmployerCompanies = () => {
         setIsModalOpen(true);
     };
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    };
-
     const handleAddOrUpdateCompany = (newCompany) => {
         setCompanies((prevCompanies) => {
             const companyExists = prevCompanies.some(company => company._id === newCompany._id);
@@ -137,7 +133,7 @@ const EmployerCompanies = () => {
 
             <CompanyPostingModal
                 isOpen={isModalOpen}
-                onClose={handleCloseModal}
+                onClose={() =>setIsModalOpen(false)}
                 addOrUpdateCompany={handleAddOrUpdateCompany}
                 employerId={user._id}
                 company={companyForEdit}

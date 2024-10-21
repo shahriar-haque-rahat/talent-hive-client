@@ -8,7 +8,7 @@ import { CiMenuKebab } from 'react-icons/ci';
 import { FaFacebook, FaLinkedin } from 'react-icons/fa';
 import EditAndDeleteCompany from './EditAndDeleteCompany';
 
-const EmployerCompanyCard = ({ userId, company, removeCompany, handleEditCompany }) => {
+const EmployerCompanyCard = ({ userId, company, removeCompany, handleEditCompany }) => {console.log(company)
     const router = useRouter();
 
     const [isEditDeleteModalOpen, setIsEditDeleteModalOpen] = useState(false);
@@ -31,7 +31,7 @@ const EmployerCompanyCard = ({ userId, company, removeCompany, handleEditCompany
     return (
         <>
             <div className="relative h-64 flex flex-col items-center justify-start border p-3 rounded-lg shadow">
-                {(userId === company.employerId._id) &&
+                {(userId === company.employerId._id || userId === company.employerId ) &&
                     <div>
                         <button onClick={toggleEditDeleteModal} className="absolute top-2 right-2 hover:bg-gray-200 py-1">
                             <CiMenuKebab />

@@ -130,7 +130,7 @@ const PostInteractionSection = ({ user, post, isModalView = false }) => {
                     openComment[post._id] &&
                     <div>
                         <CommentSection user={user} postId={post._id} />
-                        <AllComments user={user} postId={post._id} openComment={openComment} />
+                        <AllComments user={user} postUserId={post.userId._id} postId={post._id} openComment={openComment} />
                     </div>
                 }
 

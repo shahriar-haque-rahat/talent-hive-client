@@ -7,7 +7,7 @@ import ConfirmationModal from '@/shared/ConfirmationModal';
 import { updatePostOnInteraction } from '@/redux/postSlice';
 
 // TODO: loading skeleton while comments fetching 
-const AllComments = ({ user, postId, openComment }) => {
+const AllComments = ({ user, postUserId, postId, openComment }) => {
     const dispatch = useDispatch();
     const isOpen = openComment[postId];
     const comments = useSelector(state => state.comment.commentsByPost[postId] || []);
@@ -175,7 +175,7 @@ const AllComments = ({ user, postId, openComment }) => {
                                     <p>|</p>
                                     <button className='text-xs text-gray-500 hover:text-gray-700'>Reply</button>
                                 </div>
-                                {comment.userId?._id === user._id && (
+                                {comment.userId?._id === user._id ? (
                                     <div className='flex gap-2 items-center'>
                                         {editingCommentId === comment._id ? (
                                             <>
@@ -191,7 +191,14 @@ const AllComments = ({ user, postId, openComment }) => {
                                             </>
                                         )}
                                     </div>
-                                )}
+                                )
+                                    : (
+                                        <>
+                                            {(user._id === postUserId) &&
+                                                <button onClick={() => confirmDeleteComment(comment._id)} className='text-xs text-red-500 hover:text-gray-700'>Delete</button>
+                                            }
+                                        </>
+                                    )}
                             </div>
                         </div>
                     </div>

@@ -21,10 +21,6 @@ const JobPostingButton = () => {
         }
     };
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-    };
-
     const handleFetchCompanies = async () => {
         try {
             const fetchedCompanies = await getCompaniesByEmployer(user._id);
@@ -87,8 +83,9 @@ const JobPostingButton = () => {
             {isModalOpen && (
                 <JobPostingModal
                     isOpen={isModalOpen}
-                    onClose={handleCloseModal}
+                    onClose={()=>setIsModalOpen(false)}
                     companyId={selectedCompany?._id}
+                    jobPost={null}
                 />
             )}
         </>

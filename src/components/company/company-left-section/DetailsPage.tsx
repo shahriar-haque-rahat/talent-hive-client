@@ -93,12 +93,12 @@ const DetailsPage = ({ id }: CompanyDetails) => {
             {company &&
                 <div className='space-y-2 h-[calc(100vh-110px)] overflow-y-scroll'>
                     <div className='relative bg-white p-4 rounded-lg border shadow flex items-center justify-between'>
-                        {(user._id === company.employerId._id || user._id === company.employerId ) &&
+                        {(user._id === company.employerId._id || user._id === company.employerId) &&
                             <div className='absolute top-2 right-3 flex gap-2'>
-                            <button onClick={()=>setIsModalOpen(true)} className='text-xs text-sky-500 font-bold hover:text-sky-600'>Edit</button>
-                            <p>|</p>
-                            <button onClick={() => confirmDeleteCompany(company._id)} className='text-xs text-red-500 font-bold hover:text-red-600'>Delete</button>
-                        </div>
+                                <button onClick={() => setIsModalOpen(true)} className='text-xs text-sky-500 font-bold hover:text-sky-600'>Edit</button>
+                                <p>|</p>
+                                <button onClick={() => confirmDeleteCompany(company._id)} className='text-xs text-red-500 font-bold hover:text-red-600'>Delete</button>
+                            </div>
                         }
 
                         <div key={company._id} className='flex gap-3 xl:gap-6 '>

@@ -1,13 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import { MdClose, MdAdd, MdRemove } from 'react-icons/md';
-import { createJobPost } from '@/apiFunctions/jobpostData';
-import { addJobPost } from '@/redux/jobPostSlice';
+import { createJobPost, updateJobPost } from '@/apiFunctions/jobpostData';
+import { addJobPost, editPost } from '@/redux/jobPostSlice';
 import { useDispatch } from 'react-redux';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
-const JobPostingModal = ({ isOpen, onClose, companyId }) => {
+const JobPostingModal = ({ isOpen, onClose, companyId, jobPost }) => {
+    const router = useRouter();
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         companyId,
@@ -25,6 +28,44 @@ const JobPostingModal = ({ isOpen, onClose, companyId }) => {
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const resetForm = () => {
+        setFormData({
+            companyId,
+            jobTitle: '',
+            position: '',
+            workplaceType: '',
+            jobLocation: '',
+            jobType: '',
+            about: {
+                description: '',
+                educationalRequirements: [''],
+                experienceRequirements: [''],
+                additionalRequirements: [''],
+            },
+        });
+    }
+
+    useEffect(() => {
+        if (jobPost && isOpen) {
+            setFormData({
+                companyId: companyId,
+                jobTitle: jobPost.jobTitle,
+                position: jobPost.position,
+                workplaceType: jobPost.workplaceType,
+                jobLocation: jobPost.jobLocation,
+                jobType: jobPost.jobType,
+                about: {
+                    description: jobPost.about.description,
+                    educationalRequirements: jobPost.about.educationalRequirements || [''],
+                    experienceRequirements: jobPost.about.experienceRequirements || [''],
+                    additionalRequirements: jobPost.about.additionalRequirements || [''],
+                },
+            });
+        } else {
+            resetForm();
+        }
+    }, [isOpen, jobPost]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -74,34 +115,42 @@ const JobPostingModal = ({ isOpen, onClose, companyId }) => {
         try {
             const payload = { ...formData };
 
-            const res = await createJobPost(payload);
-
-            if (res) {
-                dispatch(addJobPost({ jobPostData: res }))
+            let res;
+            if (jobPost) {
+                try {
+                    res = await updateJobPost(jobPost._id, payload);
+                    if (res) {
+                        dispatch(editPost({ jobPostId: jobPost._id, editedData: res }));
+                    }
+                }
+                catch (error) {
+                    toast.error('Failed to update job post')
+                    console.error('Failed to update job post: ', error);
+                }
+                finally {
+                    router.push(`/jobs/details?id=${res._id}`);
+                }
             }
-
-            setFormData({
-                companyId,
-                jobTitle: '',
-                position: '',
-                workplaceType: '',
-                jobLocation: '',
-                jobType: '',
-                about: {
-                    description: '',
-                    educationalRequirements: [''],
-                    experienceRequirements: [''],
-                    additionalRequirements: [''],
-                },
-            });
-
-            onClose();
+            else {
+                try {
+                    res = await createJobPost(payload);
+                    if (res) {
+                        dispatch(addJobPost({ jobPostData: res }));
+                    }
+                }
+                catch (error) {
+                    toast.error('Failed to create job post')
+                    console.error('Failed to create job post: ', error);
+                }
+            }
         }
         catch (error) {
-            console.error('Error submitting the job posting:', error);
+            console.error('Error submitting the job post: ', error);
         }
         finally {
             setIsSubmitting(false);
+            resetForm();
+            onClose();
         }
     };
 
@@ -208,7 +257,7 @@ const JobPostingModal = ({ isOpen, onClose, companyId }) => {
                         isDisabled={isSubmitting}
                         isLoading={isSubmitting}
                     >
-                        {isSubmitting ? 'Posting...' : 'Save Changes'}
+                        {isSubmitting ? 'Saving...' : (jobPost ? 'Update Job Post' : 'Save Job Post')}
                     </Button>
                 </form>
             </div>

@@ -6,16 +6,19 @@ import { GoDotFill } from "react-icons/go";
 import CompanyHeader from '@/components/company/company-recommendations/CompanyHeader';
 import AboutCompany from './AboutCompany';
 import ApplyOrSaveButton from './ApplyOrSaveButton';
+import JobEditAndDelete from './JobEditAndDelete';
 
 const JobDetailsRightSection = ({ jobPost }) => {
     const timeAgo = formatDistanceToNow(new Date(jobPost.createdAt), { addSuffix: true });
 
     return (
         <>
-            <div className=' bg-white rounded-lg border shadow'>
+            <div className='bg-white rounded-lg border shadow'>
                 <div className='h-28 px-6 py-8 border-b border-gray-300'><CompanyHeader companyId={jobPost.companyId} /></div>
 
-                <div className=' h-[calc(100vh-110px)] overflow-y-scroll'>
+                <div className='relative h-[calc(100vh-110px)] overflow-y-scroll'>
+                    <div className='absolute top-2 right-3 '><JobEditAndDelete jobPost={jobPost}/></div>
+
                     <div className=' p-6'>
                         <div className=' space-y-3'>
                             <h1 className=' text-2xl font-bold'>{jobPost.jobTitle}</h1>
@@ -38,7 +41,7 @@ const JobDetailsRightSection = ({ jobPost }) => {
                             </div>
                         </div>
 
-                        <ApplyOrSaveButton jobPostId={jobPost._id} applicants={jobPost.applicants} employerId={jobPost.companyId.employerId}/>
+                        <ApplyOrSaveButton jobPostId={jobPost._id} applicants={jobPost.applicants} employerId={jobPost.companyId.employerId} />
 
                         <div className=' my-6'>
                             <h2 className=' text-xl font-semibold mb-3'>About the job</h2>

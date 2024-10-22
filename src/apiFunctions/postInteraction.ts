@@ -105,9 +105,9 @@ export const deleteComment = async (postId: string, id: string) => {
 }
 
 // Save
-export const getSaves = async (postId: string) => {
+export const getSaves = async (userId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/save`)
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${userId}/save`)
 
         // console.log(response.data);
         return response.data;

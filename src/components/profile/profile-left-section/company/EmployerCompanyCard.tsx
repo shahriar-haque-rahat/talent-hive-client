@@ -8,7 +8,7 @@ import { CiMenuKebab } from 'react-icons/ci';
 import { FaFacebook, FaLinkedin } from 'react-icons/fa';
 import EditAndDeleteCompany from './EditAndDeleteCompany';
 
-const EmployerCompanyCard = ({ userId, company, removeCompany, handleEditCompany }) => {console.log(company)
+const EmployerCompanyCard = ({ userId, company, removeCompany, handleEditCompany }) => {
     const router = useRouter();
 
     const [isEditDeleteModalOpen, setIsEditDeleteModalOpen] = useState(false);

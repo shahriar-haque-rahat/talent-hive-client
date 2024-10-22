@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { TbUserEdit } from "react-icons/tb";
 import { MdLogout } from "react-icons/md";
 import { FaFacebook, FaLinkedin } from "react-icons/fa";
@@ -12,11 +12,15 @@ import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import { IoDocument } from 'react-icons/io5';
+import { BiBookmarkAlt } from 'react-icons/bi';
+import SavedPosts from '@/components/saved-posts/SavedPosts';
 
 const LeftBar = () => {
     const user = useSelector((state: any) => state.user.user);
     const userProfile = useSelector((state: any) => state.user.userProfile);
     const { logout } = useContext(AuthContext) as AuthContextValues;
+
+    const [openSaveList, setOpenSaveList] = useState(false);
 
     const handleLogout = async () => {
         await logout();
@@ -105,6 +109,15 @@ const LeftBar = () => {
 
                 {userProfile._id === user._id &&
                     <div className='space-y-3 pb-6'>
+                        <Tooltip placement="right-end" content="Edit Profile">
+                            <div>
+                                <BiBookmarkAlt
+                                    onClick={() => setOpenSaveList(true)}
+                                    className='mb-2 cursor-pointer text-xl lg:text-3xl xl:text-4xl'
+                                />
+                            </div>
+                        </Tooltip>
+
                         <Link href={"/edit-profile"}>
                             <Tooltip placement="right-end" content="Edit Profile">
                                 <div>
@@ -121,6 +134,14 @@ const LeftBar = () => {
                     </div>
                 }
             </div>
+
+            {
+                <SavedPosts
+                    userId={user._id}
+                    openSaveList={openSaveList}
+                    setOpenSaveList={setOpenSaveList}
+                />
+            }
         </>
     );
 };

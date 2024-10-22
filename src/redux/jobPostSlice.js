@@ -29,7 +29,7 @@ const jobPostSlice = createSlice({
             }
         },
         removePost: (state, action) => {
-            const jobPostId = action.payload;
+            const { jobPostId } = action.payload;
             state.jobPosts = state.jobPosts.filter(jobPost => jobPost._id !== jobPostId);
         },
     },

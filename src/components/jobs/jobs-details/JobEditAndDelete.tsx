@@ -5,10 +5,12 @@ import ConfirmationModal from '@/shared/ConfirmationModal';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import JobPostingModal from '../jobs-posting/JobPostingModal';
+import { removePost } from '@/redux/jobPostSlice';
 
 const JobEditAndDelete = ({ jobPost }) => {
+    const dispatch = useDispatch()
     const router = useRouter();
     const user = useSelector((state: any) => state.user.user);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -19,7 +21,8 @@ const JobEditAndDelete = ({ jobPost }) => {
             const res = await deleteJobPost(jobPost._id);
 
             if (res) {
-                router.push(`/profile?id=${user._id}`);
+                dispatch(removePost({ jobPostId: jobPost._id }))
+                router.push(`/company?id=${jobPost.companyId._id}`);
             }
         }
         catch (error) {
@@ -43,6 +46,7 @@ const JobEditAndDelete = ({ jobPost }) => {
                 onClose={() => setIsModalOpen(false)}
                 companyId={jobPost.companyId._id}
                 jobPost={jobPost}
+                handleAddJobPost={null}
             />
 
             <ConfirmationModal

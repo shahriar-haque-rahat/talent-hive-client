@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
-const JobPostingModal = ({ isOpen, onClose, companyId, jobPost }) => {
+const JobPostingModal = ({ isOpen, onClose, companyId, jobPost, handleAddJobPost }) => {
     const router = useRouter();
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({
@@ -136,6 +136,9 @@ const JobPostingModal = ({ isOpen, onClose, companyId, jobPost }) => {
                     res = await createJobPost(payload);
                     if (res) {
                         dispatch(addJobPost({ jobPostData: res }));
+                    }
+                    if (handleAddJobPost !== null) {
+                        handleAddJobPost(res);
                     }
                 }
                 catch (error) {

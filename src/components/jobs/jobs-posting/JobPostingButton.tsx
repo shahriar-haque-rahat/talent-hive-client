@@ -86,6 +86,7 @@ const JobPostingButton = () => {
                     onClose={()=>setIsModalOpen(false)}
                     companyId={selectedCompany?._id}
                     jobPost={null}
+                    handleAddJobPost={null}
                 />
             )}
         </>

@@ -171,9 +171,10 @@ const AllComments = ({ user, postUserId, postId, openComment }) => {
                             </div>
                             <div className='px-2 flex justify-between items-center'>
                                 <div className='flex gap-2 items-center'>
-                                    <button className='text-xs text-gray-500 hover:text-gray-700'>Like</button>
+                                    {/* TODO: Comment Like and Reply */}
+                                    {/* <button className='text-xs text-gray-500 hover:text-gray-700'>Like</button>
                                     <p>|</p>
-                                    <button className='text-xs text-gray-500 hover:text-gray-700'>Reply</button>
+                                    <button className='text-xs text-gray-500 hover:text-gray-700'>Reply</button> */}
                                 </div>
                                 {comment.userId?._id === user._id ? (
                                     <div className='flex gap-2 items-center'>

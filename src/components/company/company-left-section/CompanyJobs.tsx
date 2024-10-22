@@ -4,6 +4,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import JobPostSkeleton from '@/skeletons/JobPostSkeleton';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import JobPosting from './JobPosting';
 
 interface CompanyJobsProps {
     companyId: string;
@@ -58,7 +59,10 @@ const CompanyJobs = ({ companyId }: CompanyJobsProps) => {
     return (
         <>
             <div className='rounded-lg border bg-white shadow'>
-                <h1 className=' h-28 text-2xl font-semibold px-6 py-8 border-b border-gray-300'>Jobs for you</h1>
+                <div className='h-28 px-6 py-8 border-b border-gray-300 flex justify-between'>
+                    <h1 className=' text-2xl font-semibold '>Jobs for you</h1>
+                    <JobPosting companyId={companyId} setJobPosts={setJobPosts}/>
+                </div>
 
                 <div>
                     <div>

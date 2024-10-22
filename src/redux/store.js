@@ -7,6 +7,7 @@ import commentReducer from "./commentSlice";
 import companyReducer from "./companySlice";
 import jobPostReducer from "./jobPostSlice";
 import connectionReducer from "./connectionSlice";
+import notificationReducer from "./notificationSlice";
 
 const store = configureStore({
     reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
         company: companyReducer,
         jobPost: jobPostReducer,
         connection: connectionReducer,
+        notification: notificationReducer,
     }
 })
 

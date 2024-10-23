@@ -35,6 +35,16 @@ export const markNotificationAsRead = async (notificationId: string) => {
     }
 };
 
+export const markAllNotificationsAsRead = async (userId: string) => {
+    try {
+        const response = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URL}/notifications/${userId}/mark-all-read`);
+        return response.data;
+    } catch (error) {
+        console.error('Error marking all notifications as read:', error);
+        return [];
+    }
+};
+
 export const deleteNotification = async (notificationId: string) => {
     try {
         await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/notifications/${notificationId}`);

@@ -17,7 +17,6 @@ const notificationSlice = createSlice({
             state.notifications = page === 0 ? uniqueNotifications : [...state.notifications, ...uniqueNotifications];
             state.notificationsPage = page;
         },
-
         updateNotification: (state, action) => {
             const updatedNotification = action.payload;
             const index = state.notifications.findIndex(n => n._id === updatedNotification._id);
@@ -25,7 +24,15 @@ const notificationSlice = createSlice({
                 state.notifications[index] = updatedNotification;
             }
         },
-
+        updateMultipleNotifications: (state, action) => {
+            const updatedNotifications = action.payload;
+            updatedNotifications.forEach(updatedNotification => {
+                const index = state.notifications.findIndex(n => n._id === updatedNotification._id);
+                if (index !== -1) {
+                    state.notifications[index] = updatedNotification;
+                }
+            });
+        },        
         deleteNotification: (state, action) => {
             const notificationId = action.payload;
             state.notifications = state.notifications.filter(n => n._id !== notificationId);
@@ -33,5 +40,5 @@ const notificationSlice = createSlice({
     },
 });
 
-export const { setNotifications, updateNotification, deleteNotification } = notificationSlice.actions;
+export const { setNotifications, updateNotification, updateMultipleNotifications, deleteNotification } = notificationSlice.actions;
 export default notificationSlice.reducer;

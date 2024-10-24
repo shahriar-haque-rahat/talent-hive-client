@@ -1,7 +1,7 @@
 import { deleteSave, getSaves } from '@/apiFunctions/postInteraction';
 import React, { useEffect, useState } from 'react';
 import { MdClose } from 'react-icons/md';
-import UserInfoSection from '../home/central-feed/shared-components-for-post/UserInfoSection';
+import UserInfoSection from '../shared/UserInfoSection';
 import ContentSection from '../home/central-feed/shared-components-for-post/ContentSection';
 import SharedPostContent from '../home/central-feed/SharedPostContent';
 import { useSelector } from 'react-redux';

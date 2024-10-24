@@ -10,7 +10,7 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { getPosts } from '@/apiFunctions/postData';
 import { setPosts, setPostsPage } from '@/redux/postSlice';
 import PostSkeleton from '@/skeletons/PostSkeleton';
-import UserInfoSection from './shared-components-for-post/UserInfoSection';
+import UserInfoSection from '../../shared/UserInfoSection';
 import ContentSection from './shared-components-for-post/ContentSection';
 import MediaSection from './shared-components-for-post/MediaSection';
 

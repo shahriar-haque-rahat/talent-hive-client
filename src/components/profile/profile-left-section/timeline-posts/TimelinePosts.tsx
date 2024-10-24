@@ -7,7 +7,7 @@ import PostSkeleton from '@/skeletons/PostSkeleton';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { getTimelinePosts } from '@/apiFunctions/postData';
 import { addCachePost, setTimelinePosts, setTimelinePostsPage, clearTimelinePosts } from '@/redux/postSlice';
-import UserInfoSection from '@/components/home/central-feed/shared-components-for-post/UserInfoSection';
+import UserInfoSection from '@/components/shared/UserInfoSection';
 import EditAndDeletePost from '@/components/home/central-feed/posting/EditAndDeletePost';
 import ContentSection from '@/components/home/central-feed/shared-components-for-post/ContentSection';
 import MediaSection from '@/components/home/central-feed/shared-components-for-post/MediaSection';

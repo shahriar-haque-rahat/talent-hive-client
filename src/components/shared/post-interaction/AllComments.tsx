@@ -165,7 +165,7 @@ const AllComments = ({ user, postUserId, postId, openComment }) => {
                             height={48}
                         />
                         <div className='w-full'>
-                            <div className='w-full rounded-lg bg-slate-100 p-2'>
+                            <div className='w-full rounded-lg bg-sky-50 p-2'>
                                 <h1 className='font-bold'>{comment.userId?.fullName}</h1>
                                 {renderCommentContent(comment)}
                             </div>

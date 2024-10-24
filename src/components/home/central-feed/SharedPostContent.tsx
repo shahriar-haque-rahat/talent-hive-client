@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PostDetailsModal from '../../post-details/PostDetailsModal';
-import UserInfoSection from './shared-components-for-post/UserInfoSection';
+import UserInfoSection from '../../shared/UserInfoSection';
 import MediaSection from './shared-components-for-post/MediaSection';
 
 const SharedPostContent = ({ user, sharedPostContent: post }) => {

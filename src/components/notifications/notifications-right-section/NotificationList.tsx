@@ -7,8 +7,10 @@ import { setNotifications, updateNotification, deleteNotification, updateMultipl
 import { formatDistanceToNow } from 'date-fns';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { BiCommentDetail, BiLike, BiShare } from 'react-icons/bi';
+import { useRouter } from 'next/navigation';
 
 const NotificationList = () => {
+    const router = useRouter();
     const user = useSelector((state: any) => state.user.user);
     const dispatch = useDispatch();
     const notifications = useSelector((state: any) => state.notification.notifications);
@@ -19,7 +21,6 @@ const NotificationList = () => {
     const [selectedNotification, setSelectedNotification] = useState<string | null>(null);
 
     const fetchNotifications = async (isInitialFetch = false) => {
-        console.log('fetched')
         if (user && !loading) {
             setLoading(true);
             const res = await getNotifications(user._id, isInitialFetch ? 0 : page, 10);
@@ -56,8 +57,8 @@ const NotificationList = () => {
         setSelectedNotification(null);
     };
 
-    const handlePostLinkClick = (postId: string) => {
-        console.log(`Post ID: ${postId}`);
+    const handlePostDetails = (postId: string) => {
+        router.push(`/post-details?id=${postId}`);
     };
 
     const getIcon = (type: string, senderProfileImage: string) => {
@@ -114,7 +115,7 @@ const NotificationList = () => {
                                     {(notification.type === 'like' || notification.type === 'comment' || notification.type === 'share') && (
                                         <span
                                             className="text-sky-500 cursor-pointer hover:underline"
-                                            onClick={() => handlePostLinkClick(notification.postId)}
+                                            onClick={() => handlePostDetails(notification.postId)}
                                         >
                                             post
                                         </span>

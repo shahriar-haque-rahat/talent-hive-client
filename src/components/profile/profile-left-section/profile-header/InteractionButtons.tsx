@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@nextui-org/react';
 import { FiPlus } from 'react-icons/fi';
 import { acceptConnectionRequest, deleteConnectionRequest, removeConnection, sendConnectionRequest } from '@/apiFunctions/connection';
@@ -6,10 +6,13 @@ import { useDispatch } from 'react-redux';
 import { setConnectionStatus } from '@/redux/connectionSlice';
 import { editUserProfile } from '@/redux/userSlice';
 import { createUserConnectionRequestedEvent } from '@/event-emitter/events';
+import MessageModal from './MessageModal';
 
 const InteractionButtons = ({ user, userProfile, relationshipStatus }) => {
     const dispatch = useDispatch();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // connection interactions
     const handleSendConnectionRequest = async (receiverId: string) => {
         const res = await sendConnectionRequest(user._id, receiverId);
         if (res) {
@@ -49,14 +52,18 @@ const InteractionButtons = ({ user, userProfile, relationshipStatus }) => {
     return (
         <>
             <div className='flex justify-center items-center gap-8 '>
-                <Button className=' bg-transparent text-sky-500 text-base font-semibold w-28 border border-sky-500 hover:bg-sky-500 hover:text-white'>Message</Button>
+                <Button
+                    onClick={() => setIsModalOpen(true)}
+                    className='rounded-lg  bg-transparent text-sky-500 text-base font-semibold w-28 border border-sky-500 hover:bg-sky-500 hover:text-white'>
+                    Message
+                </Button>
 
                 {/* Conditionally render the button or status based on connection status */}
                 {
                     (relationshipStatus === 'no_relationship') && (
                         <Button
                             onClick={() => handleSendConnectionRequest(userProfile._id)}
-                            className='bg-sky-500 text-white text-base font-semibold w-28 border border-sky-500 hover:bg-white hover:text-sky-500'
+                            className='rounded-lg bg-sky-500 text-white text-base font-semibold w-28 border border-sky-500 hover:bg-white hover:text-sky-500'
                         >
                             <FiPlus size={16} />Add
                         </Button>
@@ -66,7 +73,7 @@ const InteractionButtons = ({ user, userProfile, relationshipStatus }) => {
                     (relationshipStatus === 'connected') && (
                         <Button
                             onClick={() => handleRemoveConnection(userProfile._id)}
-                            className='bg-sky-500 text-white text-base font-semibold w-28 border border-sky-500 hover:bg-white hover:text-sky-500'
+                            className='rounded-lg bg-sky-500 text-white text-base font-semibold w-28 border border-sky-500 hover:bg-white hover:text-sky-500'
                         >
                             Remove
                         </Button>
@@ -76,7 +83,7 @@ const InteractionButtons = ({ user, userProfile, relationshipStatus }) => {
                     (relationshipStatus === 'request_sent') && (
                         <Button
                             onClick={() => handleDeleteConnectionRequest('delete', userProfile._id)}
-                            className='bg-sky-500 text-white text-base font-semibold w-28 border border-sky-500 hover:bg-white hover:text-sky-500'
+                            className='rounded-lg bg-sky-500 text-white text-base font-semibold w-28 border border-sky-500 hover:bg-white hover:text-sky-500'
                         >
                             Cancel
                         </Button>
@@ -87,13 +94,13 @@ const InteractionButtons = ({ user, userProfile, relationshipStatus }) => {
                         <div className=' flex gap-2 w-full'>
                             <Button
                                 onClick={() => handleAcceptConnectionRequest(userProfile._id)}
-                                className='bg-sky-500 text-white text-base font-semibold w-28 border border-sky-500 hover:bg-white hover:text-sky-500'
+                                className='rounded-lg bg-sky-500 text-white text-base font-semibold w-28 border border-sky-500 hover:bg-white hover:text-sky-500'
                             >
                                 Confirm
                             </Button>
                             <Button
                                 onClick={() => handleDeleteConnectionRequest('reject', userProfile._id)}
-                                className='bg-transparent text-sky-500 text-base font-semibold w-28 border border-sky-500 hover:bg-sky-500 hover:text-white'
+                                className='rounded-lg bg-transparent text-sky-500 text-base font-semibold w-28 border border-sky-500 hover:bg-sky-500 hover:text-white'
                             >
                                 Cancel
                             </Button>
@@ -101,6 +108,12 @@ const InteractionButtons = ({ user, userProfile, relationshipStatus }) => {
                     )
                 }
             </div>
+
+            <MessageModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                userProfile={userProfile}
+            />
         </>
     );
 };

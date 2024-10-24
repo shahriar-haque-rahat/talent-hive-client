@@ -8,6 +8,7 @@ import companyReducer from "./companySlice";
 import jobPostReducer from "./jobPostSlice";
 import connectionReducer from "./connectionSlice";
 import notificationReducer from "./notificationSlice";
+import chatListReducer from "./chatListSlice";
 
 const store = configureStore({
     reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
         jobPost: jobPostReducer,
         connection: connectionReducer,
         notification: notificationReducer,
+        chatList: chatListReducer,
     }
 })
 

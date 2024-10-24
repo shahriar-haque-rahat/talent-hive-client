@@ -14,7 +14,7 @@ const navItems = [
     { path: '/', label: 'Home', icon: <FaHome size={22} /> },
     { path: '/jobs', label: 'Jobs', icon: <MdWork size={22} /> },
     { path: '/my-connections', label: 'My Connections', icon: <TiGroup size={22} /> },
-    { path: '/messaging', label: 'Messaging', icon: <MdMessage size={22} /> },
+    { path: `/messaging?userId=${null}&contactId=${null}`, label: 'Messaging', icon: <MdMessage size={22} /> },
     { path: '/notifications', label: 'Notifications', icon: <IoNotificationsSharp size={22} /> },
 ];
 

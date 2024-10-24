@@ -61,6 +61,10 @@ const NotificationList = () => {
         router.push(`/post-details?id=${postId}`);
     };
 
+    const handleProfile = (userId) => {
+        router.push(`/profile?id=${userId}`);
+    }
+
     const getIcon = (type: string, senderProfileImage: string) => {
         switch (type) {
             case 'like':
@@ -105,7 +109,12 @@ const NotificationList = () => {
                             {/* Notification Content */}
                             <div className="flex-1">
                                 <p className="text-gray-700">
-                                    <strong>{notification.sender.fullName}</strong>
+                                    <strong
+                                        className="cursor-pointer text-sky-500 hover:underline"
+                                        onClick={() => handleProfile(notification.sender._id)}
+                                    >
+                                        {notification.sender.fullName}
+                                    </strong>
                                     {notification.type === 'like' && ' liked your '}
                                     {notification.type === 'comment' && ' commented on your '}
                                     {notification.type === 'share' && ' shared your '}

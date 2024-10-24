@@ -1,19 +1,10 @@
-import React, { useState } from 'react';
-import PostDetailsModal from '../../post-details/PostDetailsModal';
+import React from 'react';
 import UserInfoSection from '../../shared/UserInfoSection';
 import MediaSection from './shared-components-for-post/MediaSection';
+import { useRouter } from 'next/navigation';
 
 const SharedPostContent = ({ user, sharedPostContent: post }) => {
-    const [openPostDetails, setOpenPostDetails] = useState({ isOpen: false, user: null, postId: null, currentImageIndex: 0 });
-
-    // Post Details
-    const openPostDetailsModal = (postId, index) => {
-        setOpenPostDetails({ isOpen: true, user, postId, currentImageIndex: index });
-    };
-
-    const closePostDetailsModal = () => {
-        setOpenPostDetails({ isOpen: false, user: null, postId: null, currentImageIndex: 0 });
-    }
+    const router = useRouter();
 
     // Content
     const renderContent = (content) => {
@@ -24,7 +15,7 @@ const SharedPostContent = ({ user, sharedPostContent: post }) => {
                 <>
                     {words.slice(0, 20).join(' ') + '...'}
                     <span
-                        onClick={() => openPostDetailsModal(post._id, 0)}
+                        onClick={() => handlePostDetails(post._id)}
                         className="text-blue-500 cursor-pointer ml-1"
                     >
                         {'Read more'}
@@ -34,6 +25,10 @@ const SharedPostContent = ({ user, sharedPostContent: post }) => {
         }
         return content;
     };
+
+    const handlePostDetails = (postId: string) => {
+        router.push(`/post-details?id=${postId}`);
+    }
 
     return (
         <>
@@ -46,22 +41,14 @@ const SharedPostContent = ({ user, sharedPostContent: post }) => {
 
                             {/* Content */}
                             <div className='p-3'>
-                                <p>{renderContent(post.content)}</p>
+                                <p onClick={() => handlePostDetails(post._id)} className=' cursor-pointer'>
+                                    {renderContent(post.content)}
+                                </p>
                             </div>
                         </div>
 
                         {/* Display media files */}
                         <MediaSection media={post.media} postId={post._id} user={user} />
-
-                        {openPostDetails.isOpen &&
-                            <PostDetailsModal
-                                isOpen={openPostDetails.isOpen}
-                                onClose={closePostDetailsModal}
-                                user={user}
-                                postId={openPostDetails.postId}
-                                initialIndex={openPostDetails.currentImageIndex}
-                            />
-                        }
                     </div>
                     :
                     <div className="border-b-0 border border-gray-300 rounded-t-lg m-4 mb-0 bg-white p-4">

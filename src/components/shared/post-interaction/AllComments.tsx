@@ -3,7 +3,7 @@ import { deleteComment, getComments, updateComment } from '@/apiFunctions/postIn
 import { Image } from '@nextui-org/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setComments, removeComment, editComment } from '@/redux/commentSlice';
-import ConfirmationModal from '@/shared/ConfirmationModal';
+import ConfirmationModal from '@/components/shared/ConfirmationModal';
 import { updatePostOnInteraction } from '@/redux/postSlice';
 
 // TODO: loading skeleton while comments fetching 

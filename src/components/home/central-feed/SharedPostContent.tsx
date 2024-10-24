@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PostDetailsModal from './post-details/PostDetailsModal';
+import PostDetailsModal from '../../post-details/PostDetailsModal';
 import UserInfoSection from './shared-components-for-post/UserInfoSection';
 import MediaSection from './shared-components-for-post/MediaSection';
 

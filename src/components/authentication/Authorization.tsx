@@ -4,7 +4,7 @@ import { clearCookies, getServerSession, getToken } from "@/actions/auth";
 import { publicRoutes, restrictedAfterLoginRoutes } from "@/actions/routes";
 import { startLoading, stopLoading } from "@/redux/loadingSlice";
 import { addAuthorizedUser } from "@/redux/userSlice";
-import FullScreenLoading from "@/shared/FullScreenLoading";
+import FullScreenLoading from "@/components/shared/FullScreenLoading";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
 import React, { ReactNode, useEffect } from 'react';

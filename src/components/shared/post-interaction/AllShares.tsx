@@ -4,9 +4,9 @@ import { MdClose } from 'react-icons/md';
 import { getPostShares } from '@/apiFunctions/postData';
 import { addCachePost, selectManyPostById } from '@/redux/postSlice';
 import { Image } from '@nextui-org/react';
-import SharedPostContent from '../SharedPostContent';
-import UserInfoSection from '../shared-components-for-post/UserInfoSection';
-import ContentSection from '../shared-components-for-post/ContentSection';
+import SharedPostContent from '../../home/central-feed/SharedPostContent';
+import UserInfoSection from '../../home/central-feed/shared-components-for-post/UserInfoSection';
+import ContentSection from '../../home/central-feed/shared-components-for-post/ContentSection';
 
 // TODO: loading skeleton while share posts fetching  
 const AllShares = ({ openShareList, toggleOpenShareList, post }) => {

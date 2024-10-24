@@ -2,7 +2,7 @@ import React, { useState, FormEventHandler, useContext, useEffect, useRef } from
 import { MdClose, MdFileUpload } from 'react-icons/md';
 import { AuthContext } from '@/provider/AuthProvider';
 import toast from 'react-hot-toast';
-import ConfirmationModal from '@/shared/ConfirmationModal';
+import ConfirmationModal from '@/components/shared/ConfirmationModal';
 import { createPost, updatePost } from '@/apiFunctions/postData';
 import { useDispatch } from 'react-redux';
 import { addPost, editPost } from '@/redux/postSlice';

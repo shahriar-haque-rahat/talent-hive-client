@@ -7,7 +7,7 @@ import { BiBookmarkAlt, BiCommentDetail, BiLike, BiShare, BiSolidBookmarkAlt, Bi
 import AllLikes from './AllLikes';
 import CommentSection from './CommentSection';
 import AllComments from './AllComments';
-import ShareModal from '../posting/ShareModal';
+import ShareModal from '../../home/central-feed/posting/ShareModal';
 import AllShares from './AllShares';
 
 const PostInteractionSection = ({ user, post, isModalView = false }) => {

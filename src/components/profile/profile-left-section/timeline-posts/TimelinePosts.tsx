@@ -12,7 +12,7 @@ import EditAndDeletePost from '@/components/home/central-feed/posting/EditAndDel
 import ContentSection from '@/components/home/central-feed/shared-components-for-post/ContentSection';
 import MediaSection from '@/components/home/central-feed/shared-components-for-post/MediaSection';
 import SharedPostContent from '@/components/home/central-feed/SharedPostContent';
-import PostInteractionSection from '@/components/home/central-feed/post-interaction/PostInteractionSection';
+import PostInteractionSection from '@/components/shared/post-interaction/PostInteractionSection';
 
 const TimelinePosts = () => {
     const dispatch = useDispatch();

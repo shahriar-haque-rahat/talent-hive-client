@@ -4,7 +4,7 @@ import { MdClose, MdFileUpload } from 'react-icons/md';
 import { useEdgeStore } from '@/edgestore/edgestore';
 import toast from 'react-hot-toast';
 import { createCompany, updateCompany } from '@/apiFunctions/companyData';
-import ConfirmationModal from '@/shared/ConfirmationModal';
+import ConfirmationModal from '@/components/shared/ConfirmationModal';
 
 interface CompanyFormData {
     employerId: string;

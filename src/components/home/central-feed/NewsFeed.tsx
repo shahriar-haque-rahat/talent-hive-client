@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CiMenuKebab } from 'react-icons/ci';
 import EditAndDeletePost from './posting/EditAndDeletePost';
 import SharedPostContent from './SharedPostContent';
-import PostInteractionSection from './post-interaction/PostInteractionSection';
+import PostInteractionSection from '../../shared/post-interaction/PostInteractionSection';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { getPosts } from '@/apiFunctions/postData';
 import { setPosts, setPostsPage } from '@/redux/postSlice';

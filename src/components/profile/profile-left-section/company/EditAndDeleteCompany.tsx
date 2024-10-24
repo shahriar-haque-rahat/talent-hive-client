@@ -1,6 +1,6 @@
 import { deleteCompany } from '@/apiFunctions/companyData';
 import { useEdgeStore } from '@/edgestore/edgestore';
-import ConfirmationModal from '@/shared/ConfirmationModal';
+import ConfirmationModal from '@/components/shared/ConfirmationModal';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 

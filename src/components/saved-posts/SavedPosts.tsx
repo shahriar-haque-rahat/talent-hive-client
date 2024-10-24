@@ -7,7 +7,7 @@ import SharedPostContent from '../home/central-feed/SharedPostContent';
 import { useSelector } from 'react-redux';
 import MediaSection from '../home/central-feed/shared-components-for-post/MediaSection';
 import { BiSolidBookmarkAlt } from 'react-icons/bi';
-import ConfirmationModal from '@/shared/ConfirmationModal';
+import ConfirmationModal from '@/components/shared/ConfirmationModal';
 
 const SavedPosts = ({ userId, openSaveList, setOpenSaveList }) => {
     const user = useSelector((state) => state.user.user);

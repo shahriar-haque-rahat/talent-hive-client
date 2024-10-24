@@ -1,7 +1,7 @@
 'use client'
 
 import { deleteJobPost } from '@/apiFunctions/jobpostData';
-import ConfirmationModal from '@/shared/ConfirmationModal';
+import ConfirmationModal from '@/components/shared/ConfirmationModal';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';

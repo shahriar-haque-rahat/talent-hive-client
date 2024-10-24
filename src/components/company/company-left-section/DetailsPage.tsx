@@ -10,7 +10,7 @@ import { BsDot } from "react-icons/bs";
 import CompanyJobs from './CompanyJobs';
 import InteractionButtons from './InteractionButtons';
 import { useSelector } from 'react-redux';
-import ConfirmationModal from '@/shared/ConfirmationModal';
+import ConfirmationModal from '@/components/shared/ConfirmationModal';
 import { useEdgeStore } from '@/edgestore/edgestore';
 import { useRouter } from 'next/navigation';
 import CompanyPostingModal from '@/components/profile/profile-left-section/company/CompanyPostingModal';

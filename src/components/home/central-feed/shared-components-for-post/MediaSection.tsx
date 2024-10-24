@@ -1,6 +1,6 @@
 import { Image } from '@nextui-org/react';
 import React, { useState } from 'react';
-import PostDetailsModal from '../post-details/PostDetailsModal';
+import PostDetailsModal from '../../../post-details/PostDetailsModal';
 
 const MediaSection = ({ media, postId, user }) => {
     const [openPostDetails, setOpenPostDetails] = useState({ isOpen: false, user: null, postId: null, currentImageIndex: 0 });

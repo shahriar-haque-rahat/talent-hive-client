@@ -78,7 +78,7 @@ const Login = () => {
 
                             <Button type="submit" className=' bg-sky-500 text-white rounded-lg w-full mt-6 border border-sky-500 hover:bg-white hover:text-sky-500'>Login</Button>
                         </form>
-                        <Link href='/forgot-password' className=' cursor-pointer mt-4 text-sky-500 font-semibold hover:text-sky-600'>Forgot Password</Link>
+                        <Link href='/forgot-password' className=' cursor-pointer mt-4 text-sky-500 font-semibold hover:text-sky-600 w-fit'>Forgot Password</Link>
                     </div>
 
                     <div className="w-full md:w-1/2 bg-gradient-to-br from-sky-600 to-sky-400 text-white p-8 flex flex-col justify-center items-center rounded-r-lg">

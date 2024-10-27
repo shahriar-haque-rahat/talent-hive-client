@@ -62,7 +62,7 @@ const ContactList = () => {
                         </div>
                     ))
                 ) : (
-                    <div>No contacts found.</div>
+                    <div className=' pl-4 pt-2'>No contacts found.</div>
                 )}
             </div>
         </div>

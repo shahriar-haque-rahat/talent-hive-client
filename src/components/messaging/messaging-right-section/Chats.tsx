@@ -1,12 +1,9 @@
-import { addChatContact, updateChatContact } from '@/redux/chatListSlice';
 import { Image } from '@nextui-org/react';
 import React, { useEffect, useState, useRef } from 'react';
 import { LuSendHorizonal } from 'react-icons/lu';
-import { useDispatch } from 'react-redux';
 import socket from '@/web-socket/socket';
 
-const Chats = ({ chats, userId, contactId, setChats }) => {
-    const dispatch = useDispatch();
+const Chats = ({ chats, userId, contactId }) => {
     const [message, setMessage] = useState('');
     const chatContainerRef = useRef(null);
 
@@ -28,53 +25,6 @@ const Chats = ({ chats, userId, contactId, setChats }) => {
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
     };
-
-    useEffect(() => {
-        const handleNewMessage = (updatedConversation) => {
-            const lastMessageData = updatedConversation.messages[updatedConversation.messages.length - 1];
-
-            const otherUser = lastMessageData.sender._id === userId
-                ? updatedConversation.user1._id === userId
-                    ? updatedConversation.user2
-                    : updatedConversation.user1
-                : lastMessageData.sender;
-
-            dispatch(updateChatContact({
-                otherUserId: otherUser._id,
-                lastMessage: lastMessageData.message,
-                lastMessageTime: lastMessageData.createdAt,
-                otherUserProfileImage: otherUser.profileImage,
-                otherUserFullName: otherUser.fullName,
-            }));
-
-            if (otherUser._id === contactId) {
-                setChats(updatedConversation.messages);
-            }
-        };
-
-        const handleNewConversation = async (conversation) => {
-            if (conversation.user1._id === userId || conversation.user2._id === userId) {
-                setChats(conversation.messages);
-
-                const contact = conversation.user1._id === userId ? conversation.user2 : conversation.user1;
-                dispatch(addChatContact({
-                    otherUserId: contact._id,
-                    lastMessage: conversation.messages[conversation.messages.length - 1].message,
-                    lastMessageTime: conversation.messages[conversation.messages.length - 1].createdAt,
-                    otherUserProfileImage: contact.profileImage,
-                    otherUserFullName: contact.fullName,
-                }));
-            }
-        };
-
-        socket.on('message', handleNewMessage);
-        socket.on('newConversation', handleNewConversation);
-
-        return () => {
-            socket.off('message', handleNewMessage);
-            socket.off('newConversation', handleNewConversation);
-        };
-    }, [contactId, userId]);
 
     useEffect(() => {
         scrollToBottom();

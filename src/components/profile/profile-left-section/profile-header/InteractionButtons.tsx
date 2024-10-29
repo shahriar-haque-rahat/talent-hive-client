@@ -6,11 +6,23 @@ import { useDispatch } from 'react-redux';
 import { setConnectionStatus } from '@/redux/connectionSlice';
 import { editUserProfile } from '@/redux/userSlice';
 import { createUserConnectionRequestedEvent } from '@/event-emitter/events';
-import MessageModal from './MessageModal';
+import { useRouter } from 'next/navigation';
+import { getOrCreateConversation } from '@/apiFunctions/messagingData';
+import socket from '@/web-socket/socket';
 
 const InteractionButtons = ({ user, userProfile, relationshipStatus }) => {
     const dispatch = useDispatch();
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const router = useRouter();
+
+    const handleSelectContact = async (contactId) => {
+        const conversation = await getOrCreateConversation(user._id, contactId);
+    
+        if (conversation) {
+            socket.emit('newConversation', conversation);
+    
+            router.push(`/messaging?userId=${user._id}&contactId=${contactId}`);
+        }
+    };    
 
     // connection interactions
     const handleSendConnectionRequest = async (receiverId: string) => {
@@ -53,7 +65,7 @@ const InteractionButtons = ({ user, userProfile, relationshipStatus }) => {
         <>
             <div className='flex justify-center items-center gap-8 '>
                 <Button
-                    onClick={() => setIsModalOpen(true)}
+                    onClick={() => handleSelectContact(userProfile._id)}
                     className='rounded-lg  bg-transparent text-sky-500 text-base font-semibold w-28 border border-sky-500 hover:bg-sky-500 hover:text-white'>
                     Message
                 </Button>
@@ -108,12 +120,6 @@ const InteractionButtons = ({ user, userProfile, relationshipStatus }) => {
                     )
                 }
             </div>
-
-            <MessageModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                userProfile={userProfile}
-            />
         </>
     );
 };

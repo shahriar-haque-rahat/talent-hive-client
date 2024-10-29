@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const chatListSlice = createSlice({
     name: 'chatList',
@@ -7,56 +7,32 @@ const chatListSlice = createSlice({
     },
     reducers: {
         setChatList: (state, action) => {
-            state.chatList = action.payload.sort((a, b) => new Date(b.lastMessageTime) - new Date(a.lastMessageTime));
+            state.chatList = action.payload.sort(
+                (a, b) => new Date(b.lastMessageTime) - new Date(a.lastMessageTime)
+            );
         },
         addChatContact: (state, action) => {
-            const contactIndex = state.chatList.findIndex(contact => contact.otherUserId === action.payload.otherUserId);
+            const existingContact = state.chatList.find(
+                (contact) => contact.otherUserId === action.payload.otherUserId
+            );
 
-            if (contactIndex === -1) {
-                state.chatList.push({
-                    otherUserId: action.payload.otherUserId,
-                    lastMessage: action.payload.lastMessage || '',
-                    lastMessageTime: action.payload.lastMessageTime || new Date().toISOString(),
-                    otherUserProfileImage: action.payload.otherUserProfileImage || '',
-                    otherUserFullName: action.payload.otherUserFullName || '',
-                });
-            } else {
-                state.chatList[contactIndex] = {
-                    ...state.chatList[contactIndex],
-                    lastMessage: action.payload.lastMessage,
-                    lastMessageTime: action.payload.lastMessageTime,
-                };
+            if (!existingContact) {
+                state.chatList.unshift(action.payload);
             }
-
-            state.chatList.sort((a, b) => new Date(b.lastMessageTime) - new Date(a.lastMessageTime));
         },
         updateChatContact: (state, action) => {
-            const contactIndex = state.chatList.findIndex(contact => contact.otherUserId === action.payload.otherUserId);
+            const index = state.chatList.findIndex(
+                (contact) => contact.otherUserId === action.payload.otherUserId
+            );
 
-            if (contactIndex !== -1) {
-                state.chatList[contactIndex] = {
-                    ...state.chatList[contactIndex],
-                    lastMessage: action.payload.lastMessage,
-                    lastMessageTime: action.payload.lastMessageTime,
-                };
-            } else {
-                state.chatList.push({
-                    otherUserId: action.payload.otherUserId,
-                    lastMessage: action.payload.lastMessage,
-                    lastMessageTime: action.payload.lastMessageTime,
-                    otherUserProfileImage: action.payload.otherUserProfileImage || '',
-                    otherUserFullName: action.payload.otherUserFullName || '',
-                });
+            if (index !== -1) {
+                state.chatList.splice(index, 1);
             }
 
-            state.chatList.sort((a, b) => new Date(b.lastMessageTime) - new Date(a.lastMessageTime));
-        },
-        deleteChatContact: (state, action) => {
-            state.chatList = state.chatList.filter(contact => contact.otherUserId !== action.payload);
+            state.chatList.unshift(action.payload);
         },
     },
 });
 
-export const { setChatList, addChatContact, updateChatContact, deleteChatContact } = chatListSlice.actions;
-
+export const { setChatList, addChatContact, updateChatContact } = chatListSlice.actions;
 export default chatListSlice.reducer;

@@ -5,12 +5,12 @@ import { getConversation, sendMessage } from '@/apiFunctions/messagingData';
 import Chats from './Chats';
 import { Image } from '@nextui-org/react';
 
-interface Conversation {
+interface ConversationInterface {
     userId: string
     contactId: string
 }
 
-const Conversation = ({ userId, contactId }: Conversation) => {
+const Conversation = ({ userId, contactId }: ConversationInterface) => {
     const [chats, setChats] = useState([]);
     const [contactPerson, setContactPerson] = useState(null);
 
@@ -28,7 +28,7 @@ const Conversation = ({ userId, contactId }: Conversation) => {
     };
 
     useEffect(() => {
-        if (userId !== null && contactId !== null) {
+        if (userId && contactId) {
             fetchChats();
         }
     }, [userId, contactId]);

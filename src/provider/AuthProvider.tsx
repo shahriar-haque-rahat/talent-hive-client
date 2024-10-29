@@ -1,6 +1,6 @@
 'use client'
 
-import { clearCookies, setSession } from '@/actions/auth';
+import { clearCookies, getToken, setSession } from '@/actions/auth';
 import { publicRoutes } from '@/actions/routes';
 import { clearUser } from '@/redux/userSlice';
 import { AuthContextValues, AuthProviderProps, LoginData, RegisterData } from '@/types/auth/auth.types';
@@ -69,9 +69,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
                 });
             }
         }
-        catch (error) {
-            console.error(error);
-            toast.error('Account activation failed')
+        catch (error: any) {
+            console.error(error.message);
+            toast.error('Account activation failed', error.message)
         }
     }
 
@@ -120,7 +120,16 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
                 sessionStorage.removeItem('redirectAfterLogin');
             }
 
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/logout`);
+            const token = await getToken();
+
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/logout`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
 
             if (response.data.success) {
                 await clearCookies();

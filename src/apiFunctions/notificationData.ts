@@ -13,6 +13,17 @@ export const getNotifications = async (userId: string, page: number, limit: numb
     }
 };
 
+export const getNotificationCount = async (userId: string) => {
+    try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/notifications/${userId}/unread-count`);
+
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching notification count:', error);
+        return [];
+    }
+};
+
 export const createNotification = async (notificationData: { type: string; recipient: string; sender: string; postId?: string; jobId?: string }) => {
     try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/notifications`, notificationData);

@@ -1,9 +1,9 @@
 'use client';
 
-import { getNotifications, markNotificationAsRead, deleteNotification as apiDeleteNotification, markAllNotificationsAsRead } from '@/apiFunctions/notificationData';
+import { getNotifications, markNotificationAsRead, deleteNotification as apiDeleteNotification, markAllNotificationsAsRead, getNotificationCount } from '@/apiFunctions/notificationData';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNotifications, updateNotification, deleteNotification, updateMultipleNotifications } from '@/redux/notificationSlice';
+import { setNotifications, updateNotification, deleteNotification, updateMultipleNotifications, setNotificationCount } from '@/redux/notificationSlice';
 import { formatDistanceToNow } from 'date-fns';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { BiCommentDetail, BiLike, BiShare } from 'react-icons/bi';
@@ -44,17 +44,26 @@ const NotificationList = () => {
         const updatedNotification = await markNotificationAsRead(notificationId);
         dispatch(updateNotification(updatedNotification));
         setSelectedNotification(null);
+
+        const response = await getNotificationCount(user._id);
+        dispatch(setNotificationCount(response.count));
     };
 
     const handleMarkAllAsRead = async () => {
         const updatedNotifications = await markAllNotificationsAsRead(user._id);
         dispatch(updateMultipleNotifications(updatedNotifications));
+
+        const response = await getNotificationCount(user._id);
+        dispatch(setNotificationCount(response.count));
     };
 
     const handleDeleteNotification = async (notificationId: string) => {
         await apiDeleteNotification(notificationId);
         dispatch(deleteNotification(notificationId));
         setSelectedNotification(null);
+
+        const response = await getNotificationCount(user._id);
+        dispatch(setNotificationCount(response.count));
     };
 
     const handlePostDetails = (postId: string) => {

@@ -2,20 +2,21 @@
 
 import React, { useEffect, useRef } from 'react';
 import { FaHome } from 'react-icons/fa';
-import { MdWork, MdMessage } from 'react-icons/md';
-import { TiGroup } from "react-icons/ti";
-import { IoNotificationsSharp } from 'react-icons/io5';
+import { MdWork } from 'react-icons/md';
+import { TiGroup } from 'react-icons/ti';
 import { usePathname } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleMenu } from '@/redux/navbarSlice';
 import Link from 'next/link';
+import MessagingBadge from './icon-with-badge/MessagingBadge';
+import NotificationsBadge from './icon-with-badge/NotificationsBadge';
 
 const navItems = [
     { path: '/', label: 'Home', icon: <FaHome size={22} /> },
     { path: '/jobs', label: 'Jobs', icon: <MdWork size={22} /> },
     { path: '/my-connections', label: 'My Connections', icon: <TiGroup size={22} /> },
-    { path: '/messaging', label: 'Messaging', icon: <MdMessage size={22} /> },
-    { path: '/notifications', label: 'Notifications', icon: <IoNotificationsSharp size={22} /> },
+    { path: '/messaging', label: 'Messaging', icon: <MessagingBadge /> },
+    { path: '/notifications', label: 'Notifications', icon: <NotificationsBadge /> },
 ];
 
 const NavItem = ({ path, label, icon, onClick }: any) => {
@@ -74,7 +75,7 @@ const NavbarItems = () => {
             </ul>
 
             {/* large device */}
-            <ul className="hidden lg:flex gap-4 font-semibold relative">
+            <ul className="hidden lg:flex gap-10 font-semibold relative">
                 {navItems.map(item => (
                     <NavItem key={item.path} {...item} />
                 ))}

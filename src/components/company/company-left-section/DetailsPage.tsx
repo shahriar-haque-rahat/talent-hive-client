@@ -29,6 +29,10 @@ const DetailsPage = ({ id }: CompanyDetails) => {
     const [companyToDelete, setCompanyToDelete] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const handleProfile = (userId) => {
+        router.push(`/profile?id=${userId}`);
+    }
+
     const fetchCompanyDetails = async () => {
         const res = await findCompanyById(id, user._id);
 
@@ -102,11 +106,11 @@ const DetailsPage = ({ id }: CompanyDetails) => {
                         }
 
                         <div key={company._id} className='flex gap-3 xl:gap-6 '>
-                            <div className='flex-shrink-0 w-32 h-32 my-auto'>
+                            <div className='flex-shrink-0 w-40 h-40 my-auto'>
                                 <Image
                                     src={company.companyProfileImage ? company.companyProfileImage : "/assets/user.png"}
                                     alt="Profile"
-                                    className="rounded-lg w-32 h-32 border-2 border-white object-cover object-top"
+                                    className="rounded-lg w-40 h-40 border-2 border-white object-cover object-top"
                                 />
                             </div>
 
@@ -114,6 +118,7 @@ const DetailsPage = ({ id }: CompanyDetails) => {
                                 <h1 className=' text-2xl font-semibold'>{company.companyName}</h1>
                                 <p className='text-lg'>{company.companyEmail}</p>
                                 <p>{company.companyContactNumber}</p>
+                                <p onClick={() => handleProfile(company.employerId._id)} className='cursor-pointer hover:underline'><span className='font-bold'>Founder: </span>{company.employerId.fullName}</p>
 
                                 <div className=' flex gap-2 items-start text-gray-700'>
                                     {company.facebookLink?.startsWith('http') ? (
@@ -168,7 +173,7 @@ const DetailsPage = ({ id }: CompanyDetails) => {
                     </div>
 
                     <div className='p-4 bg-white rounded-lg border shadow'>
-                        <span className='font-bold'>About: </span> {company.companyDescription}
+                        <p><span className='font-bold'>About: </span>{company.companyDescription}</p>
                     </div>
 
                     <CompanyJobs companyId={company._id} />

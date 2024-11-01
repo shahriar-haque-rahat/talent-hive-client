@@ -1,17 +1,17 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
-import { getConversation, sendMessage } from '@/apiFunctions/messagingData';
+import React, { useEffect, useState } from 'react';
+import { getConversation, markAsRead } from '@/apiFunctions/messagingData';
 import Chats from './Chats';
 import { Image } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
-import { addChatContact, updateChatContact } from '@/redux/chatListSlice';
+import { addChatContact, updateMessageReadStatus, updateChatContact } from '@/redux/chatListSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import socket from '@/web-socket/socket';
 
 interface ConversationInterface {
-    userId: string
-    contactId: string
+    userId: string;
+    contactId: string;
 }
 
 const Conversation = ({ userId, contactId }: ConversationInterface) => {
@@ -23,7 +23,7 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
 
     const handleProfile = () => {
         router.push(`/profile?id=${userId}`);
-    }
+    };
 
     const fetchChats = async () => {
         const conversation = await getConversation(userId, contactId);
@@ -35,19 +35,24 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
             if (contact) {
                 setContactPerson(contact);
             }
+
+            await markAsRead(userId, contactId, true);
+
+            dispatch(updateMessageReadStatus({
+                otherUserId: contactId,
+                lastMessageIsRead: true,
+            }));
         }
     };
 
     useEffect(() => {
-        const handleNewMessage = (updatedConversation) => {
+        const handleNewMessage = async (updatedConversation) => {
             const lastMessageData = updatedConversation.messages[updatedConversation.messages.length - 1];
-
             const userIDs = [updatedConversation.user1._id, updatedConversation.user2._id];
 
-            if (!userIDs.includes(user._id)) {
-                return;
-            }
+            if (!userIDs.includes(user._id)) return;
 
+            const isSender = lastMessageData.sender._id === user._id;
             const otherUser = lastMessageData.sender._id === userId
                 ? updatedConversation.user1._id === userId
                     ? updatedConversation.user2
@@ -58,9 +63,21 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
                 otherUserId: otherUser._id,
                 lastMessage: lastMessageData.message,
                 lastMessageTime: lastMessageData.createdAt,
+                lastMessageIsRead: isSender ? true : lastMessageData.isRead,
                 otherUserProfileImage: otherUser.profileImage,
                 otherUserFullName: otherUser.fullName,
             }));
+
+            if (!isSender) {
+                if (userId && contactId) {
+                    await markAsRead(userId, contactId, false);
+                }
+
+                dispatch(updateMessageReadStatus({
+                    otherUserId: contactId,
+                    lastMessageIsRead: true,
+                }));
+            }
 
             if (otherUser._id === contactId) {
                 setChats(updatedConversation.messages);
@@ -70,12 +87,12 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
         const handleNewConversation = async (conversation) => {
             if (conversation.user1._id === userId || conversation.user2._id === userId) {
                 setChats(conversation.messages);
-
                 const contact = conversation.user1._id === userId ? conversation.user2 : conversation.user1;
                 dispatch(addChatContact({
                     otherUserId: contact._id,
                     lastMessage: conversation.messages[conversation.messages.length - 1].message,
                     lastMessageTime: conversation.messages[conversation.messages.length - 1].createdAt,
+                    lastMessageIsRead: conversation.messages[conversation.messages.length - 1].isRead,
                     otherUserProfileImage: contact.profileImage,
                     otherUserFullName: contact.fullName,
                 }));
@@ -107,7 +124,7 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
                                 onClick={handleProfile}
                                 src={contactPerson.profileImage ? contactPerson.profileImage : "/assets/user.png"}
                                 alt="Profile"
-                                className=" cursor-pointer rounded-full w-12 h-12 border border-gray-300 object-cover object-top"
+                                className="cursor-pointer rounded-full w-12 h-12 border border-gray-300 object-cover object-top"
                             />
                         </div>
 

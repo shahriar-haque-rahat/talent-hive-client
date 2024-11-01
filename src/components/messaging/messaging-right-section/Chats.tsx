@@ -7,7 +7,7 @@ const Chats = ({ chats, userId, contactId }) => {
     const [message, setMessage] = useState('');
     const chatContainerRef = useRef(null);
 
-    const handleTexting = () => {
+    const handleTexting = async () => {
         if (!message.trim()) return;
 
         const newMessage = {
@@ -39,7 +39,7 @@ const Chats = ({ chats, userId, contactId }) => {
 
     return (
         <>
-            {(userId && contactId) ?
+            {(userId && contactId) ? (
                 <>
                     <div ref={chatContainerRef} className='flex flex-col h-[calc(100%-150px)] p-4 pt-0 overflow-y-scroll'>
                         <div className='flex-1 flex'>
@@ -47,7 +47,10 @@ const Chats = ({ chats, userId, contactId }) => {
                                 {chats.length > 0 ? (
                                     <div className="flex flex-col gap-2">
                                         {chats.map((chat, index) => (
-                                            <div key={index} className={`flex items-start ${chat.sender._id === userId ? 'self-end ml-32' : 'self-start mr-32'}`}>
+                                            <div
+                                                key={index}
+                                                className={`flex items-start ${chat.sender._id === userId ? 'self-end ml-32' : 'self-start mr-32'}`}
+                                            >
                                                 {chat.sender._id !== userId && (
                                                     <div className="mr-2 flex-shrink-0">
                                                         <Image
@@ -60,12 +63,19 @@ const Chats = ({ chats, userId, contactId }) => {
                                                     </div>
                                                 )}
                                                 <div className="flex-1">
-                                                    <div className={`w-full p-3 rounded-lg text-sm ${chat.sender._id === userId ? 'bg-sky-300' : 'bg-gray-200'}`}>
+                                                    <div
+                                                        className={`w-full p-3 rounded-lg text-sm ${chat.sender._id === userId ? 'bg-sky-300' : 'bg-gray-200'}`}
+                                                    >
                                                         {chat.message}
                                                     </div>
                                                     <div className='flex flex-col'>
                                                         <p className={`text-gray-500 text-xs ${chat.sender._id === userId ? 'self-end' : 'self-start'}`}>
                                                             {new Date(chat.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                            {chat.sender._id === userId && (
+                                                                <span className="ml-2 text-xs font-medium">
+                                                                    {chat.isRead ? 'Read' : 'Unread'}
+                                                                </span>
+                                                            )}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -73,7 +83,7 @@ const Chats = ({ chats, userId, contactId }) => {
                                         ))}
                                     </div>
                                 ) : (
-                                    <p className="text-center text-gray-600 text-xl">No message</p>
+                                    <p className="text-center text-gray-600 text-xl">No messages</p>
                                 )}
                             </div>
                         </div>
@@ -98,8 +108,9 @@ const Chats = ({ chats, userId, contactId }) => {
                         </div>
                     </div>
                 </>
-                : <p className="text-center text-gray-600 text-xl pt-20">No conversation</p>
-            }
+            ) : (
+                <p className="text-center text-gray-600 text-xl pt-20">No conversation</p>
+            )}
         </>
     );
 };

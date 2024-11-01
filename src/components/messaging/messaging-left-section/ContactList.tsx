@@ -44,25 +44,39 @@ const ContactList = () => {
             <p className='text-2xl font-bold h-20 p-4 border-b border-gray-300'>Chats</p>
             <div className='h-[calc(100vh-191px)] overflow-y-scroll rounded-bl-lg'>
                 {chatList.length > 0 ? (
-                    chatList.map((contact, index) => (
-                        <div
-                            key={index}
-                            className='flex gap-3 items-center p-4 border-b cursor-pointer hover:bg-gray-100'
-                            onClick={() => handleSelectContact(contact.otherUserId)}
-                        >
-                            <Image
-                                src={contact.otherUserProfileImage}
-                                alt={contact.otherUserFullName}
-                                className="rounded-full border-2 border-white cursor-pointer w-14 h-14 object-cover object-top"
-                            />
-                            <div>
-                                <p className='font-bold'>{contact.otherUserFullName}</p>
-                                <p className='text-gray-500 text-sm'>{contact.lastMessage}</p>
+                    chatList.map((contact, index) => {
+                        const isUnread = contact.senderId !== user._id && !contact.lastMessageIsRead;
+                        
+                        return (
+                            <div
+                                key={index}
+                                className={`flex gap-3 items-center p-4 border-y cursor-pointer hover:bg-gray-100 border-l-4 ${isUnread
+                                    ? 'font-bold bg-sky-100 border-sky-500'
+                                    : 'border-slate-200'
+                                }`}
+                                onClick={() => handleSelectContact(contact.otherUserId)}
+                            >
+                                <Image
+                                    src={contact.otherUserProfileImage}
+                                    alt={contact.otherUserFullName}
+                                    className="rounded-full border-2 border-white cursor-pointer w-14 h-14 object-cover object-top"
+                                />
+                                <div className="flex flex-col">
+                                    <p className={`${isUnread ? 'text-sky-800 font-semibold' : ''}`}>
+                                        {contact.otherUserFullName}
+                                    </p>
+                                    <p className={`text-gray-500 text-sm ${isUnread ? 'font-semibold text-sky-700' : ''}`}>
+                                        {contact.lastMessage}
+                                    </p>
+                                </div>
+                                {isUnread && (
+                                    <span className="ml-auto bg-sky-500 rounded-full h-3 w-3"></span>
+                                )}
                             </div>
-                        </div>
-                    ))
+                        );
+                    })
                 ) : (
-                    <div className=' pl-4 pt-2'>No contacts found.</div>
+                    <div className='pl-4 pt-2'>No contacts found.</div>
                 )}
             </div>
         </div>

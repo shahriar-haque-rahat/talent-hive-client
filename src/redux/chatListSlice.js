@@ -31,8 +31,17 @@ const chatListSlice = createSlice({
 
             state.chatList.unshift(action.payload);
         },
+        updateMessageReadStatus: (state, action) => {
+            const contact = state.chatList.find(
+                (contact) => contact.otherUserId === action.payload.otherUserId
+            );
+
+            if (contact) {
+                contact.lastMessageIsRead = action.payload.lastMessageIsRead;
+            }
+        },
     },
 });
 
-export const { setChatList, addChatContact, updateChatContact } = chatListSlice.actions;
+export const { setChatList, addChatContact, updateChatContact, updateMessageReadStatus } = chatListSlice.actions;
 export default chatListSlice.reducer;

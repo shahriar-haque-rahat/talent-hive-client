@@ -43,3 +43,16 @@ export const sendMessage = async (messageData: any) => {
         return null;
     }
 };
+
+export const markAsRead = async (userId: string, contactId: string, markAll: boolean) => {
+    try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_CHAT_URL}/conversation/mark-as-read`,
+            { userId, contactId, markAll }
+        );
+
+        return response.data;
+    } catch (error) {
+        console.error('Error marking messages as read:', error);
+        throw error;
+    }
+};

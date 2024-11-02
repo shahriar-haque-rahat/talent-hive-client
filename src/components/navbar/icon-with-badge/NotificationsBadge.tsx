@@ -27,10 +27,10 @@ const NotificationsBadge = () => {
     return (
         <Badge
             content={unreadCount}
-            color="primary"
             placement="top-right"
             shape="circle"
             size="sm"
+            className='bg-sky-600 text-white'
         >
             <IoNotificationsSharp size={22} />
         </Badge>

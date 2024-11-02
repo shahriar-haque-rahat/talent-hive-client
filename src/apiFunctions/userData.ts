@@ -1,5 +1,19 @@
 import axios from "axios"
 
+export const getUserByName = async (name: string) => {
+    try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/search-by-name`, {
+            params: { name },
+        });
+        const users = response.data;
+
+        return users;
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        return [];
+    }
+};
+
 export const getUsers = async (userId: string, limit: number, page: number) => {
     try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/all-user/${userId}`, {

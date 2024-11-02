@@ -35,11 +35,12 @@ const chatListSlice = createSlice({
             const contact = state.chatList.find(
                 (contact) => contact.otherUserId === action.payload.otherUserId
             );
-
+        
             if (contact) {
                 contact.lastMessageIsRead = action.payload.lastMessageIsRead;
+                contact.unreadCount = action.payload.unreadCount !== undefined ? action.payload.unreadCount : contact.unreadCount;
             }
-        },
+        },        
     },
 });
 

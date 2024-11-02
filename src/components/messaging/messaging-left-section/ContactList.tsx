@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getChatList } from '@/apiFunctions/messagingData';
 import { useRouter } from 'next/navigation';
 import { Image } from '@nextui-org/react';
-import { setChatList } from '@/redux/chatListSlice';
+import { setChatList, updateMessageReadStatus } from '@/redux/chatListSlice';
+import socket from '@/web-socket/socket';
+import UserSearch from './UserSearch';
 
 const ContactList = () => {
     const dispatch = useDispatch();
@@ -35,6 +37,16 @@ const ContactList = () => {
         router.push(`/messaging?userId=${user._id}&contactId=${contactId}`);
     };
 
+    const openConversation = (contactId: string) => {
+        socket.emit('openConversation', { userId: user._id, contactId });
+
+        dispatch(updateMessageReadStatus({
+            otherUserId: contactId,
+            lastMessageIsRead: true,
+            unreadCount: 0,
+        }));
+    };
+
     if (loading) {
         return <div>Loading chatList...</div>;
     }
@@ -42,19 +54,26 @@ const ContactList = () => {
     return (
         <div className='bg-white rounded-lg border shadow h-[calc(100vh-110px)]'>
             <p className='text-2xl font-bold h-20 p-4 border-b border-gray-300'>Chats</p>
-            <div className='h-[calc(100vh-191px)] overflow-y-scroll rounded-bl-lg'>
+            
+            <UserSearch/>
+            
+            <div className='h-[calc(100vh-238px)] overflow-y-scroll rounded-bl-lg'>
                 {chatList.length > 0 ? (
                     chatList.map((contact, index) => {
                         const isUnread = contact.senderId !== user._id && !contact.lastMessageIsRead;
-                        
+
                         return (
                             <div
                                 key={index}
                                 className={`flex gap-3 items-center p-4 border-y cursor-pointer hover:bg-gray-100 border-l-4 ${isUnread
                                     ? 'font-bold bg-sky-100 border-sky-500'
                                     : 'border-slate-200'
-                                }`}
-                                onClick={() => handleSelectContact(contact.otherUserId)}
+                                    }`}
+                                onClick={() => {
+                                    handleSelectContact(contact.otherUserId);
+                                    openConversation(contact.otherUserId);
+                                }}
+
                             >
                                 <Image
                                     src={contact.otherUserProfileImage}
@@ -69,8 +88,10 @@ const ContactList = () => {
                                         {contact.lastMessage}
                                     </p>
                                 </div>
-                                {isUnread && (
-                                    <span className="ml-auto bg-sky-500 rounded-full h-3 w-3"></span>
+                                {contact.unreadCount > 0 && (
+                                    <span className="ml-auto bg-sky-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs font-semibold">
+                                        {contact.unreadCount}
+                                    </span>
                                 )}
                             </div>
                         );

@@ -22,7 +22,7 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
     const router = useRouter();
 
     const handleProfile = () => {
-        router.push(`/profile?id=${userId}`);
+        router.push(`/profile?id=${contactId}`);
     };
 
     const fetchChats = async () => {
@@ -41,6 +41,7 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
             dispatch(updateMessageReadStatus({
                 otherUserId: contactId,
                 lastMessageIsRead: true,
+                unreadCount: 0,
             }));
         }
     };
@@ -59,6 +60,10 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
                     : updatedConversation.user1
                 : lastMessageData.sender;
 
+            const unreadCount = updatedConversation.messages.filter(
+                (message) => message.sender._id === otherUser._id && !message.isRead
+            ).length;
+
             dispatch(updateChatContact({
                 otherUserId: otherUser._id,
                 lastMessage: lastMessageData.message,
@@ -66,6 +71,7 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
                 lastMessageIsRead: isSender ? true : lastMessageData.isRead,
                 otherUserProfileImage: otherUser.profileImage,
                 otherUserFullName: otherUser.fullName,
+                unreadCount: isSender ? 0 : unreadCount,
             }));
 
             if (!isSender) {
@@ -76,6 +82,7 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
                 dispatch(updateMessageReadStatus({
                     otherUserId: contactId,
                     lastMessageIsRead: true,
+                    unreadCount: 0,
                 }));
             }
 
@@ -88,6 +95,11 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
             if (conversation.user1._id === userId || conversation.user2._id === userId) {
                 setChats(conversation.messages);
                 const contact = conversation.user1._id === userId ? conversation.user2 : conversation.user1;
+
+                const unreadCount = conversation.messages.filter(
+                    (message) => message.sender._id === contact._id && !message.isRead
+                ).length;
+
                 dispatch(addChatContact({
                     otherUserId: contact._id,
                     lastMessage: conversation.messages[conversation.messages.length - 1].message,
@@ -95,6 +107,7 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
                     lastMessageIsRead: conversation.messages[conversation.messages.length - 1].isRead,
                     otherUserProfileImage: contact.profileImage,
                     otherUserFullName: contact.fullName,
+                    unreadCount,
                 }));
             }
         };

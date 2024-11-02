@@ -109,7 +109,7 @@ const LeftBar = () => {
 
                 {userProfile._id === user._id &&
                     <div className='space-y-3 pb-6'>
-                        <Tooltip placement="right-end" content="Edit Profile">
+                        <Tooltip placement="right-end" content="Saved Posts">
                             <div>
                                 <BiBookmarkAlt
                                     onClick={() => setOpenSaveList(true)}

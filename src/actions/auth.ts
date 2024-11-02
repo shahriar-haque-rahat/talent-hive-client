@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import * as jwt from "jsonwebtoken";
 
 
-export async function setSession(tokenInfo) {
+export async function setSession(tokenInfo: any) {
     cookies().set("accessToken", tokenInfo.accessToken, {
         path: "/",
         maxAge: 60 * 60, // 1 hour

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { getConversation, markAsRead } from '@/apiFunctions/messagingData';
@@ -99,12 +99,28 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
             }
         };
 
+        const handleConversationOpened = (data) => {
+            if (
+                (data.senderId === userId && data.receiverId === contactId) ||
+                (data.senderId === contactId && data.receiverId === userId)
+            ) {
+                setChats(data.messages);
+
+                dispatch(updateMessageReadStatus({
+                    otherUserId: contactId,
+                    lastMessageIsRead: true,
+                }));
+            }
+        };
+
         socket.on('message', handleNewMessage);
         socket.on('newConversation', handleNewConversation);
+        socket.on('conversationOpened', handleConversationOpened);
 
         return () => {
             socket.off('message', handleNewMessage);
             socket.off('newConversation', handleNewConversation);
+            socket.off('conversationOpened', handleConversationOpened);
         };
     }, [contactId, userId]);
 
@@ -114,8 +130,12 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
         }
     }, [userId, contactId]);
 
+    const openConversation = () => {
+        socket.emit('openConversation', { userId, contactId });
+    };
+
     return (
-        <div className='bg-white rounded-lg border shadow h-[calc(100vh-110px)]'>
+        <div className='bg-white rounded-lg border shadow h-[calc(100vh-110px)]' onClick={openConversation}>
             {contactPerson &&
                 <div className='h-20 p-4 border-b border-gray-300'>
                     <div className='flex gap-3 xl:gap-6 mb-4'>

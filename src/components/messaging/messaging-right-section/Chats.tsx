@@ -2,6 +2,7 @@ import { Image } from '@nextui-org/react';
 import React, { useEffect, useState, useRef } from 'react';
 import { LuSendHorizonal } from 'react-icons/lu';
 import socket from '@/web-socket/socket';
+import { FaCheck, FaCheckDouble } from 'react-icons/fa';
 
 const Chats = ({ chats, userId, contactId }) => {
     const [message, setMessage] = useState('');
@@ -73,7 +74,7 @@ const Chats = ({ chats, userId, contactId }) => {
                                                             {new Date(chat.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                             {chat.sender._id === userId && (
                                                                 <span className="ml-2 text-xs font-medium">
-                                                                    {chat.isRead ? 'Read' : 'Unread'}
+                                                                    {chat.isRead ? <FaCheckDouble /> : <FaCheck /> }
                                                                 </span>
                                                             )}
                                                         </p>
@@ -109,7 +110,7 @@ const Chats = ({ chats, userId, contactId }) => {
                     </div>
                 </>
             ) : (
-                <p className="text-center text-gray-600 text-xl pt-20">No conversation</p>
+                <p className="text-center text-gray-600 text-xl pt-20">Select a chat to start messaging</p>
             )}
         </>
     );

@@ -13,6 +13,7 @@ import PostSkeleton from '@/skeletons/PostSkeleton';
 import UserInfoSection from '../../shared/UserInfoSection';
 import ContentSection from './shared-components-for-post/ContentSection';
 import MediaSection from './shared-components-for-post/MediaSection';
+import PostSection from '../home-left-section/PostSection';
 
 const NewsFeed = () => {
     const dispatch = useDispatch();
@@ -67,56 +68,62 @@ const NewsFeed = () => {
     }, [inView, hasMore]);
 
     return (
-        <div className='space-y-4 h-[calc(100vh-40px)] overflow-y-scroll'>
-            {Array.isArray(posts) &&
-                posts?.map((post, index) => (
-                    <div key={index} className='bg-white border rounded-lg shadow'>
-                        <div className=' flex items-start justify-between p-3'>
-                            {/* User info */}
-                            <UserInfoSection userId={post.userId._id} profileImage={post.userId.profileImage} fullName={post.userId.fullName} createdAt={post.createdAt.slice(0, 10)} />
+        <>
+            <div className=' md:hidden mb-2'>
+                <PostSection />
+            </div>
 
-                            {/* Edit and delete modal */}
-                            <div className='relative'>
-                                {post.userId._id === user._id && (
-                                    <>
-                                        <button
-                                            className='hover:bg-gray-200 py-1'
-                                            onClick={() => toggleEditDeleteModal(post._id)}
-                                        >
-                                            <CiMenuKebab />
-                                        </button>
-                                        {openEditDeleteModal[post._id] && (
-                                            <EditAndDeletePost onEditDeleteClose={() => toggleEditDeleteModal(post._id)} post={post} userId={user._id} />
-                                        )}
-                                    </>
-                                )}
+            <div className='space-y-4 h-[calc(100vh-165px)] md:h-[calc(100vh-40px)] overflow-y-scroll'>
+                {Array.isArray(posts) &&
+                    posts?.map((post, index) => (
+                        <div key={index} className='bg-white border rounded-lg shadow'>
+                            <div className=' flex items-start justify-between p-3'>
+                                {/* User info */}
+                                <UserInfoSection userId={post.userId._id} profileImage={post.userId.profileImage} fullName={post.userId.fullName} createdAt={post.createdAt.slice(0, 10)} />
+
+                                {/* Edit and delete modal */}
+                                <div className='relative'>
+                                    {post.userId._id === user._id && (
+                                        <>
+                                            <button
+                                                className='hover:bg-gray-200 py-1'
+                                                onClick={() => toggleEditDeleteModal(post._id)}
+                                            >
+                                                <CiMenuKebab />
+                                            </button>
+                                            {openEditDeleteModal[post._id] && (
+                                                <EditAndDeletePost onEditDeleteClose={() => toggleEditDeleteModal(post._id)} post={post} userId={user._id} />
+                                            )}
+                                        </>
+                                    )}
+                                </div>
                             </div>
+
+                            {/* Post content */}
+                            <ContentSection content={post.content} index={index} />
+
+                            {/* Display media files */}
+                            <MediaSection media={post.media} postId={post._id} user={user} />
+
+                            {/* Shared post content */}
+                            {(post.sharedPostId || post.sharedPostId === null) &&
+                                <SharedPostContent user={user} sharedPostContent={post.sharedPostId} />
+                            }
+
+                            {/* interaction section */}
+                            <PostInteractionSection user={user} post={post} />
                         </div>
+                    ))
+                }
 
-                        {/* Post content */}
-                        <ContentSection content={post.content} index={index} />
-
-                        {/* Display media files */}
-                        <MediaSection media={post.media} postId={post._id} user={user} />
-
-                        {/* Shared post content */}
-                        {(post.sharedPostId || post.sharedPostId === null) &&
-                            <SharedPostContent user={user} sharedPostContent={post.sharedPostId} />
-                        }
-
-                        {/* interaction section */}
-                        <PostInteractionSection user={user} post={post} />
+                {/* Element to trigger for more fetch */}
+                {hasMore && (
+                    <div ref={ref} className="h-fit">
+                        <PostSkeleton />
                     </div>
-                ))
-            }
-
-            {/* Element to trigger for more fetch */}
-            {hasMore && (
-                <div ref={ref} className="h-fit">
-                    <PostSkeleton />
-                </div>
-            )}
-        </div>
+                )}
+            </div>
+        </>
     );
 };
 

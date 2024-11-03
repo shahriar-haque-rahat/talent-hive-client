@@ -9,10 +9,10 @@ const MyConnections = () => {
         <>
             <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow border'>My Connections</h1>
 
-            <div className="flex justify-between">
+            <div className="flex flex-col md:flex-row gap-2 justify-between">
                 <Link href={"/connection-recommendations"}>
                     <div
-                        className='flex gap-2 items-center text-xs border border-black bg-gray-700 text-white py-1 px-2 rounded-lg cursor-pointer hover:bg-gray-500'
+                        className='w-fit text-xs border border-black bg-gray-700 text-white py-1 px-2 rounded-lg cursor-pointer hover:bg-gray-500'
                     >
                         <p>Connection Recommendations</p>
                     </div>

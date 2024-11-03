@@ -1,21 +1,14 @@
 import ContactList from '@/components/messaging/messaging-left-section/ContactList';
-import Conversation from '@/components/messaging/messaging-right-section/Conversation';
-import { PageProps } from '@/types/global/global.types';
-import { redirect } from 'next/navigation';
 import React from 'react';
 
-const page = ({ searchParams }: PageProps) => {
-    const userId = searchParams.userId;
-    const contactId = searchParams.contactId;
-
-    // if (!userId || !contactId) {
-    //     redirect(`/messaging`)
-    // }
+const page = () => {
     return (
         <>
-            <div className=' grid grid-cols-3 gap-2'>
-                <div className=' col-span-1'><ContactList /></div>
-                <div className=' col-span-2'><Conversation userId={userId as string} contactId={contactId as string} /></div>
+            <div className=' md:grid md:grid-cols-3 gap-2'>
+                <div className='md:col-span-1'><ContactList /></div>
+                <div className='hidden md:block col-span-2 bg-white rounded-lg border shadow h-[calc(100vh-110px)]'>
+                    <p className="text-center text-gray-600 text-xl pt-20">Select a chat to start messaging</p>
+                </div>
             </div>
         </>
     );

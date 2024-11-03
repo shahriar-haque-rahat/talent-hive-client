@@ -105,7 +105,7 @@ const DetailsPage = ({ id }: CompanyDetails) => {
                             </div>
                         }
 
-                        <div key={company._id} className='flex gap-3 xl:gap-6 '>
+                        <div key={company._id} className='flex flex-col md:flex-row gap-3 xl:gap-6 w-full items-center text-center md:text-start'>
                             <div className='flex-shrink-0 w-40 h-40 my-auto'>
                                 <Image
                                     src={company.companyProfileImage ? company.companyProfileImage : "/assets/user.png"}
@@ -120,7 +120,7 @@ const DetailsPage = ({ id }: CompanyDetails) => {
                                 <p>{company.companyContactNumber}</p>
                                 <p onClick={() => handleProfile(company.employerId._id)} className='cursor-pointer hover:underline'><span className='font-bold'>Founder: </span>{company.employerId.fullName}</p>
 
-                                <div className=' flex gap-2 items-start text-gray-700'>
+                                <div className=' flex gap-2 justify-center md:justify-start items-start text-gray-700'>
                                     {company.facebookLink?.startsWith('http') ? (
                                         <Link
                                             href={company.facebookLink}
@@ -165,10 +165,10 @@ const DetailsPage = ({ id }: CompanyDetails) => {
                                     <p className=' text-sm'>{company.followers} {(company.followers > 1) ? 'Followers' : 'Follower'}</p>
                                 </div>
                             </div>
-                        </div>
 
-                        <div className=' pr-10'>
-                            <InteractionButtons isFollowed={isFollowed} setCompany={setCompany} setIsFollowed={setIsFollowed} company={company} userId={user._id} />
+                            <div>
+                                <InteractionButtons isFollowed={isFollowed} setCompany={setCompany} setIsFollowed={setIsFollowed} company={company} userId={user._id} />
+                            </div>
                         </div>
                     </div>
 

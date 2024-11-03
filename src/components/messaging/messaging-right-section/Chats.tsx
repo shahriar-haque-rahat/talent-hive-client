@@ -66,15 +66,22 @@ const Chats = ({ chats, userId, contactId }) => {
                                                 <div className="flex-1">
                                                     <div
                                                         className={`w-full p-3 rounded-lg text-sm ${chat.sender._id === userId ? 'bg-sky-300' : 'bg-gray-200'}`}
+                                                        style={{
+                                                            borderRadius: chat.sender._id === userId
+                                                                ? '1rem 1rem 0.3rem 1rem'
+                                                                : '1rem 1rem 1rem 0.3rem',
+                                                            whiteSpace: 'pre-wrap',
+                                                            wordBreak: 'break-word',
+                                                        }}
                                                     >
                                                         {chat.message}
                                                     </div>
                                                     <div className='flex flex-col'>
-                                                        <p className={`text-gray-500 text-xs ${chat.sender._id === userId ? 'self-end' : 'self-start'}`}>
+                                                        <p className={`flex items-center gap-3 text-gray-500 text-xs ${chat.sender._id === userId ? 'self-end' : 'self-start'}`}>
                                                             {new Date(chat.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                             {chat.sender._id === userId && (
                                                                 <span className="ml-2 text-xs font-medium">
-                                                                    {chat.isRead ? <FaCheckDouble /> : <FaCheck /> }
+                                                                    {chat.isRead ? <FaCheckDouble className='text-sky-500'/> : <FaCheck />}
                                                                 </span>
                                                             )}
                                                         </p>

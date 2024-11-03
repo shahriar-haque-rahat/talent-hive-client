@@ -39,7 +39,7 @@ const ApplicantsList = ({ applicants }) => {
             {/* Applicants list modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[60]">
-                    <div className="bg-white w-full max-w-[50%] h-[70vh] p-6 rounded-lg relative overflow-hidden flex flex-col">
+                    <div className="bg-white w-full md:max-w-[50%] h-[70vh] p-6 rounded-lg relative overflow-hidden flex flex-col">
                         <button
                             onClick={onClose}
                             className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"

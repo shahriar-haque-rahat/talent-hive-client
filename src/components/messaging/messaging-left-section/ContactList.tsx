@@ -34,7 +34,7 @@ const ContactList = () => {
     }, [user._id]);
 
     const handleSelectContact = (contactId: string) => {
-        router.push(`/messaging?userId=${user._id}&contactId=${contactId}`);
+        router.push(`/messaging/conversation?userId=${user._id}&contactId=${contactId}`);
     };
 
     const openConversation = (contactId: string) => {
@@ -47,16 +47,12 @@ const ContactList = () => {
         }));
     };
 
-    if (loading) {
-        return <div>Loading chatList...</div>;
-    }
-
     return (
         <div className='bg-white rounded-lg border shadow h-[calc(100vh-110px)]'>
             <p className='text-2xl font-bold h-20 p-4 border-b border-gray-300'>Chats</p>
-            
-            <UserSearch/>
-            
+
+            <UserSearch />
+
             <div className='h-[calc(100vh-238px)] overflow-y-scroll rounded-bl-lg'>
                 {chatList.length > 0 ? (
                     chatList.map((contact, index) => {
@@ -75,12 +71,14 @@ const ContactList = () => {
                                 }}
 
                             >
-                                <Image
-                                    src={contact.otherUserProfileImage}
-                                    alt={contact.otherUserFullName}
-                                    className="rounded-full border-2 border-white cursor-pointer w-14 h-14 object-cover object-top"
-                                />
-                                <div className="flex flex-col">
+                                <div className="w-16 flex-shrink-0">
+                                    <Image
+                                        src={contact.otherUserProfileImage}
+                                        alt={contact.otherUserFullName}
+                                        className="rounded-full border-2 border-white cursor-pointer w-14 h-14 object-cover object-top"
+                                    />
+                                </div>
+                                <div className="flex flex-col flex-grow">
                                     <p className={`${isUnread ? 'text-sky-800 font-semibold' : ''}`}>
                                         {contact.otherUserFullName}
                                     </p>

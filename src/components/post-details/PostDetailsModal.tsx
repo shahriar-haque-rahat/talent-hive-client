@@ -65,7 +65,7 @@ const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
             <div className="bg-white w-full min-h-[90vh] max-h-[90vh] md:max-h-[80vh] md:p-2 rounded-lg relative flex flex-col md:flex-row overflow-hidden">
 
                 {/* Left Section: Media Slideshow */}
-                <div className="flex-[2] flex items-center justify-between bg-black bg-opacity-90 rounded-l-lg p-2 relative">
+                <div className="flex-[2] min-h-[40vh] flex items-center justify-between bg-black bg-opacity-90 rounded-l-lg p-2 relative">
                     <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 md:hidden">
                         <MdClose size={24} />
                     </button>
@@ -83,7 +83,7 @@ const PostDetailsModal = ({ isOpen, onClose, user, postId, initialIndex }) => {
                             src={post.media[currentIndex]}
                             alt={`Media ${currentIndex + 1}`}
                             onLoad={handleImageLoad}
-                            className={`rounded-lg object-cover ${isPortrait ? ' h-[80vh]' : 'w-[70%]'}`}
+                            className={`rounded-lg object-cover ${isPortrait ? ' h-[35vh] md:h-[80vh]' : 'w-[80%]'}`}
                         />
                     </div>
 

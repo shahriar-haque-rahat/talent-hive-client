@@ -23,7 +23,7 @@ const JobDetailsRightSection = ({ jobPost }) => {
                         <div className=' space-y-3'>
                             <h1 className=' text-2xl font-bold'>{jobPost.jobTitle}</h1>
 
-                            <div className=' flex gap-2 items-center text-gray-500'>
+                            <div className=' flex flex-wrap gap-2 items-center text-gray-500'>
                                 <p>{jobPost.jobLocation}</p>
                                 <p><LuDot /></p>
                                 <p>{timeAgo}</p>

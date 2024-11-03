@@ -11,17 +11,19 @@ const NotificationsBadge = () => {
     const unreadCount = useSelector((state: any) => state.notification.notificationCount);
 
     useEffect(() => {
-        const fetchUnreadCount = async () => {
-            try {
-                const response = await getNotificationCount(user._id);
-
-                dispatch(setNotificationCount(response.count));
-            } catch (error) {
-                console.error("Failed to fetch unread notifications count:", error);
-            }
-        };
-
-        fetchUnreadCount();
+        if (user) {
+            const fetchUnreadCount = async () => {
+                try {
+                    const response = await getNotificationCount(user._id);
+    
+                    dispatch(setNotificationCount(response.count));
+                } catch (error) {
+                    console.error("Failed to fetch unread notifications count:", error);
+                }
+            };
+    
+            fetchUnreadCount();
+        }
     }, [user]);
 
     return (

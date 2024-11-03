@@ -157,13 +157,13 @@ const AllComments = ({ user, postUserId, postId, openComment }) => {
             <div className='p-4'>
                 {comments.length > 0 && comments.map((comment) => (
                     <div key={comment._id} className='flex items-start gap-2 mt-2'>
-                        <Image
-                            src={comment.userId?.profileImage}
-                            alt={comment.userId?.fullName}
-                            className="rounded-full border-2 border-white w-14 h-14 object-cover object-center"
-                            width={48}
-                            height={48}
-                        />
+                        <div className=' flex-shrink-0 w-10 lg:w-14'>
+                            <Image
+                                src={user.profileImage}
+                                alt={user.fullName}
+                                className="rounded-full border-2 border-white w-10 h-10 lg:w-14 lg:h-14 object-cover object-center"
+                            />
+                        </div>
                         <div className='w-full'>
                             <div className='w-full rounded-lg bg-sky-50 p-2'>
                                 <h1 className='font-bold'>{comment.userId?.fullName}</h1>

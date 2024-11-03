@@ -29,15 +29,15 @@ const CommentSection = ({ user, postId }) => {
     return (
         <>
             <div className=" p-4 border-b border-gray-300 flex items-center gap-1">
-                <Image
-                    src={user.profileImage}
-                    alt={user.fullName}
-                    className="rounded-full border-2 border-white w-14 h-14 object-cover object-center"
-                    width={48}
-                    height={48}
-                />
+                <div className=' flex-shrink-0 w-12 lg:w-14'>
+                    <Image
+                        src={user.profileImage}
+                        alt={user.fullName}
+                        className="rounded-full border-2 border-white w-12 h-12 lg:w-14 lg:h-14 object-cover object-center"
+                    />
+                </div>
 
-                <div className=' w-full flex items-center border border-gray-400 p-2 pl-4 rounded-full '>
+                <div className='flex-grow w-full flex items-center border border-gray-400 p-2 pl-4 rounded-full '>
                     <input
                         className=' w-full bg-transparent outline-none'
                         type="email"

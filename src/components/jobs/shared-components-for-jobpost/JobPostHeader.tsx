@@ -8,7 +8,7 @@ const JobPostHeader = ({ jobTitle, position, jobLocation, applicants, workplaceT
 
     return (
         <>
-            <div className='flex gap-3 xl:gap-6 mb-4'>
+            <div className='flex flex-col lg:flex-row gap-3 xl:gap-6 mb-4'>
                 <div className='flex-shrink-0 w-16 md:w-20 h-16 md:h-20'>
                     <Image
                         src={companyId.companyProfileImage ? companyId.companyProfileImage : "/assets/user.png"}

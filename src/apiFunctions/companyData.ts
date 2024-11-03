@@ -1,8 +1,9 @@
+import { useServer } from "@/hooks/useAxiosInstances";
 import axios from "axios";
 
 export const getCompanies = async (page: number, limit: number) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/company`, {
+        const response = await useServer.get(`/company`, {
             params: { page, limit }
         });
         const companies = response.data;
@@ -16,7 +17,7 @@ export const getCompanies = async (page: number, limit: number) => {
 
 export const getFollowedCompanies = async (userId: string, page: number, limit: number) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/company/followed/${userId}`, {
+        const response = await useServer.get(`/company/followed/${userId}`, {
             params: { page, limit }
         });
 
@@ -29,7 +30,7 @@ export const getFollowedCompanies = async (userId: string, page: number, limit: 
 
 export const getNotFollowedCompanies = async (userId: string, page: number, limit: number) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/company/not-followed/${userId}`, {
+        const response = await useServer.get(`/company/not-followed/${userId}`, {
             params: { page, limit }
         });
 
@@ -42,7 +43,7 @@ export const getNotFollowedCompanies = async (userId: string, page: number, limi
 
 export const findCompanyById = async (companyId: string, userId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/company/company-details/${companyId}/${userId}`);
+        const response = await useServer.get(`/company/company-details/${companyId}/${userId}`);
         const company = response.data;
 
         return company;
@@ -54,7 +55,7 @@ export const findCompanyById = async (companyId: string, userId: string) => {
 
 export const getCompaniesByEmployer = async (employerId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/company/${employerId}`);
+        const response = await useServer.get(`/company/${employerId}`);
         const companies = response.data;
 
         return companies;
@@ -66,7 +67,7 @@ export const getCompaniesByEmployer = async (employerId: string) => {
 
 export const createCompany = async (companyData: any) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/company`, companyData);
+        const response = await useServer.post(`/company`, companyData);
         const newCompany = response.data;
 
         return newCompany;
@@ -79,7 +80,7 @@ export const createCompany = async (companyData: any) => {
 
 export const updateCompany = async (companyId: string, updateData: any) => {
     try {
-        const response = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URL}/company/${companyId}`, updateData);
+        const response = await useServer.patch(`/company/${companyId}`, updateData);
         const updatedCompany = response.data;
 
         return updatedCompany;
@@ -92,7 +93,7 @@ export const updateCompany = async (companyId: string, updateData: any) => {
 
 export const deleteCompany = async (companyId: string) => {
     try {
-        const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/company/${companyId}`);
+        const response = await useServer.delete(`/company/${companyId}`);
         return response.data;
     }
     catch (error) {
@@ -103,7 +104,7 @@ export const deleteCompany = async (companyId: string) => {
 
 export const followCompany = async (companyId: string, userId: string) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/company-followers/follow/${companyId}/${userId}`);
+        const response = await useServer.post(`/company-followers/follow/${companyId}/${userId}`);
         const updatedCompany = response.data;
 
         return updatedCompany;
@@ -116,7 +117,7 @@ export const followCompany = async (companyId: string, userId: string) => {
 
 export const unfollowCompany = async (companyId: string, userId: string) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/company-followers/unfollow/${companyId}/${userId}`);
+        const response = await useServer.post(`/company-followers/unfollow/${companyId}/${userId}`);
         const updatedCompany = response.data;
 
         return updatedCompany;

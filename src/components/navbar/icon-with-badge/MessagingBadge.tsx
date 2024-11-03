@@ -63,7 +63,7 @@ const MessagingBadge = () => {
     };
 
     useEffect(() => {
-        if (chatList.length === 0) {
+        if (chatList.length === 0 && user._id) {
             fetchContacts();
         }
     }, [user._id]);

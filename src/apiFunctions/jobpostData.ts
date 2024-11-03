@@ -1,8 +1,9 @@
+import { useServer } from "@/hooks/useAxiosInstances";
 import axios from "axios";
 
 export const getJobPosts = async (userId: string, page = 0, limit = 10) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/job-post`, {
+        const response = await useServer.get(`/job-post`, {
             params: { userId, page, limit }
         });
         const jobPosts = response.data;
@@ -16,7 +17,7 @@ export const getJobPosts = async (userId: string, page = 0, limit = 10) => {
 
 export const getJobPostsByCompany = async (companyId: string, page = 0, limit = 10) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/job-post/${companyId}`, {
+        const response = await useServer.get(`/job-post/${companyId}`, {
             params: { page, limit }
         });
         const jobPosts = response.data;
@@ -30,7 +31,7 @@ export const getJobPostsByCompany = async (companyId: string, page = 0, limit = 
 
 export const getOneJobPost = async (jobPostId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/job-post/details/${jobPostId}`);
+        const response = await useServer.get(`/job-post/details/${jobPostId}`);
         const jobPost = response.data;
 
         return jobPost;
@@ -42,7 +43,7 @@ export const getOneJobPost = async (jobPostId: string) => {
 
 export const createJobPost = async (jobPostData: any) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/job-post`, jobPostData);
+        const response = await useServer.post(`/job-post`, jobPostData);
         const newJobPost = response.data;
 
         return newJobPost;
@@ -54,7 +55,7 @@ export const createJobPost = async (jobPostData: any) => {
 
 export const updateJobPost = async (jobPostId: string, updatedData: any) => {
     try {
-        const response = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URL}/job-post/${jobPostId}`, updatedData);
+        const response = await useServer.patch(`/job-post/${jobPostId}`, updatedData);
         const updatedJobPost = response.data;
 
         return updatedJobPost;
@@ -66,7 +67,7 @@ export const updateJobPost = async (jobPostId: string, updatedData: any) => {
 
 export const applyForJobPost = async (jobPostId: string, updatedData: any) => {
     try {
-        const response = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URL}/job-post/apply/${jobPostId}`, updatedData);
+        const response = await useServer.patch(`/job-post/apply/${jobPostId}`, updatedData);
         const updatedJobPost = response.data;
 
         return updatedJobPost;
@@ -78,7 +79,7 @@ export const applyForJobPost = async (jobPostId: string, updatedData: any) => {
 
 export const deleteJobPost = async (jobPostId: string) => {
     try {
-        const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/job-post/${jobPostId}`);
+        const response = await useServer.delete(`/job-post/${jobPostId}`);
         return response.data;
     } catch (error) {
         console.error("Error deleting job post:", error);

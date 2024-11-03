@@ -1,8 +1,9 @@
+import { useAuth } from "@/hooks/useAxiosInstances";
 import axios from "axios"
 
 export const getUserByName = async (name: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/search-by-name`, {
+        const response = await useAuth.get(`/user/search-by-name`, {
             params: { name },
         });
         const users = response.data;
@@ -16,7 +17,7 @@ export const getUserByName = async (name: string) => {
 
 export const getUsers = async (userId: string, limit: number, page: number) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/all-user/${userId}`, {
+        const response = await useAuth.get(`/user/all-user/${userId}`, {
             params: { limit, page }
         });
         const users = response.data;
@@ -30,7 +31,7 @@ export const getUsers = async (userId: string, limit: number, page: number) => {
 
 export const suggestionUsers = async (userId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/suggestion-user/${userId}`);
+        const response = await useAuth.get(`/user/suggestion-user/${userId}`);
         const users = response.data;
 
         return users;
@@ -42,7 +43,7 @@ export const suggestionUsers = async (userId: string) => {
 
 export const getUserDetails = async (loggedInUserId: string, userId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/${loggedInUserId}/${userId}`);
+        const response = await useAuth.get(`/user/${loggedInUserId}/${userId}`);
 
         return response.data;
     }
@@ -54,7 +55,7 @@ export const getUserDetails = async (loggedInUserId: string, userId: string) => 
 
 export const getUser = async (userId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/${userId}`);
+        const response = await useAuth.get(`/user/${userId}`);
 
         return response.data;
     }
@@ -66,7 +67,7 @@ export const getUser = async (userId: string) => {
 
 export const patchUser = async (userId: string, updateData: any) => {
     try {
-        const response = await axios.patch(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/${userId}`, updateData);
+        const response = await useAuth.patch(`/user/${userId}`, updateData);
         return response.data;
     }
     catch (error) {
@@ -77,7 +78,7 @@ export const patchUser = async (userId: string, updateData: any) => {
 
 export const deleteUser = async (userId: string) => {
     try {
-        const response = await axios.delete(`${process.env.NEXT_PUBLIC_AUTH_URL}/user/${userId}`);
+        const response = await useAuth.delete(`/user/${userId}`);
         return response.data;
     }
     catch (error) {

@@ -1,8 +1,9 @@
+import { useChat } from '@/hooks/useAxiosInstances';
 import axios from 'axios';
 
 export const getChatList = async (userId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_CHAT_URL}/conversation/${userId}`);
+        const response = await useChat.get(`/conversation/${userId}`);
 
         return response.data;
     } catch (error) {
@@ -13,7 +14,7 @@ export const getChatList = async (userId: string) => {
 
 export const getOrCreateConversation = async (user1Id: string, user2Id: string) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_CHAT_URL}/conversation/get-or-create`, { userId: user1Id, contactId: user2Id });
+        const response = await useChat.post(`/conversation/get-or-create`, { userId: user1Id, contactId: user2Id });
 
         return response.data;
     } catch (error) {
@@ -24,7 +25,7 @@ export const getOrCreateConversation = async (user1Id: string, user2Id: string) 
 
 export const getConversation = async (user1Id: string, user2Id: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_CHAT_URL}/conversation/${user1Id}/${user2Id}`);
+        const response = await useChat.get(`/conversation/${user1Id}/${user2Id}`);
 
         return response.data;
     } catch (error) {
@@ -35,7 +36,7 @@ export const getConversation = async (user1Id: string, user2Id: string) => {
 
 export const sendMessage = async (messageData: any) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_CHAT_URL}/conversation`, messageData);
+        const response = await useChat.post(`/conversation`, messageData);
 
         return response.data;
     } catch (error) {
@@ -46,7 +47,7 @@ export const sendMessage = async (messageData: any) => {
 
 export const markAsRead = async (userId: string, contactId: string, markAll: boolean) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_CHAT_URL}/conversation/mark-as-read`,
+        const response = await useChat.post(`/conversation/mark-as-read`,
             { userId, contactId, markAll }
         );
 

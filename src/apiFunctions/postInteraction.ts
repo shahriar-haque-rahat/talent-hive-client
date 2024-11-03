@@ -1,9 +1,10 @@
+import { useServer } from "@/hooks/useAxiosInstances";
 import axios from "axios"
 
 // Like
 export const getLikes = async (postId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/like`)
+        const response = await useServer.get(`/post/${postId}/like`)
 
         // console.log(response.data);
         return response.data;
@@ -16,7 +17,7 @@ export const getLikes = async (postId: string) => {
 
 export const postLike = async (postId: string, userId: string) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/like`, {
+        const response = await useServer.post(`/post/${postId}/like`, {
             postId,
             userId
         });
@@ -32,7 +33,7 @@ export const postLike = async (postId: string, userId: string) => {
 // :id/like/:likeId
 export const deleteLike = async (postId: string, likeId: string) => {
     try {
-        const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/like/${likeId}`);
+        const response = await useServer.delete(`/post/${postId}/like/${likeId}`);
 
         // console.log(response.data);
         return response.data;
@@ -46,7 +47,7 @@ export const deleteLike = async (postId: string, likeId: string) => {
 // Comment
 export const getComments = async (postId: string, skip: number = 0, limit: number = 5) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/comment`, {
+        const response = await useServer.get(`/post/${postId}/comment`, {
             params: { skip, limit }
         });
 
@@ -61,7 +62,7 @@ export const getComments = async (postId: string, skip: number = 0, limit: numbe
 
 export const postComment = async (postId: string, userId: string, comment: string) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/comment`, {
+        const response = await useServer.post(`/post/${postId}/comment`, {
             postId,
             userId,
             comment
@@ -78,7 +79,7 @@ export const postComment = async (postId: string, userId: string, comment: strin
 
 export const updateComment = async (postId: string, commentId: string, comment: string) => {
     try {
-        const response = await axios.patch(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/comment/${commentId}`, {
+        const response = await useServer.patch(`/post/${postId}/comment/${commentId}`, {
             comment
         });
 
@@ -93,7 +94,7 @@ export const updateComment = async (postId: string, commentId: string, comment: 
 
 export const deleteComment = async (postId: string, id: string) => {
     try {
-        const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/comment/${id}`);
+        const response = await useServer.delete(`/post/${postId}/comment/${id}`);
 
         // console.log(response.data);
         return response.data;
@@ -107,7 +108,7 @@ export const deleteComment = async (postId: string, id: string) => {
 // Save
 export const getSaves = async (userId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${userId}/save`)
+        const response = await useServer.get(`/post/${userId}/save`)
 
         // console.log(response.data);
         return response.data;
@@ -120,7 +121,7 @@ export const getSaves = async (userId: string) => {
 
 export const postSave = async (postId: string, userId: string) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/save`, {
+        const response = await useServer.post(`/post/${postId}/save`, {
             postId,
             userId
         });
@@ -136,7 +137,7 @@ export const postSave = async (postId: string, userId: string) => {
 
 export const deleteSave = async (postId: string, saveId: string) => {
     try {
-        const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/post/${postId}/save/${saveId}`);
+        const response = await useServer.delete(`/post/${postId}/save/${saveId}`);
 
         // console.log(response.data);
         return response.data;

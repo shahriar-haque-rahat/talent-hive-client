@@ -2,6 +2,7 @@
 
 import { clearCookies, getToken, setSession } from '@/actions/auth';
 import { publicRoutes } from '@/actions/routes';
+import { useAuth } from '@/hooks/useAxiosInstances';
 import { clearUser } from '@/redux/userSlice';
 import { AuthContextValues, AuthProviderProps, LoginData, RegisterData } from '@/types/auth/auth.types';
 import axios from 'axios';
@@ -19,7 +20,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const register = async (userData: RegisterData) => {
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/register`, userData);
+            const response = await useAuth.post(`/auth/register`, userData);
 
             if (response.status === 201 || response.statusText === "Created") {
                 toast.success('Registration successful');
@@ -34,7 +35,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const login = async (userData: LoginData) => {
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/login`, userData);
+            const response = await useAuth.post(`/auth/login`, userData);
 
             if (response.data.success) {
                 toast.success('Successfully logged in');
@@ -61,7 +62,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
             const data = {
                 token: token,
             }
-            const response = await axios.put(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/activate-account`, data);
+            const response = await useAuth.put(`/auth/activate-account`, data);
 
             if (response.data.success) {
                 await setSession({
@@ -77,7 +78,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const forgotPassword = async (email: string) => {
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/forgot-password`, {
+            const response = await useAuth.post(`/auth/forgot-password`, {
                 email,
             });
 
@@ -93,7 +94,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const resetPassword = async (token: string | null, newPassword: string) => {
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/reset-password`, {
+            const response = await useAuth.post(`/auth/reset-password`, {
                 token,
                 newPassword,
             });
@@ -122,7 +123,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
             const token = await getToken();
 
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_URL}/auth/logout`,
+            const response = await useAuth.post(`/auth/logout`,
                 {},
                 {
                     headers: {

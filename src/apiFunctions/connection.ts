@@ -1,8 +1,9 @@
+import { useServer } from "@/hooks/useAxiosInstances";
 import axios from "axios";
 
 export const getConnections = async (userId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/connection/${userId}`);
+        const response = await useServer.get(`/connection/${userId}`);
 
         return response.data;
     } catch (error) {
@@ -15,7 +16,7 @@ export const getConnections = async (userId: string) => {
 
 export const checkConnectionStatus = async (userId1: string, userIds: string[]) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/connection-request/check-status`, {
+        const response = await useServer.post(`/connection-request/check-status`, {
             loggedInUserId: userId1,
             userIds: userIds,
         });
@@ -29,7 +30,7 @@ export const checkConnectionStatus = async (userId1: string, userIds: string[]) 
 
 export const getPendingRequests = async (userId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/connection-request/pending/${userId}`);
+        const response = await useServer.get(`/connection-request/pending/${userId}`);
         const pendingRequests = response.data;
 
         return pendingRequests;
@@ -41,7 +42,7 @@ export const getPendingRequests = async (userId: string) => {
 
 export const getSentRequests = async (userId: string) => {
     try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/connection-request/sent/${userId}`);
+        const response = await useServer.get(`/connection-request/sent/${userId}`);
         const sentRequests = response.data;
 
         return sentRequests;
@@ -53,7 +54,7 @@ export const getSentRequests = async (userId: string) => {
 
 export const sendConnectionRequest = async (sender: string, receiver: string) => {
     try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/connection-request`, { sender, receiver });
+        const response = await useServer.post(`/connection-request`, { sender, receiver });
         const newConnectionRequest = response.data;
 
         return newConnectionRequest;
@@ -65,8 +66,8 @@ export const sendConnectionRequest = async (sender: string, receiver: string) =>
 
 export const acceptConnectionRequest = async (userId: string, otherUserId: string) => {
     try {
-        const response = await axios.patch(
-            `${process.env.NEXT_PUBLIC_SERVER_URL}/connection-request/accept/${userId}/${otherUserId}`
+        const response = await useServer.patch(
+            `/connection-request/accept/${userId}/${otherUserId}`
         );
         const acceptedConnectionRequest = response.data;
 
@@ -79,8 +80,8 @@ export const acceptConnectionRequest = async (userId: string, otherUserId: strin
 
 export const deleteConnectionRequest = async (action: string, userId: string, otherUserId: string) => {
     try {
-        const response = await axios.delete(
-            `${process.env.NEXT_PUBLIC_SERVER_URL}/connection-request/${action}/${userId}/${otherUserId}`
+        const response = await useServer.delete(
+            `/connection-request/${action}/${userId}/${otherUserId}`
         );
         const deletedConnectionRequest = response.data;
 
@@ -93,7 +94,7 @@ export const deleteConnectionRequest = async (action: string, userId: string, ot
 
 export const removeConnection = async (userId1: string, userId2: string) => {
     try {
-        const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/connection-request/${userId1}/${userId2}`);
+        const response = await useServer.delete(`/connection-request/${userId1}/${userId2}`);
         const removedConnection = response.data;
 
         return removedConnection;

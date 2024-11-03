@@ -60,7 +60,7 @@ const UserSearch = () => {
         if (conversation) {
             socket.emit('newConversation', conversation);
 
-            router.push(`/messaging?userId=${user._id}&contactId=${contactId}`);
+            router.push(`/messaging/conversation?userId=${user._id}&contactId=${contactId}`);
         }
     };
 

@@ -11,7 +11,7 @@ const NotificationsBadge = () => {
     const unreadCount = useSelector((state: any) => state.notification.notificationCount);
 
     useEffect(() => {
-        if (user) {
+        if (user._id) {
             const fetchUnreadCount = async () => {
                 try {
                     const response = await getNotificationCount(user._id);

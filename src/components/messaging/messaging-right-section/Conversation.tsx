@@ -11,8 +11,8 @@ import socket from '@/web-socket/socket';
 import { FaArrowLeft } from "react-icons/fa6";
 
 interface ConversationInterface {
-    userId: string;
-    contactId: string;
+    userId: string | null;
+    contactId: string | null;
 }
 
 const Conversation = ({ userId, contactId }: ConversationInterface) => {

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Lato } from "next/font/google";
+import { Inter, Lato, Montserrat } from "next/font/google";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
 import AuthProvider from "@/provider/AuthProvider";
@@ -7,7 +7,6 @@ import Authorization from "@/components/authentication/Authorization";
 import StoreProvider from "@/provider/StoreProvider";
 import Navbar from "@/components/navbar/Navbar";
 import { EdgeStoreProvider } from "../edgestore/edgestore";
-import Head from "next/head";
 
 const font = Lato({
   subsets: ["latin"],
@@ -25,12 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-gray-100">
-
-      <Head>
-        <link rel="icon" href="/favicon.ico" sizes="any" type="image/x-icon" />
-        <title>Talent Hive</title>
-      </Head>
-
+      <link rel="icon" href="/favicon.ico" sizes="any" />
       <body className={`${font.className}`}>
         <EdgeStoreProvider>
           <StoreProvider>

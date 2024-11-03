@@ -34,7 +34,7 @@ export const getOnePost = async (postId: string, userId: string) => {
             params: { userId }
         });
         const post = response.data;
-console.log(post)
+
         return post;
     }
     catch (error) {

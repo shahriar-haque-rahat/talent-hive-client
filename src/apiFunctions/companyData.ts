@@ -1,6 +1,20 @@
 import { useServer } from "@/hooks/useAxiosInstances";
 import axios from "axios";
 
+export const getCompanyByName = async (name: string) => {
+    try {
+        const response = await useServer.get(`/company/search-by-name`, {
+            params: { name },
+        });
+        const companies = response.data;
+
+        return companies;
+    } catch (error) {
+        console.error("Error fetching companies:", error);
+        return [];
+    }
+};
+
 export const getCompanies = async (page: number, limit: number) => {
     try {
         const response = await useServer.get(`/company`, {

@@ -3,11 +3,14 @@ import Connection from './connection/Connection';
 import { RiUserReceived2Line, RiUserShared2Line } from "react-icons/ri";
 import SentReceivedRequestModal from './my-connections-shared-component/SentReceivedRequestModal';
 import Link from 'next/link';
+import UserProfileSearch from '../shared/searching-components/UserProfileSearch';
 
 const MyConnections = () => {
     return (
         <>
             <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow border'>My Connections</h1>
+
+            <div className='mb-4 md:w-1/2'><UserProfileSearch/></div>
 
             <div className="flex flex-col md:flex-row gap-2 justify-between">
                 <Link href={"/connection-recommendations"}>

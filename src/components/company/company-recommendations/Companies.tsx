@@ -8,6 +8,7 @@ import { setFollowedCompanies, setNotFollowedCompanies, setFollowedCompaniesPage
 import { Tabs, Tab } from '@nextui-org/react';
 import CompanyCard from './CompanyCard';
 import CompanyCardSkeleton from '@/skeletons/CompanyCardSkeleton';
+import CompanySearch from '@/components/shared/searching-components/CompanySearch';
 
 interface CompanyListProps {
     companies: any[];
@@ -85,6 +86,10 @@ const Companies = () => {
     return (
         <>
             <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow border'>Company Recommendations</h1>
+
+
+            <div className='mb-4 md:w-1/2'><CompanySearch /></div>
+
             <Tabs key={'default'} variant='underlined' aria-label="Company Tabs" radius="lg">
                 <Tab title="Unfollowed Companies">
                     <CompanyList

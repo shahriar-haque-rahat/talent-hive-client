@@ -9,6 +9,7 @@ import UserConnectionCard from './UserConnectionCard';
 import UserConnectionCardSkeleton from '@/skeletons/UserConnectionCardSkeleton';
 import { checkConnectionStatus } from '@/apiFunctions/connection';
 import { setBulkConnectionStatus } from '@/redux/connectionSlice';
+import UserProfileSearch from '../shared/searching-components/UserProfileSearch';
 
 const ConnectionRecommendations = () => {
     const dispatch = useDispatch();
@@ -58,6 +59,9 @@ const ConnectionRecommendations = () => {
         <>
             <div>
                 <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow border'>People You May Know</h1>
+                
+                <div className='mb-4 md:w-1/2'><UserProfileSearch/></div>
+                
                 {users?.length > 0 ? (
                     <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3'>
                         {

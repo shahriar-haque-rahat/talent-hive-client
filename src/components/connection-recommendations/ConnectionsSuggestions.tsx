@@ -91,7 +91,7 @@ const ConnectionsSuggestions = () => {
         <>
             <div className=' bg-white p-3 xl:p-6 border shadow rounded-lg'>
                 <p className=' mb-4 font-semibold'>Add to your connect</p>
-                {users.length > 0 ? (
+                {users?.length > 0 ? (
                     users?.map(user => (
                         <div key={user._id} className='flex gap-3 xl:gap-6 mb-4'>
                             <div className='flex-shrink-0 w-16 h-16 my-auto'>

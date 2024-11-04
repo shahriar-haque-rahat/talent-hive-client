@@ -75,7 +75,7 @@ const CompanySuggestions = () => {
         <>
             <div className=' bg-white p-3 xl:p-6 border shadow rounded-lg'>
                 <p className=' mb-4 font-semibold'>Company Suggestions</p>
-                {companies.length > 0 ? (
+                {companies?.length > 0 ? (
                     companies?.map(company => (
                         <div key={company._id} className='flex gap-3 xl:gap-6 mb-4'>
                             <div className='flex-shrink-0 w-16 h-16 my-auto'>

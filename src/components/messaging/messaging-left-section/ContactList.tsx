@@ -54,7 +54,7 @@ const ContactList = () => {
             <UserSearch />
 
             <div className='h-[calc(100vh-238px)] overflow-y-scroll rounded-bl-lg'>
-                {chatList.length > 0 ? (
+                {chatList?.length > 0 ? (
                     chatList.map((contact, index) => {
                         const isUnread = contact.senderId !== user._id && !contact.lastMessageIsRead;
 

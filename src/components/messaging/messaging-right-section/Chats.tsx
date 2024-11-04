@@ -45,7 +45,7 @@ const Chats = ({ chats, userId, contactId }) => {
                     <div ref={chatContainerRef} className='flex flex-col h-[calc(100%-150px)] p-4 pt-0 overflow-y-scroll'>
                         <div className='flex-1 flex'>
                             <div className="w-full mx-auto self-end">
-                                {chats.length > 0 ? (
+                                {chats?.length > 0 ? (
                                     <div className="flex flex-col gap-2">
                                         {chats.map((chat, index) => (
                                             <div

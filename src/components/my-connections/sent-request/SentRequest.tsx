@@ -43,7 +43,7 @@ const SentRequest = () => {
 
     return (
         <div>
-            {sentRequests.length > 0 ? (
+            {sentRequests?.length > 0 ? (
                 <ul className='space-y-2'>
                     {sentRequests?.map((request: any) => (
                         <li key={request.receiver._id} className="border bg-white shadow rounded-lg p-3">

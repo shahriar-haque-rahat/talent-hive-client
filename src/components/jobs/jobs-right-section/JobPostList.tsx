@@ -64,7 +64,7 @@ const JobPostList = () => {
 
                 <div className=' h-[calc(100vh-110px)] overflow-y-scroll'>
                     <div>
-                        {jobPosts.length > 0 ? (
+                        {jobPosts?.length > 0 ? (
                             jobPosts?.map(jobPost => (
                                 <div className=' p-3 md:p-6 border-b border-gray-300'>
                                     <JobPostCard jobPost={jobPost} handleDetails={handleDetails} />

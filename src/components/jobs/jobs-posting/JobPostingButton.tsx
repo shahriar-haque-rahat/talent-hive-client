@@ -51,7 +51,7 @@ const JobPostingButton = () => {
                     </DropdownTrigger>
 
                     <DropdownMenu aria-label="Select Company">
-                        {companies.length > 0 ? (
+                        {companies?.length > 0 ? (
                             companies.map((company) => (
                                 <DropdownItem
                                     key={company._id}

@@ -104,7 +104,7 @@ const NotificationList = () => {
             </div>
 
             <div className='max-h-[calc(100vh-150px)] overflow-y-scroll'>
-                {notifications.length > 0 ? (
+                {notifications?.length > 0 ? (
                     notifications.map((notification: any) => (
                         <div
                             key={notification._id}

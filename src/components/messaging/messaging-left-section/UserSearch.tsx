@@ -94,7 +94,7 @@ const UserSearch = () => {
             </button>
 
             {loading && <div className="mt-2 text-gray-500">Loading...</div>}
-            {showDropdown && results.length > 0 ? (
+            {showDropdown && results?.length > 0 ? (
                 <div
                     ref={dropdownRef}
                     className="absolute left-0 right-0 bg-white border border-gray-300 rounded-md mt-1 z-[60]"

@@ -9,12 +9,20 @@ import { Button, Input } from '@nextui-org/react';
 const ForgotPassword = () => {
     const { forgotPassword } = useContext(AuthContext) as AuthContextValues;
     const [errors, setErrors] = useState<Record<string, boolean>>({});
+    const [buttonLoading, setButtonLoading] = useState(false);
 
     const handleSubmit: FormEventHandler = (event) =>
 
         handleFormSubmit(
             event,
-            async (data) => { await forgotPassword(data.email); },
+            async (data) => {
+                setButtonLoading(true);
+                try {
+                    await forgotPassword(data.email);
+                } finally {
+                    setButtonLoading(false);
+                }
+            },
             { email: '' },
             setErrors
         );
@@ -41,7 +49,13 @@ const ForgotPassword = () => {
                             onChange={handleChange}
                         />
 
-                        <Button type="submit" className=' bg-sky-500 text-white rounded-lg w-full mt-6 border border-sky-500 hover:bg-white hover:text-sky-500'>Submit</Button>
+                        <Button
+                            type="submit"
+                            className=' bg-sky-500 text-white rounded-lg w-full mt-6 border border-sky-500 hover:bg-white hover:text-sky-500'
+                            disabled={buttonLoading}
+                        >
+                            {buttonLoading ? 'Submitting...' : 'Submit'}
+                        </Button>
                     </form>
                 </div>
             </div>

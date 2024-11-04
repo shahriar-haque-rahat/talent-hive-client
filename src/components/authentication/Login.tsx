@@ -16,6 +16,7 @@ const Login = () => {
     const token = searchParams.get('token');
 
     const [isVisible, setIsVisible] = useState(false);
+    const [buttonLoading, setButtonLoading] = useState(false);
 
     useEffect(() => {
         if (token) {
@@ -32,6 +33,8 @@ const Login = () => {
     const toggleVisibility = () => setIsVisible(!isVisible);
 
     const handleSubmit: FormEventHandler = async (event) => {
+        setButtonLoading(true);
+
         event.preventDefault();
 
         const formData = new FormData(event.target as HTMLFormElement);
@@ -42,6 +45,8 @@ const Login = () => {
         };
 
         await login(data);
+
+        setButtonLoading(false);
     }
 
     return (
@@ -76,7 +81,13 @@ const Login = () => {
                                 type={isVisible ? "text" : "password"}
                             />
 
-                            <Button type="submit" className=' bg-sky-500 text-white rounded-lg w-full mt-6 border border-sky-500 hover:bg-white hover:text-sky-500'>Login</Button>
+                            <Button
+                                type="submit"
+                                className=' bg-sky-500 text-white rounded-lg w-full mt-6 border border-sky-500 hover:bg-white hover:text-sky-500'
+                                disabled={buttonLoading}
+                            >
+                                {buttonLoading ? 'Logging...' : 'Login'}
+                            </Button>
                         </form>
                         <Link href='/forgot-password' className=' cursor-pointer mt-4 text-sky-500 font-semibold hover:text-sky-600 w-fit'>Forgot Password</Link>
                     </div>

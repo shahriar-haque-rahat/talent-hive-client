@@ -25,14 +25,23 @@ const Register = () => {
     const [role, setRole] = useState(roles[0].key);
 
     const toggleVisibility = () => setIsVisible(!isVisible);
+    const [buttonLoading, setButtonLoading] = useState(false);
 
-    const handleSubmit: FormEventHandler = (event) =>
+    const handleSubmit: FormEventHandler = (event) => {
         handleFormSubmit<RegisterDataIncludeID>(
             event,
-            async (data) => { await register(data); },
+            async (data) => {
+                setButtonLoading(true);
+                try {
+                    await register(data);
+                } finally {
+                    setButtonLoading(false);
+                }
+            },
             { status: 'inactive', role },
             setErrors
         );
+    }
 
     const handleChange: InputChangeEventHandler = (event) =>
         handleInputChange(event, setErrors, setPassword, password);
@@ -131,7 +140,13 @@ const Register = () => {
                                 ))}
                             </Select>
 
-                            <Button type="submit" className=' bg-sky-500 text-white rounded-lg w-full mt-6 border border-sky-500 hover:bg-white hover:text-sky-500'>Register</Button>
+                            <Button
+                                type="submit"
+                                className=' bg-sky-500 text-white rounded-lg w-full mt-6 border border-sky-500 hover:bg-white hover:text-sky-500'
+                                disabled={buttonLoading}
+                            >
+                                {buttonLoading ? 'Registering...' : 'Register'}
+                            </Button>
                         </form>
                     </div>
 

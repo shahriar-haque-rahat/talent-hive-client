@@ -17,11 +17,19 @@ const ResetPassword = () => {
     const [isVisible, setIsVisible] = useState(false);
 
     const toggleVisibility = () => setIsVisible(!isVisible);
+    const [buttonLoading, setButtonLoading] = useState(false);
 
     const handleSubmit: FormEventHandler = (event) =>
         handleFormSubmit(
             event,
-            async (data) => { await resetPassword(token, data.password); },
+            async (data) => {
+                setButtonLoading(true);
+                try {
+                    await resetPassword(token, data.password);
+                } finally {
+                    setButtonLoading(false);
+                }
+            },
             { password: '' },
             setErrors
         );
@@ -75,7 +83,13 @@ const ResetPassword = () => {
                             onChange={handleChange}
                         />
 
-                        <Button type="submit" className=' bg-sky-500 text-white rounded-lg w-full mt-6 border border-sky-500 hover:bg-white hover:text-sky-500'>Submit</Button>
+                        <Button
+                            type="submit"
+                            className=' bg-sky-500 text-white rounded-lg w-full mt-6 border border-sky-500 hover:bg-white hover:text-sky-500'
+                            disabled={buttonLoading}
+                        >
+                            {buttonLoading ? 'Submitting' : 'Submit'}
+                        </Button>
                     </form>
                 </div>
             </div>

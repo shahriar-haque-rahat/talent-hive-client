@@ -40,7 +40,7 @@ const SavedPosts = ({ userId, openSaveList, setOpenSaveList }) => {
     return (
         <>
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[60]">
-                <div className="bg-white w-1/2 max-w-2xl h-3/4 p-6 rounded-lg relative flex flex-col">
+                <div className="bg-white md:w-1/2 max-w-2xl h-3/4 p-6 rounded-lg relative flex flex-col">
                     <button
                         onClick={() => setOpenSaveList(false)}
                         className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"

@@ -124,4 +124,3 @@ const Chats = ({ chats, userId, contactId }) => {
 };
 
 export default Chats;
-

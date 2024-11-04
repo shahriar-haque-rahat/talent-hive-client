@@ -48,7 +48,7 @@ const Login = () => {
         <>
             <div className='flex justify-center items-center px-[10%] xl:px-[20%] h-[calc(100vh-80px)]'>
                 <div className='flex flex-col-reverse md:flex-row w-full max-w-4xl mx-auto shadow border rounded-lg'>
-                    <div className='w-full md:w-1/2 p-6 bg-white flex flex-col justify-center rounded-l-lg'>
+                    <div className='w-full md:w-1/2 p-6 bg-white flex flex-col justify-center rounded-b-lg md:rounded-l-lg'>
                         <form onSubmit={handleSubmit}>
                             <h1 className=' text-2xl font-semibold my-3'>Login</h1>
 
@@ -81,7 +81,7 @@ const Login = () => {
                         <Link href='/forgot-password' className=' cursor-pointer mt-4 text-sky-500 font-semibold hover:text-sky-600 w-fit'>Forgot Password</Link>
                     </div>
 
-                    <div className="w-full md:w-1/2 bg-gradient-to-br from-sky-600 to-sky-400 text-white p-8 flex flex-col justify-center items-center rounded-r-lg">
+                    <div className="w-full md:w-1/2 bg-gradient-to-br from-sky-600 to-sky-400 text-white p-8 flex flex-col justify-center items-center rounded-t-lg md:rounded-r-lg">
                         <h1 className=" text-2xl md:text-3xl font-semibold mb-4">Welcome Back</h1>
                         <p className="mb-6">Don't have an account?</p>
                         <Link href="/register">

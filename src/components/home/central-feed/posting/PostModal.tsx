@@ -140,7 +140,7 @@ const PostModal = ({ isOpen, onClose, post, isEditing }) => {
     return (
         <>
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[60]">
-                <div className="bg-white w-full max-w-[80%] h-[80vh] p-6 rounded-lg relative overflow-auto">
+                <div className="bg-white w-full md:max-w-[80%] h-[80vh] p-6 rounded-lg relative overflow-auto">
                     <button
                         onClick={handleClose}
                         className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
@@ -148,7 +148,7 @@ const PostModal = ({ isOpen, onClose, post, isEditing }) => {
                         <MdClose size={24} />
                     </button>
 
-                    <div className="grid grid-cols-3 gap-6 h-full">
+                    <div className="lg:grid grid-cols-3 gap-6 h-full">
                         {/* Left side: Textarea */}
                         <div className="col-span-2 flex flex-col">
                             <h2 className="text-xl font-semibold mb-4">{post ? 'Edit Post' : 'Create Post'}</h2>
@@ -157,7 +157,7 @@ const PostModal = ({ isOpen, onClose, post, isEditing }) => {
                                 <textarea
                                     value={content}
                                     onChange={(e) => setContent(e.target.value)}
-                                    className="w-full h-[55vh] p-2 border rounded-md mb-4 resize-none outline-none"
+                                    className="w-full h-[25vh] lg:h-[55vh] p-2 border rounded-md mb-4 resize-none outline-none"
                                     placeholder="What's on your mind?"
                                     rows={5}
                                 />
@@ -176,10 +176,10 @@ const PostModal = ({ isOpen, onClose, post, isEditing }) => {
 
                         {/* Right side: Media section */}
                         <div className="col-span-1 flex flex-col">
-                            <h2 className="text-xl font-semibold mb-4">Add Media</h2>
+                            <h2 className="text-xl font-semibold mb-4 mt-4 lg:mt-0">Add Media</h2>
 
                             {/* Media Previews with Scroll */}
-                            <div className="grid grid-cols-2 gap-4 mb-4 overflow-y-auto h-[55vh] rounded-md ">
+                            <div className="grid grid-cols-2 gap-4 mb-4 overflow-y-auto h-[25vh] lg:h-[55vh] rounded-md ">
                                 {media.length > 0 &&
                                     media.map((file, index) => (
                                         <div key={index} className="relative">

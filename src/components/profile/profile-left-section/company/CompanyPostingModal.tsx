@@ -202,7 +202,7 @@ const CompanyPostingModal: React.FC<CompanyPostingModalProps> = ({ isOpen, onClo
     return (
         <>
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[60]">
-                <div className="bg-white w-full max-w-[80%] h-[110vh] md:h-[90vh] lg:h-fit p-6 rounded-lg relative overflow-auto">
+                <div className="bg-white w-full max-w-[80%] h-[90vh] lg:h-fit p-6 rounded-lg relative overflow-auto">
                     <button
                         onClick={handleClose}
                         className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
@@ -273,7 +273,7 @@ const CompanyPostingModal: React.FC<CompanyPostingModalProps> = ({ isOpen, onClo
                             </div>
 
                             {/* Media Preview */}
-                            <div className="mb-4 h-80 border border-gray-300 rounded-lg">
+                            <div className="mb-4 h-36 md:h-64 lg:h-80 border border-gray-300 rounded-lg">
                                 {media ? (
                                     <div className="relative w-fit h-full mx-auto">
                                         <img

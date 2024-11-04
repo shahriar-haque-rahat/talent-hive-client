@@ -159,8 +159,8 @@ const AllComments = ({ user, postUserId, postId, openComment }) => {
                     <div key={comment._id} className='flex items-start gap-2 mt-2'>
                         <div className=' flex-shrink-0 w-10 lg:w-14'>
                             <Image
-                                src={user.profileImage}
-                                alt={user.fullName}
+                                src={comment.userId.profileImage}
+                                alt={comment.userId.fullName}
                                 className="rounded-full border-2 border-white w-10 h-10 lg:w-14 lg:h-14 object-cover object-center"
                             />
                         </div>

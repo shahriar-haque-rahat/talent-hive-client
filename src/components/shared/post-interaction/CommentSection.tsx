@@ -26,6 +26,13 @@ const CommentSection = ({ user, postId }) => {
         }
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && comment.trim()) {
+            e.preventDefault();
+            handlePostComment(postId);
+        }
+    };
+
     return (
         <>
             <div className=" p-4 border-b border-gray-300 flex items-center gap-1">
@@ -44,6 +51,7 @@ const CommentSection = ({ user, postId }) => {
                         placeholder="Add a comment..."
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
+                        onKeyDown={handleKeyDown}
                     />
                     <LuSendHorizonal
                         onClick={() => comment.trim() && handlePostComment(postId)}

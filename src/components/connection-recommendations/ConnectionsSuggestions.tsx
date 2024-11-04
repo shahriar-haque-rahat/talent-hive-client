@@ -12,6 +12,7 @@ const ConnectionsSuggestions = () => {
     const user = useSelector((state: any) => state.user.user);
     const [users, setUsers] = useState([]);
     const router = useRouter();
+    const [buttonLoading, setButtonLoading] = useState(false);
 
     const handleProfile = (userId) => {
         router.push(`/profile?id=${userId}`);
@@ -19,6 +20,8 @@ const ConnectionsSuggestions = () => {
 
     const handleSendConnectionRequest = async (receiverId) => {
         try {
+            setButtonLoading(true)
+
             await sendConnectionRequest(user._id, receiverId);
 
             setUsers(prevUsers => prevUsers.filter(u => u._id !== receiverId));
@@ -30,6 +33,8 @@ const ConnectionsSuggestions = () => {
         } catch (error) {
             console.error('Error sending connection request:', error);
         }
+
+        setButtonLoading(false)
     };
 
     const fetchUniqueUser = async () => {
@@ -86,7 +91,7 @@ const ConnectionsSuggestions = () => {
         <>
             <div className=' bg-white p-3 xl:p-6 border shadow rounded-lg'>
                 <p className=' mb-4 font-semibold'>Add to your connect</p>
-                {
+                {users.length > 0 ? (
                     users?.map(user => (
                         <div key={user._id} className='flex gap-3 xl:gap-6 mb-4'>
                             <div className='flex-shrink-0 w-16 h-16 my-auto'>
@@ -108,13 +113,16 @@ const ConnectionsSuggestions = () => {
                                 <button
                                     onClick={() => handleSendConnectionRequest(user._id)}
                                     className='w-20 xl:w-24 text-sm py-1 px-3 rounded-lg border border-gray-600 hover:border-black hover:bg-gray-200 flex gap-1 justify-center items-center font-bold'
+                                    disabled={buttonLoading}
                                 >
                                     <FiPlus size={16} /> Add
                                 </button>
                             </div>
                         </div>
                     ))
-                }
+                ) : (
+                    <p className='text-center text-xs'>No connect recommendations</p>
+                )}
                 <Link href={"/connection-recommendations"}>
                     <p className=' text-gray-600 mt-4 font-semibold text-xs flex items-center cursor-pointer'>
                         View all recommendations <TiArrowRight size={20} />

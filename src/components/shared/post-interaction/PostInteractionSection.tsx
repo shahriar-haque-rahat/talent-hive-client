@@ -17,6 +17,9 @@ const PostInteractionSection = ({ user, post, isModalView = false }) => {
     const [openShare, setOpenShare] = useState({ isOpen: false, post: null });
     const [openShareList, setOpenShareList] = useState({ isOpen: false, post: null });
 
+    const [buttonLoading1, setButtonLoading1] = useState(false);
+    const [buttonLoading2, setButtonLoading2] = useState(false);
+
     // like
     const toggleOpenLike = (postId) => {
         setOpenLike({ isOpen: !openLike.isOpen, postId });
@@ -26,6 +29,8 @@ const PostInteractionSection = ({ user, post, isModalView = false }) => {
         if (!user._id) return;
 
         try {
+            setButtonLoading1(true);
+
             let updatedPost;
             if (post.isLiked) {
                 // Unlike the post
@@ -42,6 +47,8 @@ const PostInteractionSection = ({ user, post, isModalView = false }) => {
         catch (error) {
             console.error("Error toggling like:", error);
         }
+
+        setButtonLoading1(false);
     };
 
     // comment
@@ -72,6 +79,8 @@ const PostInteractionSection = ({ user, post, isModalView = false }) => {
         if (!user._id) return;
 
         try {
+            setButtonLoading2(true);
+
             let updatedPost;
             if (post.isSaved) {
                 // Unsave the post
@@ -88,6 +97,8 @@ const PostInteractionSection = ({ user, post, isModalView = false }) => {
         catch (error) {
             console.error("Error toggling save:", error);
         }
+
+        setButtonLoading2(false);
     };
 
     return (
@@ -100,7 +111,11 @@ const PostInteractionSection = ({ user, post, isModalView = false }) => {
                 </div>
                 <div className='flex justify-evenly'>
                     {/* Like */}
-                    <button onClick={() => handleLikeToggle(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'>
+                    <button
+                        onClick={() => handleLikeToggle(post)}
+                        className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'
+                        disabled={buttonLoading1}
+                    >
                         {post.isLiked ? <BiSolidLike size={22} className="text-black" /> : <BiLike size={22} />}
                     </button>
 
@@ -115,7 +130,11 @@ const PostInteractionSection = ({ user, post, isModalView = false }) => {
                     </button>
 
                     {/* Save */}
-                    <button onClick={() => handleSaveToggle(post)} className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'>
+                    <button
+                        onClick={() => handleSaveToggle(post)}
+                        className='hover:bg-gray-200 p-2 flex items-center justify-center gap-1 text-sm'
+                        disabled={buttonLoading2}
+                    >
                         {post.isSaved ? <BiSolidBookmarkAlt size={22} className=' text-black' /> : <BiBookmarkAlt size={22} />}
                     </button>
                 </div>

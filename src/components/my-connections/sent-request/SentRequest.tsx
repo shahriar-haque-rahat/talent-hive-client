@@ -4,19 +4,28 @@ import { getSentRequests, deleteConnectionRequest } from '@/apiFunctions/connect
 import { useDispatch, useSelector } from 'react-redux';
 import { setSentRequests, removeSentRequest, setConnectionStatus } from '@/redux/connectionSlice';
 import MyConnectionProfileHeader from '../my-connections-shared-component/MyConnectionProfileHeader';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const SentRequest = () => {
     const dispatch = useDispatch();
     const user = useSelector((state: any) => state.user.user);
     const sentRequests = useSelector((state: any) => state.connection.sentRequests);
+    const [buttonLoading, setButtonLoading] = useState(false);
 
     const handleDeleteConnectionRequest = async (otherUserId: string) => {
-        const res = await deleteConnectionRequest('delete', user._id, otherUserId);
-        if (res) {
-            dispatch(removeSentRequest(otherUserId));
-            dispatch(setConnectionStatus({ userId: otherUserId, status: 'no_relationship' }));
+        try {
+            setButtonLoading(true);
+
+            const res = await deleteConnectionRequest('delete', user._id, otherUserId);
+            if (res) {
+                dispatch(removeSentRequest(otherUserId));
+                dispatch(setConnectionStatus({ userId: otherUserId, status: 'no_relationship' }));
+            }
+        } catch (error) {
+            console.log('Error deleting connection request', error)
         }
+
+        setButtonLoading(false);
     };
 
     useEffect(() => {
@@ -36,13 +45,14 @@ const SentRequest = () => {
         <div>
             {sentRequests.length > 0 ? (
                 <ul className='space-y-2'>
-                    {sentRequests.map((request: any) => (
+                    {sentRequests?.map((request: any) => (
                         <li key={request.receiver._id} className="border bg-white shadow rounded-lg p-3">
                             <MyConnectionProfileHeader userId={request.receiver._id} profileImage={request.receiver.profileImage} fullName={request.receiver.fullName} email={request.receiver.email} />
                             <div className='flex gap-2 justify-between mt-1 w-full'>
                                 <button
                                     onClick={() => handleDeleteConnectionRequest(request.receiver._id)}
                                     className='w-full text-sm py-1 px-3 rounded-lg border border-gray-600 hover:border-black hover:bg-gray-200 flex gap-1 justify-center items-center font-bold'
+                                    disabled={buttonLoading}
                                 >
                                     Cancel Request
                                 </button>
@@ -51,7 +61,7 @@ const SentRequest = () => {
                     ))}
                 </ul>
             ) : (
-                <p>No sent requests.</p>
+                <p className='text-center'>No sent requests.</p>
             )}
         </div>
     );

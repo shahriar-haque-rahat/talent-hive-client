@@ -41,7 +41,7 @@ const Register = () => {
         <>
             <div className='flex justify-center items-center px-[10%] xl:px-[20%] h-[calc(100vh-80px)]'>
                 <div className='flex flex-col-reverse md:flex-row w-full max-w-4xl mx-auto shadow border rounded-lg'>
-                    <div className='w-full md:w-1/2 p-6 bg-white flex flex-col justify-center rounded-l-lg'>
+                    <div className='w-full md:w-1/2 p-6 bg-white flex flex-col justify-center rounded-b-lg md:rounded-l-lg'>
                         <form onSubmit={handleSubmit}>
                             <h1 className=' text-2xl font-semibold my-3'>Register</h1>
 
@@ -135,7 +135,7 @@ const Register = () => {
                         </form>
                     </div>
 
-                    <div className="w-full md:w-1/2 bg-gradient-to-br from-sky-600 to-sky-400 text-white p-8 flex flex-col justify-center items-center rounded-r-lg">
+                    <div className="w-full md:w-1/2 bg-gradient-to-br from-sky-600 to-sky-400 text-white p-8 flex flex-col justify-center items-center rounded-t-lg md:rounded-r-lg">
                         <h1 className=" text-2xl md:text-3xl font-semibold mb-4">Talent Hive</h1>
                         <p className="mb-6">Already have an account?</p>
                         <Link href="/login">

@@ -150,7 +150,7 @@ const Register = () => {
                         </form>
                     </div>
 
-                    <div className="w-full md:w-1/2 bg-gradient-to-br from-sky-600 to-sky-400 text-white p-8 flex flex-col justify-center items-center rounded-t-lg md:rounded-r-lg">
+                    <div className="w-full md:w-1/2 bg-gradient-to-br from-sky-600 to-sky-400 text-white p-8 flex flex-col justify-center items-center rounded-t-lg md:rounded-r-lg md:rounded-l-none">
                         <h1 className=" text-2xl md:text-3xl font-semibold mb-4">Talent Hive</h1>
                         <p className="mb-6">Already have an account?</p>
                         <Link href="/login">

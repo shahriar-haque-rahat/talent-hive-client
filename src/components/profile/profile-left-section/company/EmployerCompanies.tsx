@@ -46,7 +46,7 @@ const EmployerCompanies = () => {
     const handleAddOrUpdateCompany = (newCompany) => {
         setCompanies((prevCompanies) => {
             const companyExists = prevCompanies.some(company => company._id === newCompany._id);
-    
+
             if (companyExists) {
                 return prevCompanies.map(company =>
                     company._id === newCompany._id ? newCompany : company
@@ -73,13 +73,16 @@ const EmployerCompanies = () => {
     return (
         <>
             <div className='bg-white border rounded-lg shadow p-3 space-y-2'>
-                <div className='px-2'>
-                    <Button onClick={handleOpenModal} className='w-full border border-gray-400 rounded-lg bg-white hover:bg-gray-100'>
-                        Create a company
-                    </Button>
-                </div>
+                <h1 className='text-xl font-semibold p-2'>Companies</h1>
+                {(userProfile._id === user._id) &&
+                    <div className='px-2'>
+                        <Button onClick={handleOpenModal} className='w-full border border-gray-400 rounded-lg bg-white hover:bg-gray-100'>
+                            Create a company
+                        </Button>
+                    </div>
+                }
 
-                {companies.length > 0 && (
+                {companies.length > 0 ? (
                     <div className="w-full max-w-sm md:max-w-2xl xl:max-w-4xl mx-auto">
                         <Swiper
                             modules={[Navigation, Scrollbar]}
@@ -128,12 +131,14 @@ const EmployerCompanies = () => {
                             </button>
                         </div>
                     </div>
+                ):(
+                    <p className='text-center'>No company posted yet</p>
                 )}
             </div>
 
             <CompanyPostingModal
                 isOpen={isModalOpen}
-                onClose={() =>setIsModalOpen(false)}
+                onClose={() => setIsModalOpen(false)}
                 addOrUpdateCompany={handleAddOrUpdateCompany}
                 employerId={user._id}
                 company={companyForEdit}

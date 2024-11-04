@@ -92,7 +92,7 @@ const Login = () => {
                         <Link href='/forgot-password' className=' cursor-pointer mt-4 text-sky-500 font-semibold hover:text-sky-600 w-fit'>Forgot Password</Link>
                     </div>
 
-                    <div className="w-full md:w-1/2 bg-gradient-to-br from-sky-600 to-sky-400 text-white p-8 flex flex-col justify-center items-center rounded-t-lg md:rounded-r-lg">
+                    <div className="w-full md:w-1/2 bg-gradient-to-br from-sky-600 to-sky-400 text-white p-8 flex flex-col justify-center items-center rounded-t-lg md:rounded-r-lg md:rounded-l-none">
                         <h1 className=" text-2xl md:text-3xl font-semibold mb-4">Welcome Back</h1>
                         <p className="mb-6">Don't have an account?</p>
                         <Link href="/register">

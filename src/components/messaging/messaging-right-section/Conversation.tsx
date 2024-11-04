@@ -150,28 +150,30 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
 
     return (
         <div className='bg-white rounded-lg border shadow h-[calc(100vh-130px)] md:h-[calc(100vh-110px)]' onClick={openConversation}>
-            {contactPerson &&
-                <div className=' flex items-center gap-3 h-20 p-4 border-b border-gray-300'>
-                    <div className=' md:hidden' onClick={() => router.back()}>
-                        <FaArrowLeft size={20} />
-                    </div>
-
-                    <div className='flex items-center gap-3 xl:gap-6'>
-                        <div className='flex-shrink-0 w-12 h-12 '>
-                            <Image
-                                onClick={handleProfile}
-                                src={contactPerson.profileImage ? contactPerson.profileImage : "/assets/user.png"}
-                                alt="Profile"
-                                className="cursor-pointer rounded-full w-12 h-12 border border-gray-300 object-cover object-top"
-                            />
+            <div className=' h-20'>
+                {contactPerson &&
+                    <div className=' flex items-center gap-3 h-full p-4 border-b border-gray-300'>
+                        <div className=' md:hidden' onClick={() => router.back()}>
+                            <FaArrowLeft size={20} />
                         </div>
 
-                        <div className='flex-grow'>
-                            <h1 onClick={handleProfile} className='font-semibold hover:underline cursor-pointer'>{contactPerson.fullName}</h1>
+                        <div className='flex items-center gap-3 xl:gap-6'>
+                            <div className='flex-shrink-0 w-12 h-12 '>
+                                <Image
+                                    onClick={handleProfile}
+                                    src={contactPerson.profileImage ? contactPerson.profileImage : "/assets/user.png"}
+                                    alt="Profile"
+                                    className="cursor-pointer rounded-full w-12 h-12 border border-gray-300 object-cover object-top"
+                                />
+                            </div>
+
+                            <div className='flex-grow'>
+                                <h1 onClick={handleProfile} className='font-semibold hover:underline cursor-pointer'>{contactPerson.fullName}</h1>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
             <Chats chats={chats} userId={userId} contactId={contactId} />
         </div>
     );

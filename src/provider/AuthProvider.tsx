@@ -3,6 +3,7 @@
 import { clearCookies, getToken, setSession } from '@/actions/auth';
 import { publicRoutes } from '@/actions/routes';
 import { useAuth } from '@/hooks/useAxiosInstances';
+import { startLoading, stopLoading } from '@/redux/loadingSlice';
 import { clearUser } from '@/redux/userSlice';
 import { AuthContextValues, AuthProviderProps, LoginData, RegisterData } from '@/types/auth/auth.types';
 import axios from 'axios';
@@ -112,6 +113,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
     const logout = async () => {
         try {
+            dispatch(startLoading());
+
             const currentRoute = window.location.pathname;
             const isPublicRoute = publicRoutes.includes(currentRoute);
 
@@ -137,9 +140,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
                 dispatch(clearUser());
                 toast.success('User logged out');
 
-                if (!isPublicRoute) {
-                    router.push('/login');
-                }
+                router.push('/login');
+                dispatch(stopLoading());
             }
         }
         catch (error) {

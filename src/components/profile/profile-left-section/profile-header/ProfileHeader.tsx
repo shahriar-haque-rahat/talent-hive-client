@@ -29,10 +29,11 @@ const ProfileHeader = () => {
                     </div>
                     <div className='md:w-1/2 mx-auto'>
                         {(user._id !== userProfile._id) &&
-                            <InteractionButtons user={user} userProfile={userProfile} relationshipStatus={userProfile.relationshipStatus}/>
+                            <InteractionButtons user={user} userProfile={userProfile} relationshipStatus={userProfile.relationshipStatus} />
                         }
                     </div>
                 </div>
+                <p className='px-6'>{userProfile.designation}</p>
                 <p className=' py-4 px-6'>{userProfile.about}</p>
 
                 {(user._id === userProfile._id)

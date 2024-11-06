@@ -7,13 +7,26 @@ import RightSidebar from './home-right-section/HomeRightSection';
 
 const Home = () => {
     return (
-        <>
-            <div className=' grid md:grid-cols-3 lg:grid-cols-4 gap-2'>
-                <div className=' hidden md:block'><LeftSidebar /></div>
-                <div className='  col-span-2'><NewsFeed /></div>
-                <div className=' hidden lg:block'><RightSidebar /></div>
+        <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-2 w-full">
+            {/* Left Sidebar */}
+            <div className="hidden md:block">
+                <div className="sticky top-20 z-10">
+                    <LeftSidebar />
+                </div>
             </div>
-        </>
+
+            {/* News Feed */}
+            <div className="col-span-2">
+                <NewsFeed />
+            </div>
+
+            {/* Right Sidebar */}
+            <div className="hidden lg:block">
+                <div className="sticky top-20 z-10">
+                    <RightSidebar />
+                </div>
+            </div>
+        </div>
     );
 };
 

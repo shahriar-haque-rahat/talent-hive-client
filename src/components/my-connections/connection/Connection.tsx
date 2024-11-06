@@ -46,7 +46,7 @@ const Connection = () => {
     return (
         <>
             {connections?.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2 mt-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-2">
                     {connections?.map((connection: any) => (
                         <div key={connection._id} className="border bg-white shadow rounded-lg p-3">
                             <MyConnectionProfileHeader userId={connection._id} profileImage={connection.profileImage} fullName={connection.fullName} email={connection.email} />

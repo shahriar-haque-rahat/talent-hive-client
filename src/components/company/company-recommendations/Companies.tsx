@@ -85,12 +85,18 @@ const Companies = () => {
 
     return (
         <>
-            <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow border'>Company Recommendations</h1>
+            <div className='sticky top-20 z-30 bg-gray-100 pb-4'>
+                <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow border'>Company Recommendations</h1>
 
+                <div className='md:w-1/2'><CompanySearch /></div>
+            </div>
 
-            <div className='mb-4 md:w-1/2'><CompanySearch /></div>
-
-            <Tabs key={'default'} variant='underlined' aria-label="Company Tabs" radius="lg">
+            <Tabs
+                key={'default'}
+                variant='underlined'
+                aria-label="Company Tabs"
+                radius="lg"
+                className="sticky top-[260px] z-20 bg-gray-100 w-full pb-4 border-b border-gray-300">
                 <Tab title="Unfollowed Companies">
                     <CompanyList
                         companies={notFollowedCompanies}

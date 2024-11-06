@@ -103,7 +103,7 @@ const NotificationList = () => {
                 <button onClick={handleMarkAllAsRead} className=' hover:underline'>Mark all as read</button>
             </div>
 
-            <div className='max-h-[calc(100vh-150px)] overflow-y-scroll'>
+            <div className='max-h-[calc(100vh-155px)] overflow-y-scroll'>
                 {notifications?.length > 0 ? (
                     notifications.map((notification: any) => (
                         <div

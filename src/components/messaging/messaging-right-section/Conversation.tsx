@@ -149,7 +149,7 @@ const Conversation = ({ userId, contactId }: ConversationInterface) => {
     };
 
     return (
-        <div className='bg-white rounded-lg border shadow h-[calc(100vh-130px)] md:h-[calc(100vh-110px)]' onClick={openConversation}>
+        <div className='bg-white rounded-lg border shadow h-[calc(100vh-90px)]' onClick={openConversation}>
             <div className=' h-20'>
                 {contactPerson &&
                     <div className=' flex items-center gap-3 h-full p-4 border-b border-gray-300'>

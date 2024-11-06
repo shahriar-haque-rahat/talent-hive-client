@@ -57,15 +57,20 @@ const ConnectionRecommendations = () => {
 
     return (
         <>
+            <div className="sticky top-20 z-10 mb-2 border-b border-gray-300 bg-gray-100">
+                <h1 className="mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow border">
+                    People You May Know
+                </h1>
+                <div className="mb-4 md:w-1/2">
+                    <UserProfileSearch />
+                </div>
+            </div>
+
             <div>
-                <h1 className='mb-4 text-2xl font-semibold px-6 py-8 bg-white rounded-lg shadow border'>People You May Know</h1>
-                
-                <div className='mb-4 md:w-1/2'><UserProfileSearch/></div>
-                
-                {users?.length > 0 ? (
-                    <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3'>
-                        {
-                            users?.map((userInfo: any) => {
+                <div>
+                    {users?.length > 0 ? (
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+                            {users?.map((userInfo: any) => {
                                 const connectionStatus = getConnectionStatus(userInfo._id);
                                 return (
                                     <UserConnectionCard
@@ -75,20 +80,21 @@ const ConnectionRecommendations = () => {
                                         connectionStatus={connectionStatus}
                                     />
                                 );
-                            })
-                        }
+                            })}
+                        </div>
+                    ) : (
+                        <p className="text-center">No connection recommendations</p>
+                    )}
+                </div>
+
+                {hasMore && (
+                    <div ref={ref} className="h-fit">
+                        <UserConnectionCardSkeleton />
                     </div>
-                ) : (
-                    <p className='text-center'>No connection recommendations</p>
                 )}
             </div>
-
-            {hasMore && (
-                <div ref={ref} className="h-fit">
-                    <UserConnectionCardSkeleton />
-                </div>
-            )}
         </>
+
     );
 };
 

@@ -4,15 +4,14 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import JobPostSkeleton from '@/skeletons/JobPostSkeleton';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import JobPosting from './JobPosting';
 
 interface CompanyJobsProps {
     companyId: string;
+    jobPosts: any;
 }
 
-const CompanyJobs = ({ companyId }: CompanyJobsProps) => {
+const CompanyJobs = ({ companyId, jobPosts, setJobPosts }: CompanyJobsProps) => {
     const router = useRouter();
-    const [jobPosts, setJobPosts] = useState([]);
     const [page, setPage] = useState(0);
     const { ref, inView } = useIntersectionObserver();
     const [hasMore, setHasMore] = useState(true);
@@ -58,28 +57,21 @@ const CompanyJobs = ({ companyId }: CompanyJobsProps) => {
 
     return (
         <>
-            <div className='rounded-lg border bg-white shadow'>
-                <div className='h-28 px-6 py-8 border-b border-gray-300 flex justify-between'>
-                    <h1 className=' text-2xl font-semibold '>Jobs for you</h1>
-                    <JobPosting companyId={companyId} setJobPosts={setJobPosts}/>
-                </div>
-
+            <div className='rounded-b-lg border border-t-0 bg-white shadow'>
                 <div>
-                    <div>
-                        {jobPosts?.map(jobPost => (
-                            <div className=' p-3 md:p-6 border-b border-gray-300'>
-                                <JobPostCard jobPost={jobPost} handleDetails={handleDetails} />
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Element to trigger for more fetch */}
-                    {hasMore && (
-                        <div ref={ref} className="h-fit">
-                            <JobPostSkeleton />
+                    {jobPosts?.map(jobPost => (
+                        <div className=' p-3 md:p-6 border-b border-gray-300'>
+                            <JobPostCard jobPost={jobPost} handleDetails={handleDetails} />
                         </div>
-                    )}
+                    ))}
                 </div>
+
+                {/* Element to trigger for more fetch */}
+                {hasMore && (
+                    <div ref={ref} className="h-fit">
+                        <JobPostSkeleton />
+                    </div>
+                )}
             </div>
         </>
     );

@@ -16,7 +16,7 @@ const JobDetailsRightSection = ({ jobPost }) => {
             <div className='bg-white rounded-lg border shadow'>
                 <div className='h-28 px-6 py-8 border-b border-gray-300'><CompanyHeader companyId={jobPost.companyId} /></div>
 
-                <div className='relative h-[calc(100vh-110px)] overflow-y-scroll'>
+                <div className='relative h-[calc(100vh-200px)] overflow-y-scroll'>
                     <div className='absolute top-2 right-3 '><JobEditAndDelete jobPost={jobPost}/></div>
 
                     <div className=' p-6'>

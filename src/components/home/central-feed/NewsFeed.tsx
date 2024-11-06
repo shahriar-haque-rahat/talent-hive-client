@@ -73,7 +73,7 @@ const NewsFeed = () => {
                 <PostSection />
             </div>
 
-            <div className='space-y-4 h-[calc(100vh-165px)] md:h-[calc(100vh-40px)] overflow-y-scroll'>
+            <div className='space-y-4  border-y rounded-lg'>
                 {Array.isArray(posts) &&
                     posts?.map((post, index) => (
                         <div key={index} className='bg-white border rounded-lg shadow'>

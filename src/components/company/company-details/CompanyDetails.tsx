@@ -10,7 +10,11 @@ const CompanyDetails = ({ id }: CompanyDetails) => {
     return (
         <div className=' grid lg:grid-cols-4 gap-2'>
             <div className=' lg:col-span-3'><DetailsPage id={id} /></div>
-            <div className='hidden lg:block'><CompanyRightSection/></div>
+            <div className='hidden lg:block'>
+                <div className='sticky top-20 z-10 r-0'>
+                    <CompanyRightSection />
+                </div>
+            </div>
         </div>
     );
 };

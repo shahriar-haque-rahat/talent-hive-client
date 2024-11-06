@@ -48,12 +48,12 @@ const ContactList = () => {
     };
 
     return (
-        <div className='bg-white rounded-lg border shadow h-[calc(100vh-110px)]'>
+        <div className='bg-white rounded-lg border shadow h-[calc(100vh-90px)]'>
             <p className='text-2xl font-bold h-20 p-4 border-b border-gray-300'>Chats</p>
 
             <UserSearch />
 
-            <div className='h-[calc(100vh-238px)] overflow-y-scroll rounded-bl-lg'>
+            <div className='h-[calc(100vh-224px)] overflow-y-scroll rounded-bl-lg'>
                 {chatList?.length > 0 ? (
                     chatList.map((contact, index) => {
                         const isUnread = contact.senderId !== user._id && !contact.lastMessageIsRead;
@@ -83,7 +83,9 @@ const ContactList = () => {
                                         {contact.otherUserFullName}
                                     </p>
                                     <p className={`text-gray-500 text-sm ${isUnread ? 'font-semibold text-sky-700' : ''}`}>
-                                        {contact.lastMessage}
+                                        <p className={`text-gray-500 text-sm ${isUnread ? 'font-semibold text-sky-700' : ''}`}>
+                                            <p>{contact.lastMessage.length > 15 ? contact.lastMessage.slice(0, 15) + '...' : contact.lastMessage}</p>
+                                        </p>
                                     </p>
                                 </div>
                                 {contact.unreadCount > 0 && (

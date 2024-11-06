@@ -6,7 +6,11 @@ const Jobs = () => {
     return (
         <>
             <div className=' grid md:grid-cols-5 gap-2'>
-                <div className=' md:col-span-2'><JobsLeftSection /></div>
+                <div className=' md:col-span-2'>
+                    <div className=' sticky top-20 z-10'>
+                        <JobsLeftSection />
+                    </div>
+                </div>
                 <div className=' md:col-span-3'><JobsRightSection /></div>
             </div>
         </>

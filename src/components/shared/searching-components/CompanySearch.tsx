@@ -87,7 +87,12 @@ const CompanySearch = () => {
                 <IoSearch size={18} />
             </button>
 
-            {loading && <div className="mt-2 text-gray-500">Loading...</div>}
+            {loading &&
+                <div className="absolute left-0 right-0 bg-white border border-gray-300 rounded-md mt-1 z-10 p-2 text-center text-gray-500">
+                    Loading...
+                </div>
+            }
+            
             {showDropdown && results?.length > 0 ? (
                 <div
                     ref={dropdownRef}

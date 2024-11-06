@@ -1,11 +1,11 @@
-import UserSortDetails from '@/components/home/home-left-section/UserSortDetails';
+import UserShortDetails from '@/components/home/home-left-section/UserShortDetails';
 import React from 'react';
 
 const NotificationsLeftSection = () => {
     return (
         <>
             <div>
-                <UserSortDetails />
+                <UserShortDetails />
             </div>
         </>
     );

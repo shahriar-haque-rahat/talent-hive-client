@@ -60,6 +60,14 @@ const NavbarDropdown = () => {
                                 className="block rounded-t-lg w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">
                                 Profile
                             </button>
+
+                            <Link href="/contact-us">
+                                <button
+                                    className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">
+                                    Contact Us
+                                </button>
+                            </Link>
+
                             <button
                                 onClick={handleLogout}
                                 className="block rounded-b-lg w-full text-left px-4 py-2 bg-sky-500 text-white hover:bg-sky-600"

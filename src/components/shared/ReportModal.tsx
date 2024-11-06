@@ -15,7 +15,7 @@ const ReportModal = ({ isOpen, toggleReportModal, postId, postUser }) => {
 
         try {
             if (user._id) {
-                const response = await axios.post('/api/nodemailer', {
+                const response = await axios.post('/api/nodemailer/post-report', {
                     message: message,
                     userId: user?._id,
                     userName: user?.fullName,

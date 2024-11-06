@@ -1,12 +1,12 @@
 import React from 'react';
 import PostSection from './PostSection';
-import UserSortDetails from './UserSortDetails';
+import UserShortDetails from './UserShortDetails';
 
 const HomeLeftSection = () => {
 
     return (
         <>
-            <UserSortDetails/>
+            <UserShortDetails />
             <div className='my-6 border-t border-gray-500'></div>
             <PostSection />
         </>

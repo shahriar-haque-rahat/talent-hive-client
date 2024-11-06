@@ -132,13 +132,13 @@ const Register = () => {
                                 onChange={handleChange}
                             />
 
-                            <Select name="role" label="Role" variant="underlined" value={role} onChange={(e) => setRole(e.target.value)} >
+                            {/* <Select name="role" label="Role" variant="underlined" value={role} onChange={(e) => setRole(e.target.value)} >
                                 {roles.map((role) => (
                                     <SelectItem key={role.key} value={role.key}>
                                         {role.label}
                                     </SelectItem>
                                 ))}
-                            </Select>
+                            </Select> */}
 
                             <Button
                                 type="submit"

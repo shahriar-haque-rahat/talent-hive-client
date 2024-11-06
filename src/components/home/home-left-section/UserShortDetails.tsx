@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-const UserSortDetails = () => {
+const UserShortDetails = () => {
     const user = useSelector((state: any) => state.user.user);
     const router = useRouter();
 
@@ -15,9 +15,9 @@ const UserSortDetails = () => {
 
     return (
         <>
-            <div onClick={handleProfile} className=' bg-white rounded-lg border shadow cursor-pointer '>
+            <div className=' bg-white rounded-lg border shadow cursor-pointer '>
                 {/* profile icon */}
-                <div className='relative'>
+                <div onClick={handleProfile} className='relative'>
                     <div>
                         <img
                             src={user?.coverImage ? user.coverImage : "/assets/bg.jpg"}
@@ -36,7 +36,7 @@ const UserSortDetails = () => {
 
                 {/* info */}
                 <div className=' pt-8'>
-                    <div className='pb-3 px-3 text-center space-y-1 border-b border-gray-300'>
+                    <div onClick={handleProfile} className='pb-3 px-3 text-center space-y-1 border-b border-gray-300'>
                         <h1 className=' font-bold'>{user.fullName}</h1>
                         <p className=' text-xs font-semibold'>{user?.designation}</p>
                         <p className=' text-xs'>{user?.about}</p>
@@ -54,4 +54,4 @@ const UserSortDetails = () => {
     );
 };
 
-export default UserSortDetails;
+export default UserShortDetails;

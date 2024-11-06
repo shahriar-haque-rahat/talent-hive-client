@@ -14,6 +14,8 @@ import UserInfoSection from '../../shared/UserInfoSection';
 import ContentSection from './shared-components-for-post/ContentSection';
 import MediaSection from './shared-components-for-post/MediaSection';
 import PostSection from '../home-left-section/PostSection';
+import { MdReportGmailerrorred } from "react-icons/md";
+import ReportModal from '@/components/shared/ReportModal';
 
 const NewsFeed = () => {
     const dispatch = useDispatch();
@@ -23,6 +25,12 @@ const NewsFeed = () => {
     const page = useSelector((state: any) => state.post.postsPage);
     const [hasMore, setHasMore] = useState(true);
     const [openEditDeleteModal, setOpenEditDeleteModal] = useState({});
+    const [openReportModal, setOpenReportModal] = useState({ isOpen: false, postId: null, postUser: null });
+
+    // Toggle Report Modal
+    const toggleReportModal = (postId = null, postUser = null) => {
+        setOpenReportModal({ isOpen: !openReportModal.isOpen, postId, postUser });
+    };
 
     // Edit Delete Modal
     const toggleEditDeleteModal = (postId) => {
@@ -97,6 +105,11 @@ const NewsFeed = () => {
                                         </>
                                     )}
                                 </div>
+
+                                <MdReportGmailerrorred
+                                    onClick={() => toggleReportModal(post._id, post.userId)}
+                                    size={18}
+                                    className='mt-1 text-red-500 hover:text-red-600 hover:bg-gray-200 cursor-pointer' />
                             </div>
 
                             {/* Post content */}
@@ -112,6 +125,7 @@ const NewsFeed = () => {
 
                             {/* interaction section */}
                             <PostInteractionSection user={user} post={post} />
+
                         </div>
                     ))
                 }
@@ -123,6 +137,14 @@ const NewsFeed = () => {
                     </div>
                 )}
             </div>
+
+            {/* Report post */}
+            <ReportModal
+                isOpen={openReportModal.isOpen}
+                toggleReportModal={() => toggleReportModal(null, null)}
+                postId={openReportModal.postId}
+                postUser={openReportModal.postUser}
+            />
         </>
     );
 };

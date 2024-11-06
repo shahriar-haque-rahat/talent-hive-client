@@ -1,5 +1,5 @@
 import { getLikes } from '@/apiFunctions/postInteraction';
-import { Image } from '@nextui-org/react';
+import { Image, Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 
@@ -36,38 +36,47 @@ const AllLikes = ({ openLike, toggleOpenLike, postId }) => {
     if (!openLike) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[60]">
-            <div className="bg-white w-full md:w-1/2 max-w-2xl h-3/4 p-6 rounded-lg relative flex flex-col">
-                <button
-                    onClick={handleCloseLikeModal}
-                    className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-                >
-                    <MdClose size={24} />
-                </button>
-                <h2 className="text-xl font-bold mb-4">All Likes</h2>
-                <div className="overflow-y-scroll flex-1">
-                    <ul>
-                        {likes.length > 0 && likes.map((like) => (
-                            <div key={like._id} className=' flex gap-2 items-center py-2 border-b border-gray-200 hover:underline cursor-pointer'>
-                                <Image
-                                    src={like.userId?.profileImage}
-                                    alt={like.userId?.fullName}
-                                    className="rounded-full border-2 border-white w-14 h-14 object-cover object-center"
-                                    width={48}
-                                    height={48}
-                                />
-                                <li>
-                                    {like.userId.fullName}
-                                </li>
-                            </div>
-                        ))}
-                        {likes.length === 0 &&
-                            <p className=' w-full text-center'>There are no likes</p>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <>
+            <Modal
+                size='5xl'
+                isOpen={openLike}
+                onOpenChange={handleCloseLikeModal}
+                className='bg-white w-full md:w-1/2 max-w-2xl md:p-6 rounded-lg '
+            >
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader>All Likes</ModalHeader>
+                            <ModalBody>
+                                <div>
+                                    <div className="flex flex-col h-[60vh] md:h-[80vh] overflow-y-scroll flex-1">
+                                        <ul>
+                                            {likes.length > 0 && likes.map((like) => (
+                                                <div key={like._id} className=' flex gap-2 items-center py-2 border-b border-gray-200 hover:underline cursor-pointer'>
+                                                    <Image
+                                                        src={like.userId?.profileImage}
+                                                        alt={like.userId?.fullName}
+                                                        className="rounded-full border-2 border-white w-14 h-14 object-cover object-center"
+                                                        width={48}
+                                                        height={48}
+                                                    />
+                                                    <li>
+                                                        {like.userId.fullName}
+                                                    </li>
+                                                </div>
+                                            ))}
+                                            {likes.length === 0 &&
+                                                <p className=' w-full text-center'>There are no likes</p>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ModalBody>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
+        </>
     );
 };
 

@@ -1,7 +1,7 @@
 import { patchUser } from '@/apiFunctions/userData';
 import { useEdgeStore } from '@/edgestore/edgestore';
 import { addAuthorizedUser } from '@/redux/userSlice';
-import { Button } from '@nextui-org/react';
+import { Button, Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import React, { useRef, useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { MdClose, MdFileUpload } from 'react-icons/md';
@@ -87,78 +87,83 @@ const EditProfileAndCoverImageModal = ({ userId, userName, initialMediaUrl, type
 
     return (
         <>
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[60]">
-                <div className="bg-white w-full max-w-[80%] h-fit p-6 rounded-lg relative overflow-auto">
-                    <button
-                        onClick={onClose}
-                        className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-                    >
-                        <MdClose size={24} />
-                    </button>
+            <Modal
+                size='5xl'
+                isOpen={type}
+                onOpenChange={onClose}
+                className='bg-white w-full max-w-[80%] h-fit p-6 rounded-lg'
+            >
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader>Edit {type === 'profile' ? 'Profile Image' : 'Cover Image'}</ModalHeader>
+                            <ModalBody>
+                                <div className=" overflow-auto">
+                                    {/* Media Preview */}
+                                    <div className="mb-4 h-80 border border-gray-300 rounded-lg">
+                                        {media ? (
+                                            <div className="relative w-fit h-full mx-auto">
+                                                <img
+                                                    src={URL.createObjectURL(media)}
+                                                    alt="media preview"
+                                                    className="w-fit h-80 object-cover object-top rounded-md"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={handleRemoveMedia}
+                                                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
+                                                >
+                                                    <MdClose size={16} />
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            removedMedia && (
+                                                <div className="relative w-fit h-full mx-auto">
+                                                    <img
+                                                        src={removedMedia}
+                                                        alt="current media"
+                                                        className="w-fit h-80 object-cover object-top rounded-md"
+                                                    />
+                                                </div>
+                                            )
+                                        )}
+                                    </div>
 
-                    <h2 className="text-xl font-semibold mb-4">Edit {type === 'profile' ? 'Profile Image' : 'Cover Image'}</h2>
+                                    {/* File Upload */}
+                                    <div className=' flex justify-between'>
+                                        <div className="w-fit">
+                                            <label
+                                                className={`px-3 py-1 border ${isSubmitting ? 'border-gray-400 text-gray-400 cursor-not-allowed' : 'border-sky-500 text-sky-500 cursor-pointer hover:bg-sky-500 hover:text-white'} rounded-lg flex items-center`}
+                                            >
+                                                <MdFileUpload size={24} className="mr-2" />
+                                                {media || removedMedia ? 'Replace Image' : 'Add Image'}
+                                                <input
+                                                    type="file"
+                                                    ref={fileInputRef}
+                                                    onChange={handleAddMedia}
+                                                    accept="image/*"
+                                                    className="hidden"
+                                                    disabled={isSubmitting}
+                                                />
+                                            </label>
+                                        </div>
 
-                    {/* Media Preview */}
-                    <div className="mb-4 h-80 border border-gray-300 rounded-lg">
-                        {media ? (
-                            <div className="relative w-fit h-full mx-auto">
-                                <img
-                                    src={URL.createObjectURL(media)}
-                                    alt="media preview"
-                                    className="w-fit h-80 object-cover object-top rounded-md"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={handleRemoveMedia}
-                                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
-                                >
-                                    <MdClose size={16} />
-                                </button>
-                            </div>
-                        ) : (
-                            removedMedia && (
-                                <div className="relative w-fit h-full mx-auto">
-                                    <img
-                                        src={removedMedia}
-                                        alt="current media"
-                                        className="w-fit h-80 object-cover object-top rounded-md"
-                                    />
+                                        {/* Submit Button */}
+                                        <Button
+                                            type="button"
+                                            onClick={handleSubmit}
+                                            className={`px-4 py-1 bg-sky-500 text-white rounded-lg shadow border border-sky-500 hover:bg-white hover:text-sky-500${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                            disabled={isSubmitting}
+                                        >
+                                            {isSubmitting ? 'Uploading...' : 'Save Changes'}
+                                        </Button>
+                                    </div>
                                 </div>
-                            )
-                        )}
-                    </div>
-
-                    {/* File Upload */}
-                    <div className=' flex justify-between'>
-                        <div className="w-fit">
-                            <label
-                                className={`px-3 py-1 border ${isSubmitting ? 'border-gray-400 text-gray-400 cursor-not-allowed' : 'border-sky-500 text-sky-500 cursor-pointer hover:bg-sky-500 hover:text-white'} rounded-lg flex items-center`}
-                            >
-                                <MdFileUpload size={24} className="mr-2" />
-                                {media || removedMedia ? 'Replace Image' : 'Add Image'}
-                                <input
-                                    type="file"
-                                    ref={fileInputRef}
-                                    onChange={handleAddMedia}
-                                    accept="image/*"
-                                    className="hidden"
-                                    disabled={isSubmitting}
-                                />
-                            </label>
-                        </div>
-
-                        {/* Submit Button */}
-                        <Button
-                            type="button"
-                            onClick={handleSubmit}
-                            className={`px-4 py-1 bg-sky-500 text-white rounded-lg shadow border border-sky-500 hover:bg-white hover:text-sky-500${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
-                            disabled={isSubmitting}
-                        >
-                            {isSubmitting ? 'Uploading...' : 'Save Changes'}
-                        </Button>
-                    </div>
-                </div>
-            </div>
+                            </ModalBody>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
         </>
     );
 };

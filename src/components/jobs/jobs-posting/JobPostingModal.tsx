@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Button, Input, Textarea } from '@nextui-org/react';
+import { Button, Input, Modal, ModalBody, ModalContent, ModalHeader, Textarea } from '@nextui-org/react';
 import { MdClose, MdAdd, MdRemove } from 'react-icons/md';
 import { createJobPost, updateJobPost } from '@/apiFunctions/jobpostData';
 import { addJobPost, editPost } from '@/redux/jobPostSlice';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import ConfirmationModal from '@/components/shared/ConfirmationModal';
 
 const JobPostingModal = ({ isOpen, onClose, companyId, jobPost, handleAddJobPost }) => {
     const router = useRouter();
@@ -28,6 +29,7 @@ const JobPostingModal = ({ isOpen, onClose, companyId, jobPost, handleAddJobPost
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
     const resetForm = () => {
         setFormData({
@@ -44,6 +46,7 @@ const JobPostingModal = ({ isOpen, onClose, companyId, jobPost, handleAddJobPost
                 additionalRequirements: [''],
             },
         });
+        // onClose();
     }
 
     useEffect(() => {
@@ -153,118 +156,164 @@ const JobPostingModal = ({ isOpen, onClose, companyId, jobPost, handleAddJobPost
         finally {
             setIsSubmitting(false);
             resetForm();
+        }
+    };
+
+    const hasUnsavedChanges = (): boolean => {
+        return (
+            formData.jobTitle !== '' ||
+            formData.position !== '' ||
+            formData.workplaceType !== '' ||
+            formData.jobLocation !== '' ||
+            formData.jobType !== '' ||
+            formData.about.description !== '' ||
+            formData.about.educationalRequirements.some(req => req !== '') ||
+            formData.about.experienceRequirements.some(req => req !== '') ||
+            formData.about.additionalRequirements.some(req => req !== '')
+        );
+    };
+
+    const handleClose = () => {
+        if (hasUnsavedChanges()) {console.log(hasUnsavedChanges())
+            setIsConfirmationModalOpen(true);
+        } else {
+            resetForm();
             onClose();
         }
+    };
+
+    const handleConfirmClose = () => {
+        resetForm();
+        onClose();
+        setIsConfirmationModalOpen(false);
     };
 
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[60]">
-            <div className="bg-white w-full max-w-[80%] h-[90vh] lg:h-fit p-6 rounded-lg relative overflow-auto">
-                <button
-                    onClick={onClose}
-                    className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-                >
-                    <MdClose size={24} />
-                </button>
+        <>
+            <Modal
+                size='5xl'
+                isOpen={isOpen}
+                onOpenChange={handleClose}
+                className='rounded-lg bg-white w-full md:max-w-[80%] md:p-6 '
+            >
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader>Post a Job</ModalHeader>
+                            <ModalBody>
+                                <div>
+                                    <form onSubmit={handleSubmit} >
+                                        <div className="space-y-4 max-h-[70vh] overflow-y-scroll pb-6">
+                                            <Input
+                                                label="Job Title"
+                                                name="jobTitle"
+                                                variant="underlined"
+                                                value={formData.jobTitle}
+                                                onChange={handleInputChange}
+                                                required
+                                            />
+                                            <div className="grid lg:grid-cols-2 gap-4">
+                                                <Input
+                                                    label="Position"
+                                                    name="position"
+                                                    variant="underlined"
+                                                    value={formData.position}
+                                                    onChange={handleInputChange}
+                                                    required
+                                                />
+                                                <Input
+                                                    label="Workplace Type"
+                                                    name="workplaceType"
+                                                    variant="underlined"
+                                                    value={formData.workplaceType}
+                                                    onChange={handleInputChange}
+                                                    required
+                                                />
+                                                <Input
+                                                    label="Job Location"
+                                                    name="jobLocation"
+                                                    variant="underlined"
+                                                    value={formData.jobLocation}
+                                                    onChange={handleInputChange}
+                                                    required
+                                                />
+                                                <Input
+                                                    label="Job Type"
+                                                    name="jobType"
+                                                    variant="underlined"
+                                                    value={formData.jobType}
+                                                    onChange={handleInputChange}
+                                                />
+                                            </div>
 
-                <h2 className="text-2xl mb-4">Post a Job</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <Input
-                        label="Job Title"
-                        name="jobTitle"
-                        variant="underlined"
-                        value={formData.jobTitle}
-                        onChange={handleInputChange}
-                        required
-                    />
-                    <div className="grid lg:grid-cols-2 gap-4">
-                        <Input
-                            label="Position"
-                            name="position"
-                            variant="underlined"
-                            value={formData.position}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <Input
-                            label="Workplace Type"
-                            name="workplaceType"
-                            variant="underlined"
-                            value={formData.workplaceType}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <Input
-                            label="Job Location"
-                            name="jobLocation"
-                            variant="underlined"
-                            value={formData.jobLocation}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <Input
-                            label="Job Type"
-                            name="jobType"
-                            variant="underlined"
-                            value={formData.jobType}
-                            onChange={handleInputChange}
-                        />
-                    </div>
+                                            <Textarea
+                                                label="Job Description"
+                                                variant="underlined"
+                                                value={formData.about.description}
+                                                onChange={(e) => handleAboutChange('description', e.target.value)}
+                                                required
+                                            />
 
-                    <Textarea
-                        label="Job Description"
-                        variant="underlined"
-                        value={formData.about.description}
-                        onChange={(e) => handleAboutChange('description', e.target.value)}
-                        required
-                    />
+                                            {['educationalRequirements', 'experienceRequirements', 'additionalRequirements'].map((field) => (
+                                                <div key={field}>
+                                                    <label className="block mb-2 text-gray-500 text-sm capitalize">
+                                                        {field.replace(/([A-Z])/g, ' $1')}
+                                                    </label>
+                                                    {formData.about[field].map((req, index) => (
+                                                        <div key={index} className="flex items-center space-x-2 mb-2">
+                                                            <Input
+                                                                variant="underlined"
+                                                                value={req}
+                                                                onChange={(e) => handleArrayChange(field, index, e.target.value)}
+                                                            />
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => handleRemoveField(field, index)}
+                                                                className={`text-red-500 ${formData.about[field].length === 1 ? 'opacity-50 cursor-not-allowed' : ''
+                                                                    }`}
+                                                                disabled={formData.about[field].length === 1}
+                                                            >
+                                                                <MdRemove className="text-xl border border-red-400 rounded-full" />
+                                                            </button>
+                                                        </div>
+                                                    ))}
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleAddField(field)}
+                                                        className="mt-2 text-xl border border-black rounded-full"
+                                                    >
+                                                        <MdAdd />
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
 
-                    {['educationalRequirements', 'experienceRequirements', 'additionalRequirements'].map((field) => (
-                        <div key={field}>
-                            <label className="block mb-2 text-gray-500 text-sm capitalize">
-                                {field.replace(/([A-Z])/g, ' $1')}
-                            </label>
-                            {formData.about[field].map((req, index) => (
-                                <div key={index} className="flex items-center space-x-2 mb-2">
-                                    <Input
-                                        variant="underlined"
-                                        value={req}
-                                        onChange={(e) => handleArrayChange(field, index, e.target.value)}
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => handleRemoveField(field, index)}
-                                        className={`text-red-500 ${formData.about[field].length === 1 ? 'opacity-50 cursor-not-allowed' : ''
-                                            }`}
-                                        disabled={formData.about[field].length === 1}
-                                    >
-                                        <MdRemove className="text-xl border border-red-400 rounded-full" />
-                                    </button>
+                                        <Button
+                                            type="submit"
+                                            className="bg-sky-500 w-full text-white rounded-lg border border-sky-500 hover:bg-white hover:text-sky-500"
+                                            isDisabled={isSubmitting}
+                                            isLoading={isSubmitting}
+                                        >
+                                            {isSubmitting ? 'Saving...' : (jobPost ? 'Update Job Post' : 'Save Job Post')}
+                                        </Button>
+                                    </form>
                                 </div>
-                            ))}
-                            <button
-                                type="button"
-                                onClick={() => handleAddField(field)}
-                                className="mt-2 text-xl border border-black rounded-full"
-                            >
-                                <MdAdd />
-                            </button>
-                        </div>
-                    ))}
+                            </ModalBody>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
 
-                    <Button
-                        type="submit"
-                        className="bg-sky-500 w-full text-white rounded-lg border border-sky-500 hover:bg-white hover:text-sky-500"
-                        isDisabled={isSubmitting}
-                        isLoading={isSubmitting}
-                    >
-                        {isSubmitting ? 'Saving...' : (jobPost ? 'Update Job Post' : 'Save Job Post')}
-                    </Button>
-                </form>
-            </div>
-        </div>
+            <ConfirmationModal
+                isOpen={isConfirmationModalOpen}
+                onClose={() => setIsConfirmationModalOpen(false)}
+                onConfirm={handleConfirmClose}
+                title="Unsaved Changes"
+                message="You have unsaved changes. Are you sure you want to close without saving?"
+            />
+        </>
     );
 };
 

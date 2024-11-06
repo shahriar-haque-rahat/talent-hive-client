@@ -99,7 +99,7 @@ const DetailsPage = ({ id }: CompanyDetails) => {
         <>
             {company &&
                 <div>
-                    <div className=' sticky top-20 z-20 bg-gray-100'>
+                    <div className=' lg:sticky top-20 z-20 bg-gray-100'>
                         <div className='relative bg-white p-4 rounded-lg border shadow flex items-center justify-between'>
                             {(user._id === company.employerId._id || user._id === company.employerId) &&
                                 <div className='absolute top-2 right-3 flex gap-2'>
@@ -182,7 +182,7 @@ const DetailsPage = ({ id }: CompanyDetails) => {
 
                         <div className='mt-2 h-28 px-6 py-8 bg-white rounded-t-lg border border-b-gray-300 flex justify-between'>
                             <h1 className=' text-2xl font-semibold '>Jobs for you</h1>
-                            <JobPosting companyId={company._id} setJobPosts={setJobPosts} />
+                            {(user._id === company.employerId._id) && <JobPosting companyId={company._id} setJobPosts={setJobPosts} />}
                         </div>
                     </div>
 

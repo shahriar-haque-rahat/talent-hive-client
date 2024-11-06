@@ -1,4 +1,4 @@
-import { Button, Input, Textarea } from '@nextui-org/react';
+import { Button, Input, Modal, ModalBody, ModalContent, ModalHeader, Textarea } from '@nextui-org/react';
 import React, { useState, useRef, useEffect } from 'react';
 import { MdClose, MdFileUpload } from 'react-icons/md';
 import { useEdgeStore } from '@/edgestore/edgestore';
@@ -201,136 +201,141 @@ const CompanyPostingModal: React.FC<CompanyPostingModalProps> = ({ isOpen, onClo
 
     return (
         <>
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[60]">
-                <div className="bg-white w-full max-w-[80%] h-[90vh] lg:h-fit p-6 rounded-lg relative overflow-auto">
-                    <button
-                        onClick={handleClose}
-                        className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-                    >
-                        <MdClose size={24} />
-                    </button>
-
-                    <h2 className="text-2xl mb-4">Post a Company</h2>
-
-                    <form onSubmit={handleSubmit}>
-                        <div className="space-y-4">
-                            <Input
-                                label="Company Name"
-                                name="companyName"
-                                variant="underlined"
-                                value={formData.companyName}
-                                onChange={handleInputChange}
-                                required
-                            />
-
-                            <div className="grid md:grid-cols-2 gap-4">
-                                <Input
-                                    label="Company Email"
-                                    name="companyEmail"
-                                    type="email"
-                                    variant="underlined"
-                                    value={formData.companyEmail}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-
-                                <Input
-                                    label="Contact Number"
-                                    name="companyContactNumber"
-                                    variant="underlined"
-                                    type="number"
-                                    value={formData.companyContactNumber || ''}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </div>
-
-                            <Textarea
-                                label="Company Description"
-                                name="companyDescription"
-                                variant="underlined"
-                                value={formData.companyDescription}
-                                onChange={handleInputChange}
-                                required
-                            />
-
-                            <div className="grid md:grid-cols-2 gap-4">
-                                <Input
-                                    label="Facebook Link"
-                                    name="facebookLink"
-                                    variant="underlined"
-                                    value={formData.facebookLink}
-                                    onChange={handleInputChange}
-                                />
-
-                                <Input
-                                    label="LinkedIn Link"
-                                    name="linkedInLink"
-                                    variant="underlined"
-                                    value={formData.linkedInLink}
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-
-                            {/* Media Preview */}
-                            <div className="mb-4 h-36 md:h-64 lg:h-80 border border-gray-300 rounded-lg">
-                                {media ? (
-                                    <div className="relative w-fit h-full mx-auto">
-                                        <img
-                                            src={URL.createObjectURL(media)}
-                                            alt="media preview"
-                                            className="w-fit h-80 object-cover object-top rounded-md"
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={handleRemoveMedia}
-                                            className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
-                                        >
-                                            <MdClose size={16} />
-                                        </button>
-                                    </div>
-                                ) : (
-                                    formData.companyProfileImage && (
-                                        <div className="relative w-fit h-full mx-auto">
-                                            <img
-                                                src={formData.companyProfileImage}
-                                                alt="current media"
-                                                className="w-fit h-80 object-cover object-top rounded-md"
+            <Modal
+                size='5xl'
+                isOpen={isOpen}
+                onOpenChange={handleClose}
+                className='rounded-lg bg-white w-full md:max-w-[80%] md:p-6'
+            >
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader>Post a Company</ModalHeader>
+                            <ModalBody>
+                                <div>
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="space-y-4">
+                                            <Input
+                                                label="Company Name"
+                                                name="companyName"
+                                                variant="underlined"
+                                                value={formData.companyName}
+                                                onChange={handleInputChange}
+                                                required
                                             />
+
+                                            <div className="grid md:grid-cols-2 gap-4">
+                                                <Input
+                                                    label="Company Email"
+                                                    name="companyEmail"
+                                                    type="email"
+                                                    variant="underlined"
+                                                    value={formData.companyEmail}
+                                                    onChange={handleInputChange}
+                                                    required
+                                                />
+
+                                                <Input
+                                                    label="Contact Number"
+                                                    name="companyContactNumber"
+                                                    variant="underlined"
+                                                    type="number"
+                                                    value={formData.companyContactNumber || ''}
+                                                    onChange={handleInputChange}
+                                                    required
+                                                />
+                                            </div>
+
+                                            <Textarea
+                                                label="Company Description"
+                                                name="companyDescription"
+                                                variant="underlined"
+                                                value={formData.companyDescription}
+                                                onChange={handleInputChange}
+                                                required
+                                            />
+
+                                            <div className="grid md:grid-cols-2 gap-4">
+                                                <Input
+                                                    label="Facebook Link"
+                                                    name="facebookLink"
+                                                    variant="underlined"
+                                                    value={formData.facebookLink}
+                                                    onChange={handleInputChange}
+                                                />
+
+                                                <Input
+                                                    label="LinkedIn Link"
+                                                    name="linkedInLink"
+                                                    variant="underlined"
+                                                    value={formData.linkedInLink}
+                                                    onChange={handleInputChange}
+                                                />
+                                            </div>
+
+                                            {/* Media Preview */}
+                                            <div className="mb-4 h-36 md:h-64 lg:h-80 border border-gray-300 rounded-lg">
+                                                {media ? (
+                                                    <div className="relative w-fit h-full mx-auto">
+                                                        <img
+                                                            src={URL.createObjectURL(media)}
+                                                            alt="media preview"
+                                                            className="w-fit h-80 object-cover object-top rounded-md"
+                                                        />
+                                                        <button
+                                                            type="button"
+                                                            onClick={handleRemoveMedia}
+                                                            className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
+                                                        >
+                                                            <MdClose size={16} />
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    formData.companyProfileImage && (
+                                                        <div className="relative w-fit h-full mx-auto">
+                                                            <img
+                                                                src={formData.companyProfileImage}
+                                                                alt="current media"
+                                                                className="w-fit h-80 object-cover object-top rounded-md"
+                                                            />
+                                                        </div>
+                                                    )
+                                                )}
+                                            </div>
+
+                                            {/* File Upload */}
+                                            <div className="flex justify-between">
+                                                <label
+                                                    className={`px-3 py-1 border ${isSubmitting ? 'border-gray-400 text-gray-400 cursor-not-allowed' : 'border-sky-500 text-sky-500 cursor-pointer hover:bg-sky-500 hover:text-white'} rounded-lg flex items-center`}
+                                                >
+                                                    <MdFileUpload size={24} className="mr-2" />
+                                                    {media || formData.companyProfileImage ? 'Replace Image' : 'Add Image'}
+                                                    <input
+                                                        type="file"
+                                                        ref={fileInputRef}
+                                                        onChange={handleAddMedia}
+                                                        accept="image/*"
+                                                        className="hidden"
+                                                        disabled={isSubmitting}
+                                                    />
+                                                </label>
+
+                                                <Button
+                                                    type="submit"
+                                                    className={`px-4 py-1 bg-sky-500 text-white rounded-lg shadow border border-sky-500 hover:bg-white hover:text-sky-500${isSubmitting ? ' opacity-50 cursor-not-allowed' : ''}`}
+                                                    disabled={isSubmitting}
+                                                >
+                                                    {isSubmitting ? 'Uploading...' : (company ? 'Update Company' : 'Create Company')}
+                                                </Button>
+                                            </div>
                                         </div>
-                                    )
-                                )}
-                            </div>
-
-                            {/* File Upload */}
-                            <div className="flex justify-between">
-                                <label
-                                    className={`px-3 py-1 border ${isSubmitting ? 'border-gray-400 text-gray-400 cursor-not-allowed' : 'border-sky-500 text-sky-500 cursor-pointer hover:bg-sky-500 hover:text-white'} rounded-lg flex items-center`}
-                                >
-                                    <MdFileUpload size={24} className="mr-2" />
-                                    {media || formData.companyProfileImage ? 'Replace Image' : 'Add Image'}
-                                    <input
-                                        type="file"
-                                        ref={fileInputRef}
-                                        onChange={handleAddMedia}
-                                        accept="image/*"
-                                        className="hidden"
-                                        disabled={isSubmitting}
-                                    />
-                                </label>
-
-                                <Button
-                                    type="submit"
-                                    className={`px-4 py-1 bg-sky-500 text-white rounded-lg shadow border border-sky-500 hover:bg-white hover:text-sky-500${isSubmitting ? ' opacity-50 cursor-not-allowed' : ''}`}
-                                    disabled={isSubmitting}
-                                >
-                                    {isSubmitting ? 'Uploading...' : (company ? 'Update Company' : 'Create Company')}
-                                </Button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                                    </form>
+                                </div>
+                            </ModalBody>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
 
             <ConfirmationModal
                 isOpen={isConfirmationModalOpen}

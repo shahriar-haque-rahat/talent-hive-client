@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { MdClose } from 'react-icons/md';
 import SentRequest from '../sent-request/SentRequest';
 import ReceivedRequest from '../received-request/ReceivedRequest';
+import { Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 
 const SentReceivedRequestModal = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,27 +37,30 @@ const SentReceivedRequestModal = () => {
     return (
         <>
             {isModalOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[60]">
-                    <div className="bg-white w-full md:max-w-[50%] h-[70vh] p-6 rounded-lg relative overflow-hidden flex flex-col">
-                        <button
-                            onClick={handleClose}
-                            className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-                        >
-                            <MdClose size={24} />
-                        </button>
-
-                        <div className="mb-4">
-                            <h2 className="text-xl font-semibold">
-                                {activeTab === 'sent' ? 'Sent Requests' : 'Received Requests'}
-                            </h2>
-                        </div>
-
-                        {/* Content area for scrolling */}
-                        <div className="flex-grow overflow-auto">
-                            {activeTab === 'sent' ? <SentRequest /> : <ReceivedRequest />}
-                        </div>
-                    </div>
-                </div>
+                <>
+                    <Modal
+                        size='5xl'
+                        isOpen={isModalOpen}
+                        onOpenChange={handleClose}
+                        className='bg-white w-full md:max-w-[50%] h-[70vh] p-6 rounded-lg'
+                    >
+                        <ModalContent>
+                            {(onClose) => (
+                                <>
+                                    <ModalHeader>{activeTab === 'sent' ? 'Sent Requests' : 'Received Requests'}</ModalHeader>
+                                    <ModalBody>
+                                        <div className="overflow-hidden flex flex-col">
+                                            {/* Content area for scrolling */}
+                                            <div className="flex-grow overflow-auto">
+                                                {activeTab === 'sent' ? <SentRequest /> : <ReceivedRequest />}
+                                            </div>
+                                        </div>
+                                    </ModalBody>
+                                </>
+                            )}
+                        </ModalContent>
+                    </Modal>
+                </>
             )}
         </>
     );

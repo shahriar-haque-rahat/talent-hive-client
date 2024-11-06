@@ -1,6 +1,6 @@
 import { createPost, updatePost } from '@/apiFunctions/postData';
 import { addPost, editPost, updatePostOnInteraction } from '@/redux/postSlice';
-import { Image } from '@nextui-org/react';
+import { Image, Modal, ModalBody, ModalContent, ModalHeader } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { MdClose } from 'react-icons/md';
@@ -82,66 +82,71 @@ const ShareModal = ({ openShare, toggleOpenShare, post, userId, isEditing = fals
     if (!openShare) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[60]">
-            <div className="bg-white md:w-11/12 max-w-2xl h-3/4 p-6 rounded-lg relative flex flex-col">
-                <button
-                    onClick={toggleOpenShare}
-                    className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
-                >
-                    <MdClose size={24} />
-                </button>
-
-                <h2 className="text-xl font-semibold mb-4">
-                    {isEditing ? 'Edit Shared Post' : 'Share Post'}
-                </h2>
-
-                <textarea
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    className="w-full max-h-44 min-h-44 p-2 outline-none"
-                    rows={4}
-                    placeholder="Add content..."
-                />
-
-                <div className="border border-gray-300 rounded-lg p-4 overflow-y-scroll">
-                    <div className="flex gap-2 items-center">
-                        <Image
-                            src={sharedPost.userId.profileImage}
-                            alt={sharedPost.userId.fullName}
-                            className="rounded-full w-10 h-10 object-cover object-center"
-                        />
-                        <div>
-                            <h1 className="font-semibold">{sharedPost.userId.fullName}</h1>
-                            <p className="text-xs">{sharedPost.updatedAt.slice(0, 10)}</p>
-                        </div>
-                    </div>
-
-                    <p className="mt-4">{renderContent(sharedPost.content)}</p>
-
-                    {sharedPost.media && sharedPost.media.length > 0 && (
-                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                            {sharedPost.media.map((mediaUrl, mediaIndex) => (
-                                <div key={mediaIndex} className="relative w-full cursor-pointer">
-                                    <Image
-                                        src={mediaUrl}
-                                        alt={`Media ${mediaIndex}`}
-                                        className="rounded-none border-2 border-white object-cover object-center"
-                                        style={{ aspectRatio: '1 / 1' }}
+        <>
+            <Modal
+                size='5xl'
+                isOpen={openShare}
+                onOpenChange={toggleOpenShare}
+                className='rounded-lg bg-white md:p-6 md:w-11/12 max-w-2xl '
+            >
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader>{isEditing ? 'Edit Shared Post' : 'Share Post'}</ModalHeader>
+                            <ModalBody>
+                                <div className=" relative flex flex-col">
+                                    <textarea
+                                        value={content}
+                                        onChange={(e) => setContent(e.target.value)}
+                                        className="w-full max-h-44 min-h-44 p-2 outline-none"
+                                        rows={4}
+                                        placeholder="Add content..."
                                     />
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
 
-                <button
-                    onClick={handleShareOrEdit}
-                    className="bg-sky-500 text-white rounded-lg mt-4 py-2 px-4 hover:bg-sky-600 self-end"
-                >
-                    {isEditing ? 'Save Changes' : 'Share'}
-                </button>
-            </div>
-        </div>
+                                    <div className="border border-gray-300 rounded-lg p-4 h-80 overflow-y-scroll">
+                                        <div className="flex gap-2 items-center">
+                                            <Image
+                                                src={sharedPost.userId.profileImage}
+                                                alt={sharedPost.userId.fullName}
+                                                className="rounded-full w-10 h-10 object-cover object-center"
+                                            />
+                                            <div>
+                                                <h1 className="font-semibold">{sharedPost.userId.fullName}</h1>
+                                                <p className="text-xs">{sharedPost.updatedAt.slice(0, 10)}</p>
+                                            </div>
+                                        </div>
+
+                                        <p className="mt-4">{renderContent(sharedPost.content)}</p>
+
+                                        {sharedPost.media && sharedPost.media.length > 0 && (
+                                            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                                                {sharedPost.media.map((mediaUrl, mediaIndex) => (
+                                                    <div key={mediaIndex} className="relative w-full cursor-pointer">
+                                                        <Image
+                                                            src={mediaUrl}
+                                                            alt={`Media ${mediaIndex}`}
+                                                            className="rounded-none border-2 border-white object-cover object-center"
+                                                            style={{ aspectRatio: '1 / 1' }}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <button
+                                        onClick={handleShareOrEdit}
+                                        className="bg-sky-500 text-white rounded-lg mt-4 py-2 px-4 hover:bg-sky-600 self-end"
+                                    >
+                                        {isEditing ? 'Save Changes' : 'Share'}
+                                    </button>
+                                </div>
+                            </ModalBody>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
+        </>
     );
 };
 

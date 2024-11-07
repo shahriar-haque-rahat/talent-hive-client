@@ -10,7 +10,9 @@ const UserInfoSection = ({ userId, profileImage, fullName, createdAt }) => {
         router.push(`/profile?id=${userId}`);
     }
 
-    const timeAgo = formatDistanceToNow(new Date(createdAt), { addSuffix: true });
+    const localDate = createdAt.toLocaleString();
+
+    const timeAgo = formatDistanceToNow(new Date(localDate), { addSuffix: true });
 
     return (
         <div className='flex gap-2 p-3 w-full'>

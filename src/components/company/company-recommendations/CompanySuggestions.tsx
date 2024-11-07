@@ -1,7 +1,7 @@
 'use client'
 
 import { followCompany, getNotFollowedCompanies } from '@/apiFunctions/companyData';
-import { Image, Link } from '@nextui-org/react';
+import { Button, Image, Link } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
@@ -73,7 +73,7 @@ const CompanySuggestions = () => {
 
     return (
         <>
-            <div className=' bg-white p-3 xl:p-6 border shadow rounded-lg'>
+            <div className='hidden md:block bg-white p-3 xl:p-6 border shadow rounded-lg'>
                 <p className=' mb-4 font-semibold'>Company Suggestions</p>
                 {companies?.length > 0 ? (
                     companies?.map(company => (
@@ -106,6 +106,12 @@ const CompanySuggestions = () => {
                     <p className=' text-gray-600 mt-4 font-semibold text-xs flex items-center cursor-pointer'>View all companies <TiArrowRight size={20} /></p>
                 </Link>
             </div>
+
+            <Link href={"/company-recommendations"} className='w-full'>
+                <Button className="md:hidden w-full rounded-lg border border-gray-500 bg-transparent hover:bg-gray-200">
+                    View all companies
+                </Button>
+            </Link>
         </>
     );
 };

@@ -17,23 +17,23 @@ export async function POST(req: Request) {
             to: process.env.EMAIL_TO,
             subject: `Talent Hive Inquiry: ${subject}`,
             text: `
-                Dear Talent Hive Support Team,
+Dear Talent Hive Support Team,
 
-                My name is ${userName} (${userEmail}), and I am reaching out regarding the following:
+My name is ${userName} (${userEmail}), and I am reaching out regarding the following:
 
-                Subject: ${subject}
+Subject: ${subject}
 
-                Message:
-                ${message}
+Message:
+${message}
 
-                I would appreciate any assistance or information you could provide on this matter. I look forward to hearing back from you at your earliest convenience.
+I would appreciate any assistance or information you could provide on this matter. I look forward to hearing back from you at your earliest convenience.
 
-                Thank you for your attention.
+Thank you for your attention.
 
-                Best regards,
-                ${userName}
-                User ID: ${userId}
-                Email: ${userEmail}
+Best regards,
+${userName}
+User ID: ${userId}
+Email: ${userEmail}
             `,
         };
 

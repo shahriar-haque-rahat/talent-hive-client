@@ -33,8 +33,8 @@ const ProfileHeader = () => {
                         }
                     </div>
                 </div>
-                <p className='px-6'>{userProfile.designation}</p>
-                <p className=' py-4 px-6'>{userProfile.about}</p>
+                <p className='px-6 text-center md:text-start'>{userProfile.designation}</p>
+                <p className=' py-4 px-2 md:px-6 text-center md:text-start'>{userProfile.about}</p>
 
                 {(user._id === userProfile._id)
                     ? <TimelinePostSection />

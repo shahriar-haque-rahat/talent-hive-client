@@ -17,16 +17,16 @@ export async function POST(req: Request) {
             to: process.env.EMAIL_TO,
             subject: 'New Report',
             text: `
-                A new report has been submitted.
+A new report has been submitted.
 
-                Reported Post ID: ${postId}
-                Reporter: ${userName} (${userEmail}) (ID: ${userId})
-                Post Owner Info: ${postUserName} (${postUserEmail}) (ID: ${postUserId})
+Reported Post ID: ${postId}
+Reporter: ${userName} (${userEmail}) (ID: ${userId})
+Post Owner Info: ${postUserName} (${postUserEmail}) (ID: ${postUserId})
 
-                Report Message:
-                ${message}
+Report Message:
+${message}
 
-                Please review this report at your earliest convenience.
+Please review this report at your earliest convenience.
             `,
         };
 

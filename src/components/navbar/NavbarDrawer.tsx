@@ -12,9 +12,9 @@ const NavbarDrawer = () => {
             <div >
                 {
                     menuOpen ?
-                        <IoClose className="text-3xl" onClick={() => dispatch(toggleMenu())} />
+                        <IoClose size={24} onClick={() => dispatch(toggleMenu())} />
                         :
-                        <IoReorderThreeSharp className="text-3xl" onClick={() => dispatch(toggleMenu())} />
+                        <IoReorderThreeSharp size={24} onClick={() => dispatch(toggleMenu())} />
                 }
             </div >
         </>

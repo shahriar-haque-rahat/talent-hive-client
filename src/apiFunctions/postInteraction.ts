@@ -135,9 +135,9 @@ export const postSave = async (postId: string, userId: string) => {
     }
 }
 
-export const deleteSave = async (postId: string, saveId: string) => {
+export const deleteSave = async (saveId: string) => {
     try {
-        const response = await useServer.delete(`/post/${postId}/save/${saveId}`);
+        const response = await useServer.delete(`/post/save/${saveId}`);
 
         // console.log(response.data);
         return response.data;

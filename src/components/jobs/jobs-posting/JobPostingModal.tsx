@@ -46,7 +46,6 @@ const JobPostingModal = ({ isOpen, onClose, companyId, jobPost, handleAddJobPost
                 additionalRequirements: [''],
             },
         });
-        // onClose();
     }
 
     useEffect(() => {
@@ -156,6 +155,7 @@ const JobPostingModal = ({ isOpen, onClose, companyId, jobPost, handleAddJobPost
         finally {
             setIsSubmitting(false);
             resetForm();
+            onClose();
         }
     };
 
@@ -174,7 +174,8 @@ const JobPostingModal = ({ isOpen, onClose, companyId, jobPost, handleAddJobPost
     };
 
     const handleClose = () => {
-        if (hasUnsavedChanges()) {console.log(hasUnsavedChanges())
+        if (hasUnsavedChanges()) {
+            console.log(hasUnsavedChanges())
             setIsConfirmationModalOpen(true);
         } else {
             resetForm();

@@ -68,7 +68,7 @@ const ReportModal = ({ isOpen, toggleReportModal, postId, postUser }) => {
                                     <Button
                                         type="submit"
                                         disabled={!message || isSubmitting}
-                                        className="mt-4 rounded-lg bg-sky-500 text-white"
+                                        className="mt-4 rounded-lg bg-sky-500 text-white w-28"
                                     >
                                         {isSubmitting ? 'Sending...' : 'Submit Report'}
                                     </Button>

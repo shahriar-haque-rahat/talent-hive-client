@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 interface CompanyJobsProps {
     companyId: string;
     jobPosts: any;
+    setJobPosts: any;
 }
 
 const CompanyJobs = ({ companyId, jobPosts, setJobPosts }: CompanyJobsProps) => {
@@ -28,7 +29,15 @@ const CompanyJobs = ({ companyId, jobPosts, setJobPosts }: CompanyJobsProps) => 
             );
 
             if (newJobPosts.length > 0) {
-                setJobPosts((prev) => [...prev, ...newJobPosts]);
+                setJobPosts((prev) => {
+                    const uniquePosts = [...prev, ...newJobPosts].reduce((acc, post) => {
+                        if (!acc.some(existingPost => existingPost._id === post._id)) {
+                            acc.push(post);
+                        }
+                        return acc;
+                    }, []);
+                    return uniquePosts;
+                });
                 setPage(fetchedJobPosts.page);
             }
             if (newJobPosts.length < 10) setHasMore(false);

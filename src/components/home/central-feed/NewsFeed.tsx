@@ -109,7 +109,8 @@ const NewsFeed = () => {
                                 <MdReportGmailerrorred
                                     onClick={() => toggleReportModal(post._id, post.userId)}
                                     size={18}
-                                    className='mt-1 text-red-500 hover:text-red-600 hover:bg-gray-200 cursor-pointer' />
+                                    className='mt-1 text-red-500 hover:text-red-600 hover:bg-gray-200 cursor-pointer'
+                                />
                             </div>
 
                             {/* Post content */}

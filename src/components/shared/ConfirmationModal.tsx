@@ -10,7 +10,7 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message, confirm
             <Modal
                 size='5xl'
                 isOpen={isOpen}
-                onOpenChange={onConfirm}
+                onOpenChange={onClose}
                 className='bg-white w-11/12 max-w-md p-6 rounded-lg '
             >
                 <ModalContent>

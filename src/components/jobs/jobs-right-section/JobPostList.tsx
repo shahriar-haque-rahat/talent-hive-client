@@ -17,7 +17,6 @@ const JobPostList = () => {
     const page = useSelector((state: any) => state.jobPost.jobPostsPage);
     const { ref, inView } = useIntersectionObserver();
     const [hasMore, setHasMore] = useState(true);
-    const [loading, setLoading] = useState(false);
 
     const fetchJobPosts = async () => {
         if (!user || !hasMore) return;
@@ -45,22 +44,17 @@ const JobPostList = () => {
         catch (error) {
             console.log(error);
         }
-        finally {
-            setLoading(false);
-        }
     };
 
     useEffect(() => {
         if (jobPosts.length === 0) {
             fetchJobPosts();
-            setLoading(true);
         }
     }, [user]);
 
     useEffect(() => {
         if (inView && hasMore) {
             fetchJobPosts();
-            setLoading(true);
         }
     }, [inView, hasMore]);
 
@@ -74,7 +68,7 @@ const JobPostList = () => {
                 <h1 className=' h-28 text-2xl font-semibold px-6 py-8 border-b border-gray-300'>Jobs for you</h1>
 
                 <div className=' h-[calc(100vh-200px)] overflow-y-scroll'>
-                    {(jobPosts?.length > 0 && !loading) ? (
+                    {(jobPosts?.length > 0) ? (
                         jobPosts?.map((jobPost: any) => (
                             <div className=' p-3 md:p-6 border-b border-gray-300'>
                                 <JobPostCard jobPost={jobPost} handleDetails={handleDetails} />

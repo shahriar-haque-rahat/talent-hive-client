@@ -26,7 +26,7 @@ const SavedPosts = ({ userId, openSaveList, setOpenSaveList }) => {
     const handleRemoveSavePost = async () => {
         const { saveId } = selectedSave;
         await deleteSave(saveId);
-        setSavedPosts((prev) => prev.filter((post) => post._id !== saveId)); // Update UI after deletion
+        setSavedPosts((prev) => prev.filter((post) => post._id !== saveId));
         setShowDeleteModal(false);
     };
 
@@ -85,10 +85,12 @@ const SavedPosts = ({ userId, openSaveList, setOpenSaveList }) => {
                                                                 user={user}
                                                             />
 
-                                                            <SharedPostContent
-                                                                user={user}
-                                                                sharedPostContent={post.postId.sharedPostId}
-                                                            />
+                                                            {post.postId.sharedPostId && post.postId.sharedPostId !== '' && (
+                                                                <SharedPostContent
+                                                                    user={user}
+                                                                    sharedPostContent={post.postId.sharedPostId}
+                                                                />
+                                                            )}
                                                         </div>
                                                         :
                                                         <div className="relative border border-gray-300 rounded-lg mt-6 bg-white p-4">

@@ -71,7 +71,7 @@ const SavedPosts = ({ userId, openSaveList, setOpenSaveList }) => {
                                             userId={post.userId._id}
                                             profileImage={post.userId.profileImage}
                                             fullName={post.userId.fullName}
-                                            createdAt={post.postId.createdAt.slice(0, 10)}
+                                            createdAt={post.postId.createdAt}
                                         />
                                     </div>
 

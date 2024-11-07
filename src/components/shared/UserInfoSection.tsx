@@ -13,7 +13,7 @@ const UserInfoSection = ({ userId, profileImage, fullName, createdAt }) => {
     const localDate = createdAt.toLocaleString();
 
     const timeAgo = formatDistanceToNow(new Date(localDate), { addSuffix: true });
-
+console.log(createdAt, localDate, timeAgo)
     return (
         <div className='flex gap-2 p-3 w-full'>
             <Image

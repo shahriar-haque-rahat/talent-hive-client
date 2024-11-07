@@ -37,7 +37,7 @@ const SharedPostContent = ({ user, sharedPostContent: post }) => {
                     <div>
                         <div className='border-b-0 border border-gray-300 rounded-t-lg m-4 mb-0'>
                             {/* User details */}
-                            <UserInfoSection userId={post.userId._id} profileImage={post.userId.profileImage} fullName={post.userId.fullName} createdAt={post.createdAt.slice(0, 10)} />
+                            <UserInfoSection userId={post.userId._id} profileImage={post.userId.profileImage} fullName={post.userId.fullName} createdAt={post.createdAt} />
 
                             {/* Content */}
                             <div className='p-3'>

@@ -5,7 +5,7 @@ Talent Hive is a full-stack professional networking platform designed to connect
 ## Table of Contents
 - [Features](#features)
 - [Technologies Used](#technologies-used)
-- [Project Structure](#project-structure)
+- [Project Structure and Servers](#project-structure-and-servers)
 - [Usage](#usage)
 - [Contributing](#contributing)
 
@@ -71,7 +71,7 @@ Talent Hive is a full-stack professional networking platform designed to connect
 
 ---
 
-## Project Structure
+## Project Structure and Servers
 
 Talent Hive is divided into three main servers:
 

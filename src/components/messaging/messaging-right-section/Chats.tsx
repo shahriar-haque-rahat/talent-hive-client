@@ -55,7 +55,7 @@ const Chats = ({ chats, userId, contactId }) => {
                                                 {chat.sender._id !== userId && (
                                                     <div className="mr-2 flex-shrink-0">
                                                         <Image
-                                                            src={chat.sender.profileImage}
+                                                            src={chat.sender.profileImage ? chat.sender.profileImage : "/assets/user.png"}
                                                             alt={chat.sender.fullName}
                                                             width={40}
                                                             height={40}

@@ -73,7 +73,7 @@ const ContactList = () => {
                             >
                                 <div className="w-16 flex-shrink-0">
                                     <Image
-                                        src={contact.otherUserProfileImage}
+                                        src={contact.otherUserProfileImage ? contact.otherUserProfileImage : "/assets/user.png"}
                                         alt={contact.otherUserFullName}
                                         className="rounded-full border-2 border-white cursor-pointer w-14 h-14 object-cover object-top"
                                     />

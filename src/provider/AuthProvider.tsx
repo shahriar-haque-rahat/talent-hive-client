@@ -115,6 +115,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         try {
             dispatch(startLoading());
 
+            router.push('/login');
+
             const currentRoute = window.location.pathname;
             const isPublicRoute = publicRoutes.includes(currentRoute);
 

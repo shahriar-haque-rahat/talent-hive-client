@@ -122,15 +122,15 @@ const TimelinePosts = () => {
                             <ContentSection content={post.content} index={index} />
 
                             {/* Display media files */}
-                            <MediaSection media={post.media} postId={post._id} user={userProfile} />
+                            <MediaSection media={post.media} postId={post._id} user={user} />
 
                             {/* Shared post content */}
                             {(post.sharedPostId || post.sharedPostId === null) &&
-                                <SharedPostContent user={userProfile} sharedPostContent={post.sharedPostId} />
+                                <SharedPostContent user={user} sharedPostContent={post.sharedPostId} />
                             }
 
                             {/* interaction section */}
-                            <PostInteractionSection user={userProfile} post={post} />
+                            <PostInteractionSection user={user} post={post} />
                         </div>
                     ))
                 }

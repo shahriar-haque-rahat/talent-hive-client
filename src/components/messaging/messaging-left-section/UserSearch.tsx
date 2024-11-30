@@ -106,13 +106,11 @@ const UserSearch = () => {
                 >
                     {results.map((user: any) => (
                         <div key={user._id} className="flex items-center p-2 hover:bg-gray-100 cursor-pointer" onClick={() => handleUserSelect(user)}>
-                            {user.profileImage && (
-                                <img
-                                    src={user.profileImage}
-                                    alt={`${user.fullName}'s profile`}
-                                    className="w-10 h-10 rounded-full mr-2 object-cover object-top"
-                                />
-                            )}
+                            <img
+                                src={user.profileImage ? user.profileImage : '/assets/user.png'}
+                                alt={`${user.fullName}`}
+                                className="w-10 h-10 rounded-full mr-2 object-cover object-top"
+                            />
                             <span>{user.fullName}</span>
                         </div>
                     ))}

@@ -92,7 +92,7 @@ const CompanySearch = () => {
                     Loading...
                 </div>
             }
-            
+
             {showDropdown && results?.length > 0 ? (
                 <div
                     ref={dropdownRef}
@@ -104,13 +104,11 @@ const CompanySearch = () => {
                             className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
                             onClick={() => handleCompanySelect(company)}
                         >
-                            {company.companyProfileImage && (
-                                <img
-                                    src={company.companyProfileImage}
-                                    alt={`${company.companyName}'s profile`}
-                                    className="w-10 h-10 rounded-full mr-2 object-cover object-top"
-                                />
-                            )}
+                            <img
+                                src={company.companyProfileImage ? company.companyProfileImage : '/assets/user.png'}
+                                alt={`${company.companyName}`}
+                                className="w-10 h-10 rounded-full mr-2 object-cover object-top"
+                            />
                             <span>{company.companyName}</span>
                         </div>
                     ))}

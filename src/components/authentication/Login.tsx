@@ -88,6 +88,19 @@ const Login = () => {
                             >
                                 {buttonLoading ? 'Logging...' : 'Login'}
                             </Button>
+
+                            <Button
+                                type="button"
+                                onClick={async () => {
+                                    setButtonLoading(true);
+                                    await login({ email: "demo@gmail.com", password: "Demo1234@" });
+                                    setButtonLoading(false);
+                                }}
+                                className="bg-gray-200 text-black rounded-lg w-full mt-4 border border-gray-400 hover:bg-gray-300"
+                                disabled={buttonLoading}
+                            >
+                                {buttonLoading ? 'Logging...' : 'Demo Login'}
+                            </Button>
                         </form>
                         <Link href='/forgot-password' className=' cursor-pointer mt-4 text-sky-500 font-semibold hover:text-sky-600 w-fit'>Forgot Password</Link>
                     </div>

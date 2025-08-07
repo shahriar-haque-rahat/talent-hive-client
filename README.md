@@ -96,14 +96,3 @@ Talent Hive is divided into three main servers:
 6. **Profile Management**: Update personal information, upload a resume, and manage saved posts.
 7. **Notifications**: View activity alerts and mark notifications as read.
 
----
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a new feature branch: `git checkout -b feature/YourFeature`
-3. Commit changes: `git commit -m 'Add some feature'`
-4. Push to the branch: `git push origin feature/YourFeature`
-5. Open a pull request
